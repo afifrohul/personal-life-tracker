@@ -12,6 +12,6 @@ class FlowcashSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\Flowcash::factory(100)->create();
     }
 }
