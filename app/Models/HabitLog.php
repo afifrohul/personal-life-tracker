@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class HabitLog extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['user_id', 'habit_id', 'exp_gain', 'date'];
+    protected $fillable = ['habit_id', 'exp_gain', 'date'];
 
     public function user()
     {

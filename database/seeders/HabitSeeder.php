@@ -13,9 +13,8 @@ class HabitSeeder extends Seeder
     public function run(): void
     {
         $habits = [
-            [
-                'user_id' => 2, 
-                'category_id' => 1, 
+            [ 
+                'habit_category_id' => 1, 
                 'name' => 'Workout/Exercise', 
                 'color' => '#3b82f6',
                 'difficulty' => 'medium',
@@ -23,9 +22,8 @@ class HabitSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
-            [
-                'user_id' => 2, 
-                'category_id' => 1, 
+            [ 
+                'habit_category_id' => 1, 
                 'name' => '200+ Hand Grip', 
                 'color' => '#0369a1',
                 'difficulty' => 'medium',
@@ -33,9 +31,8 @@ class HabitSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
-            [
-                'user_id' => 2, 
-                'category_id' => 2, 
+            [ 
+                'habit_category_id' => 2, 
                 'name' => 'Quran', 
                 'color' => '#16a34a',
                 'difficulty' => 'medium',
@@ -43,9 +40,8 @@ class HabitSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
-            [
-                'user_id' => 2, 
-                'category_id' => 2, 
+            [ 
+                'habit_category_id' => 2, 
                 'name' => 'Pray Dhuha', 
                 'color' => '#0f766e',
                 'difficulty' => 'medium',
@@ -53,9 +49,8 @@ class HabitSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
-            [
-                'user_id' => 2, 
-                'category_id' => 3, 
+            [ 
+                'habit_category_id' => 3, 
                 'name' => 'Coding', 
                 'color' => '#7c3aed',
                 'difficulty' => 'medium',
@@ -63,9 +58,8 @@ class HabitSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
-            [
-                'user_id' => 2, 
-                'category_id' => 3, 
+            [ 
+                'habit_category_id' => 3, 
                 'name' => 'Duolingo', 
                 'color' => '#065f46',
                 'difficulty' => 'medium',

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Habit;
 
-use App\Models\Category;
+use App\Models\HabitCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class HabitCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::where('user_id', auth()->user()->id)->get();
-            return Inertia::render('user/category/index', compact('categories'));
+            $categories = HabitCategory::get();
+            return Inertia::render('habit/category/index', compact('categories'));
         } catch (\Exception $e) {
             Log::error('Error loading categories: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load categories.');
@@ -29,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('user/category/create');
+        return Inertia::render('habit/category/create');
     }
 
     /**
@@ -44,10 +44,10 @@ class CategoryController extends Controller
 
         try {
 
-            $validated['user_id'] = auth()->user()->id;
 
-            Category::create($validated);
-            return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+            HabitCategory::create($validated);
+
+            return redirect()->route('habit-categories.index')->with('success', 'Category created successfully.');
         } catch (\Exception $e) {
             Log::error('Error storing category: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to create category.');
@@ -68,11 +68,11 @@ class CategoryController extends Controller
     public function edit($id)
     {
         try {
-            $category = Category::findOrFail($id);
-            return Inertia::render('user/category/edit', compact('category'));
+            $category = HabitCategory::findOrFail($id);
+            return Inertia::render('habit/category/edit', compact('category'));
         } catch (\Exception $e) {
-            Log::error('Error loading category for edit: ' . $e->getMessage());
-            return redirect()->route('categories.index')->with('error', 'Category not found.');
+            Log::error('Error loading habit category for edit: ' . $e->getMessage());
+            return redirect()->route('habit-categories.index')->with('error', 'Habit category not found.');
         }
     }
 
@@ -87,13 +87,13 @@ class CategoryController extends Controller
         ]);
 
         try {
-            $category = Category::findOrFail($id);
+            $category = HabitCategory::findOrFail($id);
             $category->update($validated);
 
-            return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+            return redirect()->route('habit-categories.index')->with('success', 'Habit category updated successfully.');
         } catch (\Exception $e) {
-            Log::error('Error updating category: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update category.');
+            Log::error('Error updating habit category: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update habit category.');
         }
 
     }
@@ -104,13 +104,13 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = HabitCategory::findOrFail($id);
             $category->delete();
 
-            return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+            return redirect()->route('habit-categories.index')->with('success', 'Habit category deleted successfully.');
         } catch (\Exception $e) {
-            Log::error('Error deleting category: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete category.');
+            Log::error('Error deleting habit category: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete habit category.');
         }
     }
 }

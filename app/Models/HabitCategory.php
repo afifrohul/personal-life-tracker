@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class HabitCategory extends Model
 {
-    protected $fillable = ['user_id', 'name', 'icon'];
+    protected $fillable = ['name', 'icon'];
 
     public function user()
     {

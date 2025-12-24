@@ -17,30 +17,19 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            [
-                'name' => 'Admin',
-                'password' => 'password',
-                'role' => 'admin',
-                'email_verified_at' => now(),
-            ]
-        );
-
-        User::firstOrCreate(
             ['email' => 'afif@example.com'],
             [
-                'name' => 'Afif',
+                'name' => 'Afif Rohul',
                 'password' => 'password',
-                'role' => 'user',
                 'email_verified_at' => now(),
             ]
         );
         UserProfileStat::create(
-            ['user_id' => 2],
+            ['user_id' => 1],
         );
 
         $this->call([
-            CategorySeeder::class,
+            HabitCategorySeeder::class,
             HabitSeeder::class,
             HabitLogSeeder::class
         ]);

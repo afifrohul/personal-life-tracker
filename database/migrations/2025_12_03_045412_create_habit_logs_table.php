@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('habit_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('habit_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('exp_gain');
             $table->date('date');

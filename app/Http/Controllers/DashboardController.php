@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Habit;
-use App\Models\Category;
+use App\Models\HabitCategory;
 use App\Models\HabitLog;
 use App\Models\User;
 use App\Models\UserProfileStat;
@@ -17,36 +17,32 @@ class DashboardController extends Controller
     {
         $user = auth()->user()->load('profileStat');
 
-        $categoryCount = Category::where('user_id', auth()->user()->id)->count();
-        $habitCount = Habit::where('user_id', auth()->user()->id)->count();
-        $habitLogCount = HabitLog::where('user_id', auth()->user()->id)->count();
-        $expTotal = UserProfileStat::where('user_id', auth()->user()->id)
-            ->select('total_exp')
+        $categoryCount = HabitCategory::count();
+        $habitCount = Habit::count();
+        $habitLogCount = HabitLog::count();
+        $expTotal = UserProfileStat::select('total_exp')
             ->first()->total_exp;
 
-        $chartData = HabitLog::where('user_id', auth()->user()->id)
-            ->select(\DB::raw('date, sum(exp_gain) as exp'))
+        $chartData = HabitLog::select(\DB::raw('date, sum(exp_gain) as exp'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
         $expGainByCategory = HabitLog::query()
             ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
-            ->join('categories', 'habits.category_id', '=', 'categories.id')
+            ->join('habit_categories', 'habits.habit_category_id', '=', 'habit_categories.id')
             ->whereNull('habit_logs.deleted_at')
-            ->where('habit_logs.user_id', auth()->user()->id)
             ->select(
-                'categories.name as category',
+                'habit_categories.name as category',
                 \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
             )
-            ->groupBy('categories.name')
+            ->groupBy('habit_categories.name')
             ->get();
 
 
         $expGainByHabit = HabitLog::query()
             ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
             ->whereNull('habit_logs.deleted_at')
-            ->where('habit_logs.user_id', auth()->user()->id)
             ->select(
                 'habits.name as habit',
                 \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
@@ -55,7 +51,7 @@ class DashboardController extends Controller
             ->get();
 
 
-        return Inertia::render('user/dashboard', compact(
+        return Inertia::render('dashboard', compact(
             'user',
             'categoryCount',
             'habitCount',

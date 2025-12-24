@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Habit;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UserProfileController extends Controller
+class UserProfileStatController extends Controller
 {
     /**
      * Display a listing of the resource.

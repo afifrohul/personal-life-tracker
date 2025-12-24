@@ -3,11 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
-use App\Http\Controllers\RedirectController;
-use App\Http\Controllers\User\CategoryController;
-use App\Http\Controllers\User\HabitController;
-use App\Http\Controllers\User\HabitLogController;
-use App\Http\Controllers\User\TrackerController;
+
+use App\Http\Controllers\DashboardController;
+
+use App\Http\Controllers\Habit\HabitTrackerController;
+use App\Http\Controllers\Habit\HabitCategoryController;
+use App\Http\Controllers\Habit\HabitController;
+use App\Http\Controllers\Habit\HabitLogController;
+
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -16,38 +19,31 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('welcome', [RedirectController::class, 'index']);
-    
-    Route::middleware(['role:admin'])->group(function () {
-        Route::get('back-dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin-dashboard');
-    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::middleware(['role:user'])->group(function () {
-        Route::get('dashboard', [App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
+    Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
 
-        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-        Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-        Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
-        Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/habit-categories', [HabitCategoryController::class, 'index'])->name('habit-categories.index');
+    Route::get('/habit-categories/create', [HabitCategoryController::class, 'create'])->name('habit-categories.create');
+    Route::post('/habit-categories', [HabitCategoryController::class, 'store'])->name('habit-categories.store');
+    Route::get('/habit-categories/{id}/edit', [HabitCategoryController::class, 'edit'])->name('habit-categories.edit');
+    Route::put('/habit-categories/{id}', [HabitCategoryController::class, 'update'])->name('habit-categories.update');
+    Route::delete('/habit-categories/{id}', [HabitCategoryController::class, 'destroy'])->name('habit-categories.destroy');
 
-        Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
-        Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
-        Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
-        Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
-        Route::get('/habits/{id}/edit', [HabitController::class, 'edit'])->name('habits.edit');
-        Route::put('/habits/{id}', [HabitController::class, 'update'])->name('habits.update');
-        Route::delete('/habits/{id}', [HabitController::class, 'destroy'])->name('habits.destroy');
-        Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
+    Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
+    Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
+    Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
+    Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
+    Route::get('/habits/{id}/edit', [HabitController::class, 'edit'])->name('habits.edit');
+    Route::put('/habits/{id}', [HabitController::class, 'update'])->name('habits.update');
+    Route::delete('/habits/{id}', [HabitController::class, 'destroy'])->name('habits.destroy');
+    Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
 
-        Route::get('/logs', [HabitLogController::class, 'index'])->name('logs.index');
-        Route::post('/logs', [HabitLogController::class, 'store'])->name('logs.store');
-        Route::delete('/logs/{id}', [HabitLogController::class, 'destroy'])->name('logs.destroy');
+    Route::get('/habit-logs', [HabitLogController::class, 'index'])->name('habit-logs.index');
+    Route::post('/habit-logs', [HabitLogController::class, 'store'])->name('habit-logs.store');
+    Route::delete('/habit-logs/{id}', [HabitLogController::class, 'destroy'])->name('habit-logs.destroy');
 
-        Route::get('/tracker', [TrackerController::class, 'index'])->name('tracker.index');
-        Route::get('/tracker/habit-track/{id}', [TrackerController::class, 'show'])->name('tracker.show');
-    });
 
 });
 

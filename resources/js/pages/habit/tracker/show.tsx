@@ -34,8 +34,8 @@ type Habit = {
     color: string;
     exp: number;
     icon: string;
-    category: Category;
-    logs: Log[];
+    habit_category: Category;
+    habit_logs: Log[];
 };
 
 interface ShowProps {
@@ -51,7 +51,7 @@ export default function Show({
     gridData,
     uniqueYears,
 }: ShowProps) {
-    const iconCategoryName = habit.category.icon;
+    const iconCategoryName = habit.habit_category.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
         iconCategoryName
     ];
@@ -61,7 +61,7 @@ export default function Show({
         iconHabitName
     ];
 
-    const total_exp = habit.logs.reduce((accumulator, current_value) => {
+    const total_exp = habit.habit_logs.reduce((accumulator, current_value) => {
         return accumulator + current_value.exp_gain;
     }, 0);
 
@@ -112,11 +112,16 @@ export default function Show({
                                             <td className="px-4 py-2">
                                                 <div className="flex items-center gap-2">
                                                     <IconCategoryComponent className="h-3.5 w-3.5" />
-                                                    <p>{habit.category.name}</p>
+                                                    <p>
+                                                        {
+                                                            habit.habit_category
+                                                                .name
+                                                        }
+                                                    </p>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-2">
-                                                {habit.logs.length} Reps
+                                                {habit.habit_logs.length} Reps
                                             </td>
                                             <td className="px-4 py-2">
                                                 <p
@@ -140,7 +145,11 @@ export default function Show({
                         color={habit.color}
                     />
                     <div>
-                        <HabitGrid gridData={gridData} uniqueYears={uniqueYears} color={habit.color}></HabitGrid>
+                        <HabitGrid
+                            gridData={gridData}
+                            uniqueYears={uniqueYears}
+                            color={habit.color}
+                        ></HabitGrid>
                     </div>
                 </div>
             </div>

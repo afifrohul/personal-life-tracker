@@ -62,8 +62,6 @@ export default function Dashboard({
     expGainByCategory,
     expGainByHabit,
 }: DashboardProps) {
-    console.log(user);
-
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
@@ -189,7 +187,8 @@ export default function Dashboard({
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <p className="text-xs font-semibold">
-                                        {user.profile_stat?.level_exp} / {user.profile_stat?.exp_to_next_level}
+                                        {user.profile_stat?.level_exp} /{' '}
+                                        {user.profile_stat?.exp_to_next_level}
                                     </p>
                                     <Progress
                                         value={progress}

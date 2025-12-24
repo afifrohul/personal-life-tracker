@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Habit;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\Habit;
-use App\Models\Category;
 use App\Models\HabitLog;
 
 class HabitLogController extends Controller
@@ -18,17 +17,15 @@ class HabitLogController extends Controller
     public function index(Request $request)
     {
         try {
-
-
             if ($request->input('date')) {
                 $date = $request->input('date');
             } else {
                 $date = now()->format('Y-m-d');
             }
 
-            $habits = Habit::where('user_id', auth()->user()->id)->get();
-            $logs = HabitLog::with(['habit.category'])->where('user_id', auth()->user()->id)->where('date', $date)->get();
-            return Inertia::render('user/log/index', [
+            $habits = Habit::get();
+            $logs = HabitLog::with(['habit.habitCategory'])->where('date', $date)->get();
+            return Inertia::render('habit/log/index', [
                 'logs' => $logs,
                 'selectedDate' => $date,
                 'habits' => $habits
@@ -61,15 +58,14 @@ class HabitLogController extends Controller
 
             $habit = Habit::findOrFail($validated['habit_id']);
 
-            $validated['user_id'] = auth()->user()->id;
             $validated['exp_gain'] = $habit->difficulty === 'easy' ? 5 : ($habit->difficulty === 'medium' ? 10 : 20);
 
             HabitLog::create($validated);
 
-            return redirect()->back()->with('success', 'Log created successfully.');
+            return redirect()->back()->with('success', 'Habit log created successfully.');
         } catch (\Exception $e) {
-            Log::error('Error storing log: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to create log.');
+            Log::error('Error storing habit log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create habit log.');
         }
     }
 
@@ -106,10 +102,10 @@ class HabitLogController extends Controller
             $log = HabitLog::findOrFail($id);
             $log->delete();
 
-            return redirect()->back()->with('success', 'Log deleted successfully.');
+            return redirect()->back()->with('success', 'Habit log deleted successfully.');
         } catch (\Exception $e) {
-            Log::error('Error deleting log: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete log.');
+            Log::error('Error deleting habit log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete habit log.');
         }
     }
 }

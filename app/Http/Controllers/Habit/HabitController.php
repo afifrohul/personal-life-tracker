@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Habit;
 
 use App\Models\Habit;
-use App\Models\Category;
+use App\Models\HabitCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -17,8 +17,8 @@ class HabitController extends Controller
     public function index()
     {
         try {
-            $habits = Habit::with(['category'])->where('user_id', auth()->user()->id)->get();
-            return Inertia::render('user/habit/index', compact('habits'));
+            $habits = Habit::with(['habitCategory'])->get();
+            return Inertia::render('habit/habit/index', compact('habits'));
         } catch (\Exception $e) {
             Log::error('Error loading habits: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load habits.');
@@ -30,8 +30,8 @@ class HabitController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('user_id', auth()->user()->id)->get();
-        return Inertia::render('user/habit/create', compact('categories'));
+        $categories = HabitCategory::get();
+        return Inertia::render('habit/habit/create', compact('categories'));
     }
 
     /**
@@ -40,7 +40,7 @@ class HabitController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required',
+            'habit_category_id' => 'required',
             'name' => 'required|min:3|max:12',
             'color' => 'required',
             'difficulty' => 'required',
@@ -49,9 +49,15 @@ class HabitController extends Controller
 
         try {
 
-            $validated['user_id'] = auth()->user()->id;
+            $habit = new Habit();
+            $habit->habit_category_id = $request->habit_category_id;
+            $habit->name = $request->name;
+            $habit->color = $request->color;
+            $habit->difficulty = $request->difficulty;
+            $habit->icon = $request->icon;
+            $habit->save();
 
-            Habit::create($validated);
+
             return redirect()->route('habits.index')->with('success', 'Habit created successfully.');
         } catch (\Exception $e) {
             Log::error('Error storing habit: ' . $e->getMessage());
@@ -73,9 +79,9 @@ class HabitController extends Controller
     public function edit($id)
     {
         try {
-            $categories = Category::where('user_id', auth()->user()->id)->get();
+            $categories = HabitCategory::get();
             $habit = Habit::findOrFail($id);
-            return Inertia::render('user/habit/edit', compact('habit', 'categories'));
+            return Inertia::render('habit/habit/edit', compact('habit', 'categories'));
         } catch (\Exception $e) {
             Log::error('Error loading habit for edit: ' . $e->getMessage());
             return redirect()->route('habits.index')->with('error', 'Habit not found.');
@@ -88,16 +94,21 @@ class HabitController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'category_id' => 'required',
+            'habit_category_id' => 'required',
             'name' => 'required|min:3|max:12',
             'color' => 'required',
-            'exp' => 'required',
+            'difficulty' => 'required',
             'icon' => 'required'
         ]);
 
         try {
             $habit = Habit::findOrFail($id);
-            $habit->update($validated);
+            $habit->habit_category_id = $request->habit_category_id;
+            $habit->name = $request->name;
+            $habit->color = $request->color;
+            $habit->difficulty = $request->difficulty;
+            $habit->icon = $request->icon;
+            $habit->save();
 
             return redirect()->route('habits.index')->with('success', 'Habit updated successfully.');
         } catch (\Exception $e) {

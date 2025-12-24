@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Habit extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'name', 'color', 'icon', 'desc','difficulty', 'icon'];
+    protected $fillable = ['habit_category_id', 'name', 'color', 'icon', 'desc','difficulty', 'icon'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function habitCategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(HabitCategory::class);
     }
 
-    public function logs()
+    public function habitLogs()
     {
         return $this->hasMany(HabitLog::class);
     }

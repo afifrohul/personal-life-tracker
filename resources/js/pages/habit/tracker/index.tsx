@@ -12,8 +12,8 @@ import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Tracker',
-        href: '/tracker',
+        title: 'Habit Tracker',
+        href: '/habit-tracker',
     },
 ];
 
@@ -102,7 +102,7 @@ export default function Index({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Tracker" />
+            <Head title="Habit Tracker" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex w-full gap-4">
                     {categories?.map((item, index) => {
@@ -153,7 +153,7 @@ export default function Index({
                                                         </p>
                                                     </div>
                                                     <Link
-                                                        href={`/tracker/habit-track/${h.id}`}
+                                                        href={`/habit-tracker/${h.id}`}
                                                     >
                                                         <div className="rounded bg-accent px-1 py-0.5 text-xs underline duration-200 hover:bg-muted">
                                                             Track

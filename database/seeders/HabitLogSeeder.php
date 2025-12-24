@@ -35,7 +35,6 @@ class HabitLogSeeder extends Seeder
 
             foreach ($habitIds as $habitId) {
                 HabitLog::create([
-                    'user_id'    => 2,
                     'habit_id'   => $habitId,
                     'exp_gain'   => 10,
                     'date'       => $date->format('Y-m-d'),
@@ -46,60 +45,5 @@ class HabitLogSeeder extends Seeder
 
             $date->addDay();
         }
-
-        // $logs = [
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 1,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 2,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 3,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 4,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 5,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        //     [
-        //         'user_id' => 2,
-        //         'habit_id' => 6,
-        //         'exp_gain' => 10,
-        //         'date' => now()->format('Y-m-d'),
-        //         'created_at' => now(), 
-        //         'updated_at' => now()
-        //     ],
-        // ];
-
-        // foreach ($logs as $item) {
-        //     \App\Models\HabitLog::create($item);
-        // }
     }
 }

@@ -21,17 +21,17 @@ const Dashboards: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-    {
-        title: 'Tracker',
-        href: '/tracker',
-        icon: FileChartColumn,
-    },
 ];
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Category',
-        href: '/categories',
+        title: 'Habit Tracker',
+        href: '/habit-tracker',
+        icon: FileChartColumn,
+    },
+    {
+        title: 'Habit Category',
+        href: '/habit-categories',
         icon: SquareLibrary,
     },
     {
@@ -41,7 +41,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Habit Log',
-        href: '/logs',
+        href: '/habit-logs',
         icon: ScrollText,
     },
 ];
@@ -62,8 +62,8 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain header="Visualizer" items={Dashboards} />
-                <NavMain header="Master Data" items={mainNavItems} />
+                <NavMain header="Dashboard" items={Dashboards} />
+                <NavMain header="Habit" items={mainNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

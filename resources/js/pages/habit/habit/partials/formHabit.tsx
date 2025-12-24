@@ -21,7 +21,7 @@ import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
-    category_id: z.string(),
+    habit_category_id: z.string(),
     name: z
         .string()
         .min(3, 'Name must be at least 5 characters.')
@@ -59,10 +59,10 @@ export function HabitForm({
         defaultValues: initialData
             ? {
                   ...initialData,
-                  category_id: String(initialData.category_id),
+                  habit_category_id: String(initialData.habit_category_id),
               }
             : {
-                  category_id: '',
+                  habit_category_id: '',
                   name: '',
                   color: '',
                   difficulty: '',
@@ -77,7 +77,7 @@ export function HabitForm({
             submitUrl,
             {
                 ...data,
-                category_id: Number(data.category_id),
+                habit_category_id: Number(data.habit_category_id),
             },
             {
                 onSuccess: () => setIsSubmitting(false),
@@ -91,7 +91,7 @@ export function HabitForm({
             <FieldGroup>
                 <FieldGroup className="grid grid-cols-2 gap-4">
                     <Controller
-                        name="category_id"
+                        name="habit_category_id"
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>

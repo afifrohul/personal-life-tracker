@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Habit;
 
-use App\Models\Category;
+use App\Models\HabitCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -11,14 +11,12 @@ use App\Models\HabitLog;
 use App\Models\Habit;
 use Carbon\Carbon;
 
-class TrackerController extends Controller
+class HabitTrackerController extends Controller
 {
     public function index(Request $request)
     {
         try {
-            $user = auth()->user();
-
-            $userHabits = Habit::where('user_id', $user->id)->pluck('id')->toArray();
+            $userHabits = Habit::pluck('id')->toArray();
 
             $filterHabits = $request->input('habits', $userHabits);
 
@@ -29,7 +27,6 @@ class TrackerController extends Controller
             }
 
             $logs = HabitLog::with('habit')
-                ->where('user_id', $user->id)
                 ->whereIn('habit_id', $validHabitIds)
                 ->get()
                 ->map(fn($log) => [
@@ -43,17 +40,14 @@ class TrackerController extends Controller
                     ],
                 ]);
 
-            $habits = Habit::where('user_id', $user->id)
-                ->select('id', 'name', 'icon', 'color')
-                ->get();
+            $habits = Habit::select('id', 'name', 'icon', 'color')->get();
 
-            $categories = Category::with(['habits'])->where('user_id', $user->id)->get();
+            $categories = HabitCategory::with(['habits'])->get();
 
             $start = now()->subDays(6)->startOfDay();
             $end = now()->endOfDay();
 
-            $weeklyLog = HabitLog::where('user_id', $user->id)
-                ->whereBetween('date', [$start, $end])
+            $weeklyLog = HabitLog::whereBetween('date', [$start, $end])
                 ->get()
                 ->groupBy('habit_id');
             
@@ -65,13 +59,12 @@ class TrackerController extends Controller
                 ];
             });
 
-            $chartData = HabitLog::where('user_id', $user->id)
-            ->select(\DB::raw('date, count(*) as habit'))
+            $chartData = HabitLog::select(\DB::raw('date, count(*) as habit'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
-            return Inertia::render('user/tracker/index', compact(
+            return Inertia::render('habit/tracker/index', compact(
                 'logs',
                 'habits', 
                 'validHabitIds',
@@ -82,8 +75,8 @@ class TrackerController extends Controller
             ));
 
         } catch (\Exception $e) {
-            Log::error('Error loading logs: ' . $e->getMessage());
-            return back()->with('error', 'Failed to load logs.');
+            Log::error('Error loading data: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load data.');
         }
     }
 
@@ -91,9 +84,9 @@ class TrackerController extends Controller
     {
         try {
 
-            $habit = Habit::with(['category', 'logs'])->findOrFail($id);
+            $habit = Habit::with(['habitCategory', 'habitLogs'])->findOrFail($id);
 
-            $data = HabitLog::where('user_id', auth()->user()->id)->where('habit_id', $id)->get();
+            $data = HabitLog::where('habit_id', $id)->get();
 
             $chartData = collect($data)
                 ->groupBy(function ($item) {
@@ -122,7 +115,7 @@ class TrackerController extends Controller
             ->unique()
             ->values();
 
-            return Inertia::render('user/tracker/show', compact(
+            return Inertia::render('habit/tracker/show', compact(
                 'habit',
                 'chartData',
                 'uniqueYears',

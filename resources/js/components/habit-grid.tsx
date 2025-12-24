@@ -36,8 +36,6 @@ export default function HabitGrid({ gridData, uniqueYears, color }: GridProps) {
 
     const datesOnly = filteredGridData.map((item) => item.date);
 
-    console.log(datesOnly);
-
     function buildHabitGrid(year: number) {
         const allDates = eachDayOfInterval({
             start: new Date(year, 0, 1),
@@ -132,7 +130,7 @@ export default function HabitGrid({ gridData, uniqueYears, color }: GridProps) {
                                                         ></div>
                                                     </TooltipTrigger>
                                                     <TooltipContent>
-                                                        <p>
+                                                        <p className='text-white'>
                                                             {format(
                                                                 day,
                                                                 'MMMM do',
@@ -150,7 +148,7 @@ export default function HabitGrid({ gridData, uniqueYears, color }: GridProps) {
                                                         ></div>
                                                     </TooltipTrigger>
                                                     <TooltipContent>
-                                                        <p className="">
+                                                        <p className="text-white">
                                                             {format(
                                                                 day,
                                                                 'MMMM do',

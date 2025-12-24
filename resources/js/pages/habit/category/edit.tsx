@@ -22,7 +22,7 @@ export default function Edit({ category }: EditProps) {
                     <Separator className="my-4" />
                     <CategoryForm
                         initialData={category}
-                        submitUrl={`/categories/${category.id}`}
+                        submitUrl={`/habit-categories/${category.id}`}
                         method="put"
                     />
                 </div>

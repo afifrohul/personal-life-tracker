@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Models\UserGameStat;
+use App\Models\UserProfileStat;
 use Illuminate\Support\Facades\DB;
 
 class LevelService
@@ -18,21 +17,11 @@ class LevelService
         );
     }
 
-    public function addExp(User $user, int $expGain): void
+    public function addExp(int $expGain): void
     {
-        DB::transaction(function () use ($user, $expGain) {
+        DB::transaction(function () use ($expGain) {
 
-            $stats = $user->profileStat; // relasi 1:1
-
-            // fallback safety
-            if (!$stats) {
-                $stats = UserGameStat::create([
-                    'user_id'    => $user->id,
-                    'level'      => 1,
-                    'level_exp'  => 0,
-                    'total_exp'  => 0,
-                ]);
-            }
+            $stats = UserProfileStat::findOrFail(1);
 
             // tambah EXP
             $stats->total_exp += $expGain;
@@ -50,10 +39,10 @@ class LevelService
         });
     }
 
-    public function removeExp(User $user, int $expLoss): void
+    public function removeExp(int $expLoss): void
     {
-        DB::transaction(function () use ($user, $expLoss) {
-            $stats = $user->profileStat;
+        DB::transaction(function () use ($expLoss) {
+            $stats = UserProfileStat::findOrFail(1);
 
             if (!$stats) return;
 

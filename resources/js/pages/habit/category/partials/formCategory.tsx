@@ -141,7 +141,7 @@ export function CategoryForm({
                     type="button"
                     variant="outline"
                     disabled={isSubmitting}
-                    onClick={() => router.get('/categories')}
+                    onClick={() => router.get('/habit-categories')}
                 >
                     Cancel
                 </Button>

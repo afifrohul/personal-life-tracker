@@ -37,7 +37,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Habit Log',
-        href: '/logs',
+        href: '/habit-logs',
     },
 ];
 
@@ -52,7 +52,7 @@ type Habit = {
     name: string;
     icon: string;
     color: string;
-    category: Category;
+    habit_category: Category;
 };
 
 type Log = {
@@ -74,7 +74,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             accessorKey: 'category',
             header: 'Category',
             cell: ({ row }) => {
-                const iconName = row.original.habit.category.icon;
+                const iconName = row.original.habit.habit_category.icon;
                 const IconComponent = (lucideIcons as Record<string, any>)[
                     iconName
                 ];
@@ -88,7 +88,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                 return (
                     <div className="flex gap-2">
                         <IconComponent className="h-4 w-4" />
-                        {row.original.habit.category.name}
+                        {row.original.habit.habit_category.name}
                     </div>
                 );
             },
@@ -110,7 +110,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
 
                 return (
                     <div
-                        className="flex w-fit gap-2 rounded border px-1.5 py-1 text-white items-center"
+                        className="flex w-fit items-center gap-2 rounded border px-1.5 py-1 text-white"
                         style={{ backgroundColor: row.original.habit.color }}
                     >
                         <IconComponent className="h-3 w-3" />
@@ -147,7 +147,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             cell: ({ row }) => (
                 <div className="flex justify-start gap-2">
                     <DeleteButton
-                        url={`/logs/${row.original.id}`}
+                        url={`/habit-logs/${row.original.id}`}
                         confirmMessage="Are you sure to delete this log?"
                     />
                 </div>
@@ -180,7 +180,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         router.post(
-            '/logs',
+            '/habit-logs',
             { ...form, habit_id: Number(form.habit_id) },
             {
                 preserveScroll: true,
@@ -224,7 +224,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
 
                                     if (newDate) {
                                         router.get(
-                                            '/logs',
+                                            '/habit-logs',
                                             {
                                                 date: format(
                                                     newDate,
