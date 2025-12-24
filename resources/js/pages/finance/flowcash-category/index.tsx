@@ -11,23 +11,23 @@ import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Habit Category',
-        href: '/habit-categories',
+        title: 'Flowcash Category',
+        href: '/flowcash-categories',
     },
 ];
 
-type Category = {
+type Flowcash = {
     id: number;
     name: string;
     icon: string;
 };
 
-interface CategoryIndexProps {
-    categories: Category[];
+interface FlowcashCategoryIndexProps {
+    categories: Flowcash[];
 }
 
-export default function Index({ categories }: CategoryIndexProps) {
-    const columns: ColumnDef<Category>[] = [
+export default function Index({ categories }: FlowcashCategoryIndexProps) {
+    const columns: ColumnDef<Flowcash>[] = [
         {
             accessorKey: 'name',
             header: 'Category Name',
@@ -57,10 +57,10 @@ export default function Index({ categories }: CategoryIndexProps) {
             cell: ({ row }) => (
                 <div className="flex justify-start gap-2">
                     <EditButton
-                        url={`/habit-categories/${row.original.id}/edit`}
+                        url={`/flowcash-categories/${row.original.id}/edit`}
                     />
                     <DeleteButton
-                        url={`/habit-categories/${row.original.id}`}
+                        url={`/flowcash-categories/${row.original.id}`}
                         confirmMessage="Are you sure to delete this category?"
                     />
                 </div>
@@ -74,7 +74,7 @@ export default function Index({ categories }: CategoryIndexProps) {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<Category>
+                        <DataTable<Flowcash>
                             showIndexColumn
                             columns={columns}
                             data={categories}
@@ -82,10 +82,13 @@ export default function Index({ categories }: CategoryIndexProps) {
                                 <Button
                                     variant="outline"
                                     onClick={() =>
-                                        router.get('/habit-categories/create')
+                                        router.get(
+                                            '/flowcash-categories/create',
+                                        )
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New Habit Category
+                                    <FaPlusCircle className="mr-2" /> Create New
+                                    Flowcash Category
                                 </Button>
                             }
                         />

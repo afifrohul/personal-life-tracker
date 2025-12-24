@@ -11,6 +11,7 @@ use App\Http\Controllers\Habit\HabitCategoryController;
 use App\Http\Controllers\Habit\HabitController;
 use App\Http\Controllers\Habit\HabitLogController;
 
+use App\Http\Controllers\Finance\FlowcashCategoryController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/habit-categories/{id}/edit', [HabitCategoryController::class, 'edit'])->name('habit-categories.edit');
     Route::put('/habit-categories/{id}', [HabitCategoryController::class, 'update'])->name('habit-categories.update');
     Route::delete('/habit-categories/{id}', [HabitCategoryController::class, 'destroy'])->name('habit-categories.destroy');
-
+    
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
@@ -39,11 +40,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/habits/{id}', [HabitController::class, 'update'])->name('habits.update');
     Route::delete('/habits/{id}', [HabitController::class, 'destroy'])->name('habits.destroy');
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
-
+    
     Route::get('/habit-logs', [HabitLogController::class, 'index'])->name('habit-logs.index');
     Route::post('/habit-logs', [HabitLogController::class, 'store'])->name('habit-logs.store');
-    Route::delete('/habit-logs/{id}', [HabitLogController::class, 'destroy'])->name('habit-logs.destroy');
+    Route::delete('/habit-logs/{id}', [HabitLogController::class, 'destroy'])->name('habit-logs.destroy');    
 
+    Route::get('/flowcash-categories', [FlowcashCategoryController::class, 'index'])->name('flowcash-categories.index');
+    Route::get('/flowcash-categories/create', [FlowcashCategoryController::class, 'create'])->name('flowcash-categories.create');
+    Route::post('/flowcash-categories', [FlowcashCategoryController::class, 'store'])->name('flowcash-categories.store');
+    Route::get('/flowcash-categories/{id}/edit', [FlowcashCategoryController::class, 'edit'])->name('flowcash-categories.edit');
+    Route::put('/flowcash-categories/{id}', [FlowcashCategoryController::class, 'update'])->name('flowcash-categories.update');
+    Route::delete('/flowcash-categories/{id}', [FlowcashCategoryController::class, 'destroy'])->name('flowcash-categories.destroy');
 
 });
 

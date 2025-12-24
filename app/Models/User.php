@@ -54,19 +54,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfileStat::class);
     }
-
-    public function habitCategories()
-    {
-        return $this->hasMany(HabitCategory::class);
-    }
-
-    public function habits()
-    {
-        return $this->hasMany(Habit::class);
-    }
-
-    public function habitLogs()
-    {
-        return $this->hasMany(HabitLog::class);
-    }
 }

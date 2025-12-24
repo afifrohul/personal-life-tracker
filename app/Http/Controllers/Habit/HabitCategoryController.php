@@ -44,7 +44,6 @@ class HabitCategoryController extends Controller
 
         try {
 
-
             HabitCategory::create($validated);
 
             return redirect()->route('habit-categories.index')->with('success', 'Category created successfully.');

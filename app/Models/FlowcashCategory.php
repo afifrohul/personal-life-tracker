@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HabitCategory extends Model
+class FlowcashCategory extends Model
 {
     protected $fillable = ['name', 'icon'];
 
-    public function habits()
+    public function flowcashes()
     {
-        return $this->hasMany(Habit::class);
+        return $this->hasMany(Flowcash::class);
     }
 }

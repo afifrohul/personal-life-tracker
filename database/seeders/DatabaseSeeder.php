@@ -31,7 +31,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             HabitCategorySeeder::class,
             HabitSeeder::class,
-            HabitLogSeeder::class
+            HabitLogSeeder::class,
+            FlowcashCategorySeeder::class,
+            FlowcashSeeder::class
         ]);
     }
 }

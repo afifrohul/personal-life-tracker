@@ -15,7 +15,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type Log = {
     id: number;
-    user_id: number;
     habit_id: number;
     exp_gain: number;
     date: string;
@@ -23,7 +22,6 @@ type Log = {
 
 type Category = {
     id: number;
-    user_id: number;
     name: string;
     icon: string;
 };
