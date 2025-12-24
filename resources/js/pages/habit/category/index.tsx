@@ -70,7 +70,7 @@ export default function Index({ categories }: CategoryIndexProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Category Habit" />
+            <Head title="Habit Category" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">

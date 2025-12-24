@@ -194,7 +194,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Log" />
+            <Head title="Habit Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex">
                     <Popover open={open} onOpenChange={setOpen}>

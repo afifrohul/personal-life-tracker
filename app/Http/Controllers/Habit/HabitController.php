@@ -39,7 +39,7 @@ class HabitController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'habit_category_id' => 'required',
             'name' => 'required|min:3|max:12',
             'color' => 'required',
@@ -93,7 +93,7 @@ class HabitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'habit_category_id' => 'required',
             'name' => 'required|min:3|max:12',
             'color' => 'required',

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Finance;
 
 use App\Models\Flowcash;
+use App\Models\FlowcashCategory;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class FlowcashController extends Controller
 {
@@ -12,7 +16,13 @@ class FlowcashController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $flowcashes = Flowcash::with(['flowcashCategory'])->get();
+            return Inertia::render('finance/flowcash/index', compact('flowcashes'));
+        } catch (\Exception $e) {
+            Log::error('Error loading flowcashes: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to load flowcashes.');
+        }
     }
 
     /**
@@ -20,7 +30,8 @@ class FlowcashController extends Controller
      */
     public function create()
     {
-        //
+        $categories = FlowcashCategory::get();
+        return Inertia::render('finance/flowcash/create', compact('categories'));
     }
 
     /**
@@ -28,7 +39,29 @@ class FlowcashController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'flowcash_category_id' => 'required',
+            'date' => 'required',
+            'amount' => 'required',
+            'description' => 'required',
+            'type' => 'required',
+        ]);
+
+        try {
+
+            $flowcash = new Flowcash();
+            $flowcash->flowcash_category_id = $request->flowcash_category_id;
+            $flowcash->date = $request->date;
+            $flowcash->amount = $request->amount;
+            $flowcash->description = $request->description;
+            $flowcash->type = $request->type;
+            $flowcash->save();
+
+            return redirect()->route('flowcashes.index')->with('success', 'Flowcash created successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error storing flowcash: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create flowcash.');
+        }
     }
 
     /**
@@ -44,7 +77,14 @@ class FlowcashController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $categories = FlowcashCategory::get();
+            $flowcash = Flowcash::findOrFail($id);
+            return Inertia::render('finance/flowcash/edit', compact('flowcash', 'categories'));
+        } catch (\Exception $e) {
+            Log::error('Error loading habit for flowcash: ' . $e->getMessage());
+            return redirect()->route('flowcashes.index')->with('error', 'Flowcash not found.');
+        }
     }
 
     /**
@@ -52,7 +92,29 @@ class FlowcashController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'flowcash_category_id' => 'required',
+            'date' => 'required',
+            'amount' => 'required',
+            'description' => 'required',
+            'type' => 'required',
+        ]);
+
+        try {
+
+            $flowcash = Flowcash::findOrFail($id);
+            $flowcash->flowcash_category_id = $request->flowcash_category_id;
+            $flowcash->date = $request->date;
+            $flowcash->amount = $request->amount;
+            $flowcash->description = $request->description;
+            $flowcash->type = $request->type;
+            $flowcash->save();
+
+            return redirect()->route('flowcashes.index')->with('success', 'Flowcash updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error updating flowcash: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update flowcash.');
+        }
     }
 
     /**
@@ -60,6 +122,14 @@ class FlowcashController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $flowcash = Flowcash::findOrFail($id);
+            $flowcash->delete();
+
+            return redirect()->route('flowcashes.index')->with('success', 'Flowcash deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting flowcash: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete flowcash.');
+        }
     }
 }
