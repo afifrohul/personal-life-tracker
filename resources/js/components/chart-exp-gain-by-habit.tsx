@@ -50,7 +50,7 @@ export default function ChartExpGainByHabit({ data }: ChartProps) {
         <Card className="py-0">
             <CardHeader className="flex flex-col items-stretch border-b p-4 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1">
-                    <CardTitle>Pie Chart - Exp Gain by Habit</CardTitle>
+                    <CardTitle>Exp Gain by Habit</CardTitle>
                     <CardDescription>
                         Showing total exp gain by habit
                     </CardDescription>

@@ -71,7 +71,7 @@ export function ChartExp({ chartData }: ChartProps) {
         <Card className="py-0">
             <CardHeader className="flex flex-col items-stretch border-b p-4 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1">
-                    <CardTitle>Bar Chart - Daily Exp Gain</CardTitle>
+                    <CardTitle>Daily Exp Gain</CardTitle>
                     <CardDescription>
                         Showing total exp gain for the last {timeRange}
                     </CardDescription>

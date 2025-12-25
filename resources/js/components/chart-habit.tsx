@@ -73,7 +73,7 @@ export function ChartHabit({ chartData }: ChartProps) {
         <Card className="pt-0">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                 <div className="grid flex-1 gap-1">
-                    <CardTitle>Area Chart - Daily Amount of Habit</CardTitle>
+                    <CardTitle>Daily Amount of Habit</CardTitle>
                     <CardDescription>
                         Showing total amount habit for the last {timeRange}
                     </CardDescription>

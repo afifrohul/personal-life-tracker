@@ -61,7 +61,7 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                 <div className="flex items-center">
                     <div className="space-y-1">
                         <CardTitle>
-                            Bar Chart - Total Income and Expense per Year
+                            Total Income and Expense per Year
                         </CardTitle>
                         <CardDescription>
                             Showing total income and expense in {year}

@@ -54,7 +54,7 @@ export function ChartDetailHabit({
             <CardHeader>
                 <div className="flex items-center">
                     <CardTitle>
-                        Bar Chart - Total Habit Done per Month
+                        Total Habit Done per Month
                     </CardTitle>
                     <Select value={year} onValueChange={setYear}>
                         <SelectTrigger
