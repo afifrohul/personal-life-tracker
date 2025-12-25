@@ -15,7 +15,7 @@ class HabitLogSeeder extends Seeder
     public function run(): void
     {
 
-        $startDate = Carbon::create(2025, 9, 1);
+        $startDate = Carbon::create(2024, 9, 1);
         $endDate   = now();
 
         $dates = [];

@@ -17,6 +17,7 @@ import {
     Bike,
     Blocks,
     CalendarCheck,
+    ChartArea,
     FileChartColumn,
     LayoutGrid,
     ScrollText,
@@ -61,6 +62,11 @@ const Habits: NavItem[] = [
 ];
 
 const Finances: NavItem[] = [
+    {
+        title: 'Finance Tracker',
+        href: '/finance-tracker',
+        icon: ChartArea,
+    },
     {
         title: 'Flowcash Category',
         href: '/flowcash-categories',

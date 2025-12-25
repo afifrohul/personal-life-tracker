@@ -12,6 +12,7 @@ use App\Http\Controllers\Habit\HabitCategoryController;
 use App\Http\Controllers\Habit\HabitController;
 use App\Http\Controllers\Habit\HabitLogController;
 
+use App\Http\Controllers\Finance\FinanceTrackerController;
 use App\Http\Controllers\Finance\FlowcashCategoryController;
 use App\Http\Controllers\Finance\FlowcashController;
 
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/habit-logs', [HabitLogController::class, 'index'])->name('habit-logs.index');
     Route::post('/habit-logs', [HabitLogController::class, 'store'])->name('habit-logs.store');
     Route::delete('/habit-logs/{id}', [HabitLogController::class, 'destroy'])->name('habit-logs.destroy');    
+
+    Route::get('/finance-tracker', [FinanceTrackerController::class, 'index'])->name('finance-tracker.index');
 
     Route::get('/flowcash-categories', [FlowcashCategoryController::class, 'index'])->name('flowcash-categories.index');
     Route::get('/flowcash-categories/create', [FlowcashCategoryController::class, 'create'])->name('flowcash-categories.create');
