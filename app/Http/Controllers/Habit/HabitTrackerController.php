@@ -16,6 +16,9 @@ class HabitTrackerController extends Controller
     public function index(Request $request)
     {
         try {
+
+            $user = auth()->user()->load('profileStat');
+
             $userHabits = Habit::pluck('id')->toArray();
 
             $filterHabits = $request->input('habits', $userHabits);
@@ -59,19 +62,51 @@ class HabitTrackerController extends Controller
                 ];
             });
 
-            $chartData = HabitLog::select(\DB::raw('date, count(*) as habit'))
+            $chartDataHabit = HabitLog::select(\DB::raw('date, count(*) as habit'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
+            $chartDataExp = HabitLog::select(\DB::raw('date, sum(exp_gain) as exp'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+            $expGainByCategory = HabitLog::query()
+                ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
+                ->join('habit_categories', 'habits.habit_category_id', '=', 'habit_categories.id')
+                ->whereNull('habit_logs.deleted_at')
+                ->select(
+                    'habit_categories.name as category',
+                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
+                )
+                ->groupBy('habit_categories.name')
+                ->get();
+
+
+            $expGainByHabit = HabitLog::query()
+                ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
+                ->whereNull('habit_logs.deleted_at')
+                ->select(
+                    'habits.name as habit',
+                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
+                )
+                ->groupBy('habits.name')
+                ->get();
+
+
             return Inertia::render('habit/tracker/index', compact(
+                'user',
                 'logs',
                 'habits', 
                 'validHabitIds',
                 'categories',
                 'weeklyLog',
                 'dates',
-                'chartData'
+                'chartDataHabit',
+                'chartDataExp',
+                'expGainByCategory',
+                'expGainByHabit'
             ));
 
         } catch (\Exception $e) {

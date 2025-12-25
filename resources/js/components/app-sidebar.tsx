@@ -16,6 +16,7 @@ import {
     ArrowLeftRight,
     Bike,
     Blocks,
+    CalendarCheck,
     FileChartColumn,
     LayoutGrid,
     ScrollText,
@@ -36,6 +37,11 @@ const Habits: NavItem[] = [
         title: 'Habit Tracker',
         href: '/habit-tracker',
         icon: FileChartColumn,
+    },
+    {
+        title: 'Habit Calendar',
+        href: '/habit-calendar',
+        icon: CalendarCheck,
     },
     {
         title: 'Habit Category',

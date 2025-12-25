@@ -28,33 +28,6 @@ class DashboardController extends Controller
         $expTotal = UserProfileStat::select('total_exp')
             ->first()->total_exp;
 
-        $chartData = HabitLog::select(\DB::raw('date, sum(exp_gain) as exp'))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        $expGainByCategory = HabitLog::query()
-            ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
-            ->join('habit_categories', 'habits.habit_category_id', '=', 'habit_categories.id')
-            ->whereNull('habit_logs.deleted_at')
-            ->select(
-                'habit_categories.name as category',
-                \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
-            )
-            ->groupBy('habit_categories.name')
-            ->get();
-
-
-        $expGainByHabit = HabitLog::query()
-            ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
-            ->whereNull('habit_logs.deleted_at')
-            ->select(
-                'habits.name as habit',
-                \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
-            )
-            ->groupBy('habits.name')
-            ->get();
-
         $flowcashCategoryCount = FlowcashCategory::count();
         $flowcashCount = Flowcash::count();
 
@@ -84,13 +57,11 @@ class DashboardController extends Controller
 
         return Inertia::render('dashboard', compact(
             'user',
+            
             'habitCategoryCount',
             'habitCount',
             'habitLogCount',
             'expTotal',
-            'chartData',
-            'expGainByCategory',
-            'expGainByHabit',
 
             'flowcashCategoryCount',
             'flowcashCount',

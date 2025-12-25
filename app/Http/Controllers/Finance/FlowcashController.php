@@ -17,7 +17,7 @@ class FlowcashController extends Controller
     public function index()
     {
         try {
-            $flowcashes = Flowcash::with(['flowcashCategory'])->get();
+            $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC')->get();
             return Inertia::render('finance/flowcash/index', compact('flowcashes'));
         } catch (\Exception $e) {
             Log::error('Error loading flowcashes: ' . $e->getMessage());

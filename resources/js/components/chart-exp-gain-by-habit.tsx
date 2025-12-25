@@ -28,7 +28,7 @@ interface ChartProps {
 
 export default function ChartExpGainByHabit({ data }: ChartProps) {
     // const colors = d3.schemeSet3;
-    const colors = d3.schemeBuPu[data.length];
+    const colors = d3.schemeBlues[data.length];
 
     // Generate warna otomatis
     const coloredData = data.map((item, index) => ({

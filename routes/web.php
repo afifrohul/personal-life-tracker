@@ -7,6 +7,7 @@ use Laravel\Fortify\Features;
 use App\Http\Controllers\DashboardController;
 
 use App\Http\Controllers\Habit\HabitTrackerController;
+use App\Http\Controllers\Habit\HabitCalendarController;
 use App\Http\Controllers\Habit\HabitCategoryController;
 use App\Http\Controllers\Habit\HabitController;
 use App\Http\Controllers\Habit\HabitLogController;
@@ -25,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
     Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
+
+    Route::get('/habit-calendar', [HabitCalendarController::class, 'index'])->name('habit-calendar.index');
 
     Route::get('/habit-categories', [HabitCategoryController::class, 'index'])->name('habit-categories.index');
     Route::get('/habit-categories/create', [HabitCategoryController::class, 'create'])->name('habit-categories.create');

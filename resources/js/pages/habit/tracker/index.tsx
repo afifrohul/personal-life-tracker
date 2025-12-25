@@ -1,13 +1,23 @@
+import { ChartExp } from '@/components/chart-exp';
+import ChartExpGainByCategory from '@/components/chart-exp-gain-by-category';
+import ChartExpGainByHabit from '@/components/chart-exp-gain-by-habit';
 import { ChartHabit } from '@/components/chart-habit';
-import { HabitFilter } from '@/components/habit-filter';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { BreadcrumbItem } from '@/types';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import FullCalendar from '@fullcalendar/react';
-import { Head, Link, router } from '@inertiajs/react';
-import { Square, SquareCheck } from 'lucide-react';
+import { Head, Link } from '@inertiajs/react';
+import {
+    Award,
+    BadgeCheckIcon,
+    ChartNoAxesCombined,
+    Square,
+    SquareCheck,
+} from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,18 +27,25 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+type User = {
+    name: string;
+    email: string;
+    avatar: string;
+    created_at: string;
+    profile_stat: {
+        level: number;
+        level_exp: number;
+        remaining_exp: number;
+        total_exp: number;
+        exp_to_next_level: number;
+    };
+};
+
 type Habit = {
     id: number;
     name: string;
     icon: string;
     color: string;
-};
-
-type Log = {
-    id: number;
-    exp_gain: number;
-    date: string;
-    habit: Habit;
 };
 
 type Category = {
@@ -39,71 +56,128 @@ type Category = {
 };
 
 interface LogIndexProps {
-    logs: Log[];
+    user: User;
     habits: Habit[];
-    validHabitIds: [];
     categories: Category[];
     weeklyLog: Record<string, any[]>;
     dates: {
         key: string;
         label: string;
     }[];
-    chartData: [];
+    chartDataHabit: [];
+    chartDataExp: [];
+    expGainByCategory: [];
+    expGainByHabit: [];
 }
 
 export default function Index({
-    logs,
+    user,
     habits,
-    validHabitIds,
     categories,
     weeklyLog,
     dates,
-    chartData,
+    chartDataHabit,
+    chartDataExp,
+    expGainByCategory,
+    expGainByHabit,
 }: LogIndexProps) {
-    const events = logs.map((log) => ({
-        ...log,
-        id: log.id.toString(),
-    }));
-
-    const [selectedHabits, setSelectedHabits] =
-        useState<number[]>(validHabitIds);
-
-    const updateFilter = (values: number[]) => {
-        setSelectedHabits(values);
-
-        router.get(
-            '/tracker',
-            {
-                habits: values,
-            },
-            {
-                preserveScroll: true,
-                preserveState: true,
-            },
-        );
-    };
-
-    const renderEventContent = (eventInfo: any) => {
-        const iconName = eventInfo.event.extendedProps.icon;
-        const IconComponent = (lucideIcons as Record<string, any>)[iconName];
-
-        return (
-            <div
-                style={{ backgroundColor: eventInfo.event.extendedProps.color }}
-                className="px-1 py-0.5"
-            >
-                <div className="flex items-center gap-2">
-                    <IconComponent className="h-4 w-4" />
-                    <p>{eventInfo.event.title}</p>
-                </div>
-            </div>
-        );
-    };
+    const getInitials = useInitials();
+    const [progress, setProgress] = useState(
+        (user.profile_stat.level_exp / user.profile_stat.exp_to_next_level) *
+            100,
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Tracker" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="grid grid-cols-2 gap-4">
+                    <Card className="flex justify-center border">
+                        <CardContent>
+                            <div className="flex items-center justify-between">
+                                <div className="flex gap-4">
+                                    <div>
+                                        <Avatar className="h-12 w-12 overflow-hidden rounded-full">
+                                            <AvatarImage
+                                                src={user.avatar}
+                                                alt={user.name}
+                                            />
+                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                {getInitials(user.name)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </div>
+                                    <div className="flex flex-col justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <p className="font-semibold">
+                                                {user.name}
+                                            </p>
+                                            <Badge
+                                                variant="default"
+                                                className="bg-blue-500 text-white dark:bg-blue-600"
+                                            >
+                                                <BadgeCheckIcon />
+                                                <p className="text-xs">
+                                                    Verified
+                                                </p>
+                                            </Badge>
+                                        </div>
+                                        <p className="text-sm font-light">
+                                            {user.email}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <ChartNoAxesCombined className="h-3.5 w-3.5 text-primary"></ChartNoAxesCombined>
+                                        <p className="text-xs">
+                                            LEVEL {user.profile_stat?.level}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Award className="h-3.5 w-3.5 text-primary"></Award>
+                                        <p className="text-xs">
+                                            {user.profile_stat?.total_exp} EXP
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <Card className="flex justify-center border">
+                        <CardContent>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-xs">
+                                        NEXT LEVEL:{' '}
+                                        {user.profile_stat?.level + 1}
+                                    </p>
+                                    <p className="text-xs">
+                                        {user.profile_stat?.remaining_exp} MORE
+                                        EXP TO GO
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <p className="text-xs font-semibold">
+                                        {user.profile_stat?.level_exp} /{' '}
+                                        {user.profile_stat?.exp_to_next_level}
+                                    </p>
+                                    <Progress
+                                        value={progress}
+                                        className="w-full flex-1"
+                                    />
+                                    <div>
+                                        <div className="full flex h-5 w-5 items-center justify-center rounded-full bg-primary/20">
+                                            <p className="text-xs font-semibold">
+                                                {user.profile_stat?.level + 1}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
                 <div className="flex w-full gap-4">
                     {categories?.map((item, index) => {
                         const iconCategoryName = item.icon;
@@ -237,30 +311,18 @@ export default function Index({
                         </table>
                     </div>
                 </Card>
-                <ChartHabit chartData={chartData} />
-                <Card className='py-3'>
-                    <div className="space-y-4 p-4 text-xs">
-                        <div className="flex justify-start">
-                            <HabitFilter
-                                habits={habits}
-                                selected={selectedHabits}
-                                onChange={updateFilter}
-                            />
-                        </div>
-                        <FullCalendar
-                            plugins={[dayGridPlugin]}
-                            initialView="dayGridMonth"
-                            headerToolbar={{
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridYear,dayGridMonth,dayGridWeek,dayGridDay',
-                            }}
-                            events={events}
-                            eventContent={renderEventContent}
-                            dayMaxEventRows={true}
-                        />
-                    </div>
-                </Card>
+                <ChartHabit chartData={chartDataHabit} />
+                <div>
+                    <ChartExp chartData={chartDataExp}></ChartExp>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <ChartExpGainByCategory
+                        data={expGainByCategory}
+                    ></ChartExpGainByCategory>
+                    <ChartExpGainByHabit
+                        data={expGainByHabit}
+                    ></ChartExpGainByHabit>
+                </div>
             </div>
         </AppLayout>
     );
