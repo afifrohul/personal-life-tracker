@@ -15,15 +15,7 @@ import {
     ChartTooltipContent,
     type ChartConfig,
 } from '@/components/ui/chart';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { formatRupiah } from '@/lib/format-rupiah';
-import { useState } from 'react';
 
 export const description = 'A multiple bar chart';
 
@@ -45,47 +37,19 @@ interface ChartProps {
         income: number;
         expense: number;
     }[];
-    uniqueYears: [];
 }
 
-export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
-    const [year, setYear] = useState(String(new Date().getFullYear()));
-
-    const filteredChartData = chartData.filter((data) => {
-        return data.year === Number(year);
-    });
-
+export function ChartFinanceYear({ chartData }: ChartProps) {
     return (
         <Card>
             <CardHeader>
                 <div className="flex items-center">
                     <div className="space-y-1">
-                        <CardTitle>
-                            Total Income and Expense per Month
-                        </CardTitle>
+                        <CardTitle>Total Income and Expense per Year</CardTitle>
                         <CardDescription>
-                            Showing total income and expense in {year}
+                            Showing total income and expense per year
                         </CardDescription>
                     </div>
-                    <Select value={year} onValueChange={setYear}>
-                        <SelectTrigger
-                            className="hidden w-28 rounded-lg sm:ml-auto sm:flex"
-                            aria-label="Select a value"
-                        >
-                            <SelectValue placeholder="2025" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                            {uniqueYears?.map((item, index) => (
-                                <SelectItem
-                                    key={index}
-                                    value={String(item)}
-                                    className="rounded-lg"
-                                >
-                                    {item}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
                 </div>
             </CardHeader>
             <CardContent>
@@ -93,14 +57,13 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                     config={chartConfig}
                     className="h-[180px] w-full"
                 >
-                    <BarChart accessibilityLayer data={filteredChartData}>
+                    <BarChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />
                         <XAxis
-                            dataKey="month"
+                            dataKey="year"
                             tickLine={false}
                             tickMargin={10}
                             axisLine={false}
-                            tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <ChartTooltip
                             cursor={false}

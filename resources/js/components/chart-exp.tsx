@@ -114,7 +114,7 @@ export function ChartExp({ chartData }: ChartProps) {
             <CardContent className="px-2 sm:p-6">
                 <ChartContainer
                     config={chartConfig}
-                    className="aspect-auto h-[220px] w-full"
+                    className="aspect-auto h-[180px] w-full"
                 >
                     <BarChart
                         accessibilityLayer

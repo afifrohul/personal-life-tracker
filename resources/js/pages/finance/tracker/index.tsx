@@ -1,5 +1,6 @@
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartFinance } from '@/components/chart-finance';
+import { ChartFinanceYear } from '@/components/chart-finance-year';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -14,14 +15,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface IndexProps {
     chartDataFinance: [];
     chartDataExpense: [];
+    chartDataFinanceYear: [];
     uniqueYears: [];
 }
 
 export default function Index({
     chartDataFinance,
     chartDataExpense,
+    chartDataFinanceYear,
     uniqueYears,
 }: IndexProps) {
+    console.log(chartDataFinanceYear);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Finance Tracker" />
@@ -37,6 +42,11 @@ export default function Index({
                         chartData={chartDataExpense}
                         uniqueYears={uniqueYears}
                     ></ChartExpense>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <ChartFinanceYear
+                        chartData={chartDataFinanceYear}
+                    ></ChartFinanceYear>
                 </div>
             </div>
         </AppLayout>

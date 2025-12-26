@@ -73,6 +73,15 @@ class FinanceTrackerController extends Controller
                 ]);
             }
 
+            $chartDataFinanceYear = Flowcash::selectRaw('
+                    YEAR(date) as year,
+                    SUM(CASE WHEN type = "income" THEN amount ELSE 0 END) as income,
+                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
+                ')
+                ->groupBy('year')
+                ->orderBy('year')
+                ->get();
+
             $uniqueYears = collect($chartDataFinance)
                 ->pluck('year')
                 ->unique()
@@ -81,6 +90,7 @@ class FinanceTrackerController extends Controller
             return Inertia::render('finance/tracker/index', compact(
                 'chartDataFinance', 
                 'chartDataExpense',
+                'chartDataFinanceYear',
                 'uniqueYears'
             ));
         } catch (\Exception $e) {
