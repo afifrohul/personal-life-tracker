@@ -91,7 +91,7 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
             <CardContent>
                 <ChartContainer
                     config={chartConfig}
-                    className="h-[300px] w-full"
+                    className="h-[180px] w-full"
                 >
                     <BarChart accessibilityLayer data={filteredChartData}>
                         <CartesianGrid vertical={false} />

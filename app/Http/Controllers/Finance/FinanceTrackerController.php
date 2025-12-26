@@ -15,7 +15,7 @@ class FinanceTrackerController extends Controller
     public function index()
     {
         try {
-            $rawData = Flowcash::selectRaw('
+            $rawDataFinance = Flowcash::selectRaw('
                     YEAR(date) as year,
                     MONTH(date) as month_number,
                     MONTHNAME(date) as month,
@@ -28,15 +28,15 @@ class FinanceTrackerController extends Controller
                 ->get()
                 ->groupBy('year');
             
-            $chartData = collect();
+            $chartDataFinance = collect();
 
-            foreach ($rawData as $year => $rows) {
+            foreach ($rawDataFinance as $year => $rows) {
                 for ($month = 1; $month <= 12; $month++) {
                     $date = Carbon::create($year, $month, 1);
 
                     $existing = $rows->firstWhere('month_number', $month);
 
-                    $chartData->push([
+                    $chartDataFinance->push([
                         'year' => (int) $year,
                         'month' => $date->format('F'),
                         'income' => $existing ? (int) $existing->income : 0,
@@ -45,12 +45,44 @@ class FinanceTrackerController extends Controller
                 }
             }
 
-            $uniqueYears = collect($chartData)
+            $rawDataExpense = Flowcash::selectRaw('
+                    DATE(date) as date,
+                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
+                ')
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get()
+                ->keyBy('date');
+
+            $firstDate = Carbon::parse($rawDataExpense->keys()->first());
+            $lastDate  = Carbon::parse($rawDataExpense->keys()->last());
+
+            $startDate = $firstDate->copy()->startOfMonth();
+            $endDate   = $lastDate->copy()->endOfMonth();
+
+            $chartDataExpense = collect();
+
+            for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+                $key = $date->format('Y-m-d');
+
+                $existing = $rawDataExpense->get($key);
+
+                $chartDataExpense->push([
+                    'date' => $key,
+                    'expense' => $existing ? (int) $existing->expense : 0,
+                ]);
+            }
+
+            $uniqueYears = collect($chartDataFinance)
                 ->pluck('year')
                 ->unique()
                 ->values();
 
-            return Inertia::render('finance/tracker/index', compact('chartData', 'uniqueYears'));
+            return Inertia::render('finance/tracker/index', compact(
+                'chartDataFinance', 
+                'chartDataExpense',
+                'uniqueYears'
+            ));
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());
             return back()->with('error', 'Failed to load data.');
