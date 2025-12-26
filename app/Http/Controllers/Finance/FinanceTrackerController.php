@@ -82,6 +82,15 @@ class FinanceTrackerController extends Controller
                 ->orderBy('year')
                 ->get();
 
+            $expenseByCategory = Flowcash::query()
+                ->join('flowcash_categories', 'flowcashes.flowcash_category_id', '=', 'flowcash_categories.id')
+                ->whereNull('flowcashes.deleted_at')
+                ->select(
+                    'flowcash_categories.name as category',
+                    \DB::raw('CAST(SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) AS UNSIGNED) as expense')
+                )->groupBy('flowcash_categories.name')
+                ->get();
+
             $uniqueYears = collect($chartDataFinance)
                 ->pluck('year')
                 ->unique()
@@ -91,6 +100,7 @@ class FinanceTrackerController extends Controller
                 'chartDataFinance', 
                 'chartDataExpense',
                 'chartDataFinanceYear',
+                'expenseByCategory',
                 'uniqueYears'
             ));
         } catch (\Exception $e) {

@@ -55,7 +55,7 @@ export function ChartFinanceYear({ chartData }: ChartProps) {
             <CardContent>
                 <ChartContainer
                     config={chartConfig}
-                    className="h-[180px] w-full"
+                    className="h-[220px] w-full"
                 >
                     <BarChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />

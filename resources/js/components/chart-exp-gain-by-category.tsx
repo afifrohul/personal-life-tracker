@@ -27,20 +27,32 @@ interface ChartProps {
 }
 
 export default function ChartExpGainByCategory({ data }: ChartProps) {
+    const filteredData = data.filter((d) => {
+        return d.exp_gain > 0;
+    });
+
     // const colors = d3.schemeSet3;
-    const colors = d3.schemeBlues[data.length];
+    const colors = d3.schemeBlues[filteredData.length];
+
+    const colorMap = filteredData.reduce<Record<string, string>>(
+        (acc, item, index) => {
+            acc[item.category] = colors[index];
+            return acc;
+        },
+        {},
+    );
 
     // Generate warna otomatis
-    const coloredData = data.map((item, index) => ({
+    const coloredData = filteredData.map((item, index) => ({
         ...item,
         // fill: colors[index % colors.length],
         fill: colors[index],
     }));
 
-    const chartConfig: ChartConfig = data.reduce((acc, item, index) => {
+    const chartConfig: ChartConfig = filteredData.reduce((acc, item) => {
         acc[item.category] = {
             label: item.category,
-            color: `var(--chart-${index + 1})`,
+            color: colorMap[item.category],
         };
         return acc;
     }, {} as ChartConfig);
@@ -60,7 +72,7 @@ export default function ChartExpGainByCategory({ data }: ChartProps) {
                     config={chartConfig}
                     className="mx-auto max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
                 >
-                    <PieChart>
+                    <PieChart margin={{ top: 20 }}>
                         <ChartTooltip
                             content={<ChartTooltipContent hideLabel />}
                         />

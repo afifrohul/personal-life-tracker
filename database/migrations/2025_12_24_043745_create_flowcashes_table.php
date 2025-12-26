@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('type', ['income', 'expense']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

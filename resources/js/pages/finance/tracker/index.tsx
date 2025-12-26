@@ -1,4 +1,5 @@
 import { ChartExpense } from '@/components/chart-expense';
+import ChartExpenseByCategory from '@/components/chart-expense-by-category';
 import { ChartFinance } from '@/components/chart-finance';
 import { ChartFinanceYear } from '@/components/chart-finance-year';
 import AppLayout from '@/layouts/app-layout';
@@ -16,6 +17,7 @@ interface IndexProps {
     chartDataFinance: [];
     chartDataExpense: [];
     chartDataFinanceYear: [];
+    expenseByCategory: [];
     uniqueYears: [];
 }
 
@@ -23,10 +25,9 @@ export default function Index({
     chartDataFinance,
     chartDataExpense,
     chartDataFinanceYear,
+    expenseByCategory,
     uniqueYears,
 }: IndexProps) {
-    console.log(chartDataFinanceYear);
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Finance Tracker" />
@@ -47,6 +48,9 @@ export default function Index({
                     <ChartFinanceYear
                         chartData={chartDataFinanceYear}
                     ></ChartFinanceYear>
+                    <ChartExpenseByCategory
+                        data={expenseByCategory}
+                    ></ChartExpenseByCategory>
                 </div>
             </div>
         </AppLayout>
