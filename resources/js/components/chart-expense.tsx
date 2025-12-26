@@ -22,6 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { formatRupiah } from '@/lib/format-rupiah';
 import { useState } from 'react';
 
 export const description = 'An interactive line chart';
@@ -166,7 +167,6 @@ export function ChartExpense({ chartData, uniqueYears }: ChartProps) {
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
-                                    className="w-[150px]"
                                     nameKey="views"
                                     labelFormatter={(value) => {
                                         return new Date(
@@ -177,6 +177,35 @@ export function ChartExpense({ chartData, uniqueYears }: ChartProps) {
                                             year: 'numeric',
                                         });
                                     }}
+                                    formatter={(value, name) => (
+                                        <div className="flex items-center gap-2">
+                                            <div
+                                                className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--color-bg)"
+                                                style={
+                                                    {
+                                                        '--color-bg': `var(--color-${name})`,
+                                                    } as React.CSSProperties
+                                                }
+                                            />
+                                            {chartConfig[
+                                                name as keyof typeof chartConfig
+                                            ]?.label || name}
+                                            <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
+                                                <p
+                                                    className="font-semibold text-(--color-bg)"
+                                                    style={
+                                                        {
+                                                            '--color-bg': `var(--color-${name})`,
+                                                        } as React.CSSProperties
+                                                    }
+                                                >
+                                                    {formatRupiah(
+                                                        Number(value),
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
                                 />
                             }
                         />
