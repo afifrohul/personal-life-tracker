@@ -50,6 +50,7 @@ export default function Index({
                     ></ChartFinanceYear>
                     <ChartExpenseByCategory
                         data={expenseByCategory}
+                        uniqueYears={uniqueYears}
                     ></ChartExpenseByCategory>
                 </div>
             </div>

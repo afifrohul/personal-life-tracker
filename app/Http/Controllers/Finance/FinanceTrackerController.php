@@ -12,7 +12,7 @@ use App\Models\HabitLog;
 
 class FinanceTrackerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $rawDataFinance = Flowcash::selectRaw('
@@ -82,9 +82,14 @@ class FinanceTrackerController extends Controller
                 ->orderBy('year')
                 ->get();
 
+            $expenseByCategoryYear = $request->input('expenseByCategoryYear', now()->year);
+            $expenseByCategoryMonth = $request->input('expenseByCategoryMonth', now()->month);
+
             $expenseByCategory = Flowcash::query()
                 ->join('flowcash_categories', 'flowcashes.flowcash_category_id', '=', 'flowcash_categories.id')
                 ->whereNull('flowcashes.deleted_at')
+                ->whereYear('date', $expenseByCategoryYear)
+                ->whereMonth('date', $expenseByCategoryMonth)
                 ->select(
                     'flowcash_categories.name as category',
                     \DB::raw('CAST(SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) AS UNSIGNED) as expense')
