@@ -16,6 +16,10 @@ use App\Models\UserProfileStat;
 use App\Models\FlowcashCategory;
 use App\Models\Flowcash;
 
+use App\Models\PersonalTask;
+use App\Models\Project;
+use App\Models\ProjectTask;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -54,6 +58,18 @@ class DashboardController extends Controller
         // Selisih pemasukan dan pengeluaran bulan ini
         $monthlyDifference = $monthlyIncome - $monthlyExpense;
 
+        $personalTaskCount = PersonalTask::count();
+        $pendingPersonalTaskCount = PersonalTask::where('status', 'pending')->count();
+        $inProgressPersonalTaskCount = PersonalTask::where('status', 'in_progress')->count();
+        $completedPersonalTaskCount = PersonalTask::where('status', 'completed')->count();
+        $projectCount = Project::count();
+        $pendingProjectCount = Project::where('status', 'pending')->count();
+        $inProgressProjectCount = Project::where('status', 'in_progress')->count();
+        $completedProjectCount = Project::where('status', 'completed')->count();
+        $projectTaskCount = ProjectTask::count();
+        $pendingProjectTaskCount = ProjectTask::where('status', 'pending')->count();
+        $inProgressProjectTaskCount = ProjectTask::where('status', 'in_progress')->count();
+        $completedProjectTaskCount = ProjectTask::where('status', 'completed')->count();
 
         return Inertia::render('dashboard', compact(
             'user',
@@ -70,7 +86,21 @@ class DashboardController extends Controller
             'totalBalance',
             'monthlyIncome',
             'monthlyExpense',
-            'monthlyDifference'
+            'monthlyDifference',
+
+            'personalTaskCount',
+            'pendingPersonalTaskCount',
+            'inProgressPersonalTaskCount',
+            'completedPersonalTaskCount',
+            'projectCount',
+            'pendingProjectCount',
+            'inProgressProjectCount',
+            'completedProjectCount',
+            'projectTaskCount',
+            'pendingProjectTaskCount',
+            'inProgressProjectTaskCount',
+            'completedProjectTaskCount',
+
         ));
     }
 }

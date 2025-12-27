@@ -12,8 +12,15 @@ import {
     LuArrowDownLeft,
     LuArrowUpRight,
     LuBike,
+    LuCheck,
+    LuCircleStop,
+    LuFolderGit2,
+    LuGitBranch,
+    LuGitMerge,
+    LuLoader,
     LuScrollText,
     LuSquareLibrary,
+    LuUserCheck,
     LuWallet,
 } from 'react-icons/lu';
 import { MdOutlineCategory, MdOutlineWavingHand } from 'react-icons/md';
@@ -51,6 +58,18 @@ interface DashboardProps {
     monthlyIncome: number;
     monthlyExpense: number;
     monthlyDifference: number;
+    personalTaskCount: number;
+    pendingPersonalTaskCount: number;
+    inProgressPersonalTaskCount: number;
+    completedPersonalTaskCount: number;
+    projectCount: number;
+    pendingProjectCount: number;
+    inProgressProjectCount: number;
+    completedProjectCount: number;
+    projectTaskCount: number;
+    pendingProjectTaskCount: number;
+    inProgressProjectTaskCount: number;
+    completedProjectTaskCount: number;
 }
 
 export default function Dashboard({
@@ -66,6 +85,18 @@ export default function Dashboard({
     monthlyIncome,
     monthlyExpense,
     monthlyDifference,
+    personalTaskCount,
+    pendingPersonalTaskCount,
+    inProgressPersonalTaskCount,
+    completedPersonalTaskCount,
+    projectCount,
+    pendingProjectCount,
+    inProgressProjectCount,
+    completedProjectCount,
+    projectTaskCount,
+    pendingProjectTaskCount,
+    inProgressProjectTaskCount,
+    completedProjectTaskCount,
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -231,6 +262,120 @@ export default function Dashboard({
                             }
                             data={formatRupiah(monthlyExpense)}
                             desc="Total Expense This Month"
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <div className="flex w-full items-center gap-3">
+                        <p className="text-xs text-muted-foreground">Task</p>
+                        <div className="h-px w-full rounded border-b"></div>
+                    </div>
+                    <div className="flex gap-4">
+                        <DashboardCardInfo
+                            color="purple"
+                            icon={
+                                <LuUserCheck className="text-xl text-purple-600" />
+                            }
+                            data={projectCount}
+                            desc="Total Personal Task(s)"
+                        />
+                        <DashboardCardInfo
+                            color="rose"
+                            icon={
+                                <LuCircleStop className="text-xl text-rose-600" />
+                            }
+                            data={pendingPersonalTaskCount}
+                            desc="Total Pending Personal Task(s)"
+                        />
+                        <DashboardCardInfo
+                            color="yellow"
+                            icon={
+                                <LuLoader className="text-xl text-yellow-600" />
+                            }
+                            data={inProgressPersonalTaskCount}
+                            desc="Total In Progress Personal Task(s)"
+                            className={'flex-1'}
+                        />
+                        <DashboardCardInfo
+                            color="green"
+                            icon={
+                                <LuCheck className="text-xl text-green-600" />
+                            }
+                            data={completedPersonalTaskCount}
+                            desc="Total Completed Personal Task(s)"
+                            className={'flex-1'}
+                        />
+                    </div>
+                    <div className="flex gap-4">
+                        <DashboardCardInfo
+                            color="purple"
+                            icon={
+                                <LuFolderGit2 className="text-xl text-purple-600" />
+                            }
+                            data={personalTaskCount}
+                            desc="Total Project(s)"
+                        />
+                        <DashboardCardInfo
+                            color="rose"
+                            icon={
+                                <LuCircleStop className="text-xl text-rose-600" />
+                            }
+                            data={pendingProjectCount}
+                            desc="Total Pending Project(s)"
+                        />
+                        <DashboardCardInfo
+                            color="yellow"
+                            icon={
+                                <LuLoader className="text-xl text-yellow-600" />
+                            }
+                            data={inProgressProjectCount}
+                            desc="Total In Progress Project(s)"
+                            className={'flex-1'}
+                        />
+                        <DashboardCardInfo
+                            color="green"
+                            icon={
+                                <LuCheck className="text-xl text-green-600" />
+                            }
+                            data={completedProjectCount}
+                            desc="Total Completed Project(s)"
+                            className={'flex-1'}
+                        />
+                    </div>
+                    <div className="flex gap-4">
+                        <DashboardCardInfo
+                            color="purple"
+                            icon={
+                                <LuGitMerge className="text-xl text-purple-600" />
+                            }
+                            data={projectTaskCount}
+                            desc="Total Project Task(s)"
+                        />
+                        <DashboardCardInfo
+                            color="rose"
+                            icon={
+                                <LuCircleStop className="text-xl text-rose-600" />
+                            }
+                            data={pendingProjectTaskCount}
+                            desc="Total Pending Project Task(s)"
+                        />
+                        <DashboardCardInfo
+                            color="yellow"
+                            icon={
+                                <LuLoader className="text-xl text-yellow-600" />
+                            }
+                            data={inProgressProjectTaskCount}
+                            desc="Total In Progress Project Task(s)"
+                            className={'flex-1'}
+                        />
+                        <DashboardCardInfo
+                            color="green"
+                            icon={
+                                <LuCheck className="text-xl text-green-600" />
+                            }
+                            data={completedProjectTaskCount}
+                            desc="Total Completed Project Task(s)"
+                            className={'flex-1'}
                         />
                     </div>
                 </div>
