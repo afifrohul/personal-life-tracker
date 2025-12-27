@@ -32,7 +32,7 @@ export default function ChartExpGainByHabit({ data }: ChartProps) {
     });
 
     // const colors = d3.schemeSet3;
-    const colors = d3.schemeBlues[filteredData.length];
+    const colors = d3.schemeBlues[filteredData.length] ?? d3.schemeBlues[3];;
 
     const colorMap = filteredData.reduce<Record<string, string>>(
         (acc, item, index) => {

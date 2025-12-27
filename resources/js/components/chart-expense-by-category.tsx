@@ -68,7 +68,7 @@ export default function ChartExpenseByCategory({
     });
 
     // const colors = d3.schemeSet3;
-    const colors = d3.schemeReds[filteredData.length];
+    const colors = d3.schemeReds[filteredData.length] ?? d3.schemeReds[3];
 
     const colorMap = filteredData.reduce<Record<string, string>>(
         (acc, item, index) => {

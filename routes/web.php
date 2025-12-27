@@ -16,6 +16,8 @@ use App\Http\Controllers\Finance\FinanceTrackerController;
 use App\Http\Controllers\Finance\FlowcashCategoryController;
 use App\Http\Controllers\Finance\FlowcashController;
 
+use App\Http\Controllers\Task\PersonalTaskController;
+
 Route::get('/', function () {
     return Inertia::render('welcome', [
         'canRegister' => Features::enabled(Features::registration()),
@@ -65,6 +67,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/flowcashes/{id}/edit', [FlowcashController::class, 'edit'])->name('flowcashes.edit');
     Route::put('/flowcashes/{id}', [FlowcashController::class, 'update'])->name('flowcashes.update');
     Route::delete('/flowcashes/{id}', [FlowcashController::class, 'destroy'])->name('flowcashes.destroy');
+
+    Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
+    Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
+    Route::get('/personal-tasks/create', [PersonalTaskController::class, 'create'])->name('personal-tasks.create');
+    Route::post('/personal-tasks', [PersonalTaskController::class, 'store'])->name('personal-tasks.store');
+    Route::get('/personal-tasks/{id}/edit', [PersonalTaskController::class, 'edit'])->name('personal-tasks.edit');
+    Route::put('/personal-tasks/{id}', [PersonalTaskController::class, 'update'])->name('personal-tasks.update');
+    Route::delete('/personal-tasks/{id}', [PersonalTaskController::class, 'destroy'])->name('personal-tasks.destroy');
+    Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
 
 });
 

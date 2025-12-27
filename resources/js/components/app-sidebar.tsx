@@ -22,6 +22,7 @@ import {
     LayoutGrid,
     ScrollText,
     SquareLibrary,
+    UserRoundCheck,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -79,6 +80,14 @@ const Finances: NavItem[] = [
     },
 ];
 
+const Tasks: NavItem[] = [
+    {
+        title: 'Personal Task',
+        href: '/personal-tasks',
+        icon: UserRoundCheck,
+    },
+];
+
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -98,6 +107,7 @@ export function AppSidebar() {
                 <NavMain header="Dashboard" items={Dashboards} />
                 <NavMain header="Habit" items={Habits} />
                 <NavMain header="Finance" items={Finances} />
+                <NavMain header="Task" items={Tasks} />
             </SidebarContent>
 
             <SidebarFooter>
