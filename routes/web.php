@@ -79,7 +79,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
