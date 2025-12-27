@@ -10,4 +10,9 @@ class Project extends Model
     use SoftDeletes;
 
     protected $fillable = ['name', 'description', 'status'];
+
+    public function projectTask()
+    {
+        return $this->hasMany(ProjectTask::class);
+    }
 }

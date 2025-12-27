@@ -35,23 +35,25 @@ const formSchema = z.object({
     status: z.string(),
 });
 
-export type PersonalTaskFormValues = z.infer<typeof formSchema>;
+export type ProjectTaskFormValues = z.infer<typeof formSchema>;
 
-interface PersonalTaskFormProps {
-    initialData?: PersonalTaskFormValues & { id?: number };
+interface ProjectTaskFormProps {
+    projectId: number;
+    initialData?: ProjectTaskFormValues & { id?: number };
     submitUrl: string;
     method?: 'post' | 'put';
 }
 
-export function PersonalTaskForm({
+export function ProjectTaskForm({
+    projectId,
     initialData,
     submitUrl,
     method = 'post',
-}: PersonalTaskFormProps) {
+}: ProjectTaskFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const form = useForm<PersonalTaskFormValues>({
-        resolver: zodResolver(formSchema) as Resolver<PersonalTaskFormValues>,
+    const form = useForm<ProjectTaskFormValues>({
+        resolver: zodResolver(formSchema) as Resolver<ProjectTaskFormValues>,
         defaultValues: initialData
             ? initialData
             : {
@@ -63,7 +65,7 @@ export function PersonalTaskForm({
               },
     });
 
-    const onSubmit: SubmitHandler<PersonalTaskFormValues> = (data) => {
+    const onSubmit: SubmitHandler<ProjectTaskFormValues> = (data) => {
         setIsSubmitting(true);
 
         router[method](submitUrl, data, {
@@ -84,7 +86,7 @@ export function PersonalTaskForm({
                             <Input
                                 {...field}
                                 id="title"
-                                placeholder="Enter personal task title"
+                                placeholder="Enter project task title"
                                 autoComplete="off"
                                 required
                             />
@@ -249,7 +251,7 @@ export function PersonalTaskForm({
                     type="button"
                     variant="outline"
                     disabled={isSubmitting}
-                    onClick={() => router.get('/personal-tasks')}
+                    onClick={() => router.get(`/projects/${projectId}/show`)}
                 >
                     Cancel
                 </Button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Models\Project;
+use App\Models\ProjectTask;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -65,7 +66,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         try {
-            $project = Project::findOrFail($id);
+            $project = Project::with('projectTask')->findOrFail($id);
             return Inertia::render('task/project/show', compact('project'));
         } catch (\Exception $e) {
             Log::error('Error loading project for detail: ' . $e->getMessage());
@@ -129,4 +130,97 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'Failed to delete project.');
         }
     }
+
+    // Project Task =========================================================
+    public function createTask($projectId)
+    {
+        return Inertia::render('task/project/project-task/create', [
+            'projectId' => $projectId,
+        ]);
+    }
+
+    public function storeTask(Request $request, $projectId)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable',
+            'due_date' => 'nullable',
+            'priority' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+
+            $projectTask = new ProjectTask();
+            $projectTask->project_id = $projectId;
+            $projectTask->title = $request->title;
+            $projectTask->description = $request->description;
+            $projectTask->due_date = $request->due_date;
+            $projectTask->priority = $request->priority;
+            $projectTask->status = $request->status;
+            $projectTask->save();
+
+            return redirect()->route('projects.show', $projectId)->with('success', 'Project task created successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Error storing project task: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create project task.');
+        }
+    }
+
+    public function editTask($projectId, $id)
+    {
+        try {
+            $projectTask = ProjectTask::findOrFail($id);
+            return Inertia::render('task/project/project-task/edit', [
+                'projectId' => $projectId,
+                'projectTask' => $projectTask
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error loading project task for edit: ' . $e->getMessage());
+            return redirect()->route('projects.show', $projectId)->with('error', 'Project task not found.');
+        }
+    }
+
+    public function updateTask(Request $request, $projectId, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable',
+            'due_date' => 'nullable',
+            'priority' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+
+            $projectTask = ProjectTask::findOrFail($id);
+            $projectTask->title = $request->title;
+            $projectTask->description = $request->description;
+            $projectTask->due_date = $request->due_date;
+            $projectTask->priority = $request->priority;
+            $projectTask->status = $request->status;
+            $projectTask->save();
+
+            return redirect()->route('projects.show', $projectId)->with('success', 'Project task updated successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Error updating project task: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update project task.');
+        }
+    }
+
+    public function destroyTask($projectId,$id)
+    {
+        try {
+            $projectTask = ProjectTask::findOrFail($id);
+            $projectTask->delete();
+
+            return redirect()->route('projects.show', $projectId)->with('success', 'Project task deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting project task: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete project task.');
+        }
+    }
+
 }

@@ -47,7 +47,7 @@ export default function Index({ projects }: IndexProps) {
             accessorKey: 'status',
             header: 'Status',
             cell: ({ row }) => (
-                <div className="w-fit rounded-lg border px-2 py-1">
+                <div className="w-fit rounded border px-2 py-1">
                     {row.original.status === 'completed' ? (
                         <div className="flex items-center gap-1 text-xs">
                             <FaCheckCircle className="h-4 text-green-600" />{' '}
