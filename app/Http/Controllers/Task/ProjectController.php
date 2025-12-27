@@ -64,7 +64,13 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $project = Project::findOrFail($id);
+            return Inertia::render('task/project/show', compact('project'));
+        } catch (\Exception $e) {
+            Log::error('Error loading project for detail: ' . $e->getMessage());
+            return redirect()->route('projects.index')->with('error', 'Project not found.');
+        }
     }
 
     /**

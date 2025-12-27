@@ -77,10 +77,19 @@ export default function Index({ projects }: IndexProps) {
             header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex justify-start gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                            router.get(`/projects/${row.original.id}/show`)
+                        }
+                    >
+                        View
+                    </Button>
                     <EditButton url={`/projects/${row.original.id}/edit`} />
                     <DeleteButton
                         url={`/projects/${row.original.id}`}
-                        confirmMessage="Are you sure to delete this project?"
+                        confirmMessage="Are you sure to delete this habit?"
                     />
                 </div>
             ),
