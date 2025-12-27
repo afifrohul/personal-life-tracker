@@ -17,6 +17,7 @@ use App\Http\Controllers\Finance\FlowcashCategoryController;
 use App\Http\Controllers\Finance\FlowcashController;
 
 use App\Http\Controllers\Task\PersonalTaskController;
+use App\Http\Controllers\Task\ProjectController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -76,6 +77,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/personal-tasks/{id}', [PersonalTaskController::class, 'update'])->name('personal-tasks.update');
     Route::delete('/personal-tasks/{id}', [PersonalTaskController::class, 'destroy'])->name('personal-tasks.destroy');
     Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
+
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
+    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 
 });
 

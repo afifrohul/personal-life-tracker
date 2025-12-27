@@ -37,12 +37,6 @@ const formSchema = z.object({
 
 export type PersonalTaskFormValues = z.infer<typeof formSchema>;
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
 interface PersonalTaskFormProps {
     initialData?: PersonalTaskFormValues & { id?: number };
     submitUrl: string;
@@ -121,7 +115,7 @@ export function PersonalTaksForm({
                         </Field>
                     )}
                 />
-                <FieldGroup className='grid grid-cols-3 gap-4'>
+                <FieldGroup className="grid grid-cols-3 gap-4">
                     <Controller
                         name="priority"
                         control={form.control}

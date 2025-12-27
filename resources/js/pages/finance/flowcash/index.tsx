@@ -8,6 +8,7 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { format } from 'date-fns';
 import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -80,7 +81,8 @@ export default function Index({ flowcashes }: FlowcashIndexProps) {
         {
             accessorKey: 'date',
             header: 'Date',
-            cell: (info) => info.getValue(),
+            cell: (info) =>
+                format(new Date(info.getValue() as string), 'dd MMM yyyy'),
         },
         {
             accessorKey: 'amount',

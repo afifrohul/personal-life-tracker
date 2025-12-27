@@ -19,6 +19,7 @@ import {
     CalendarCheck,
     ChartArea,
     FileChartColumn,
+    FolderGit2,
     LayoutGrid,
     ScrollText,
     SquareLibrary,
@@ -85,6 +86,11 @@ const Tasks: NavItem[] = [
         title: 'Personal Task',
         href: '/personal-tasks',
         icon: UserRoundCheck,
+    },
+    {
+        title: 'Project',
+        href: '/projects',
+        icon: FolderGit2,
     },
 ];
 

@@ -2,26 +2,21 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { PersonalTaksForm } from './partials/formPersonalTask';
+import { ProjectForm } from './partials/formProject';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Personal Task - Create', href: '/personal-tasks/create' },
+    { title: 'Project - Create', href: '/projects/create' },
 ];
 
 export default function Create() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Personal Task" />
+            <Head title="Create Project" />
             <div className="container mx-auto p-4">
                 <div className="rounded-md border p-4">
-                    <h1 className="mb-4 text-xl font-bold">
-                        Create Personal Task
-                    </h1>
+                    <h1 className="mb-4 text-xl font-bold">Create Project</h1>
                     <Separator className="my-4" />
-                    <PersonalTaksForm
-                        submitUrl="/personal-tasks"
-                        method="post"
-                    />
+                    <ProjectForm submitUrl="/projects" method="post" />
                 </div>
             </div>
         </AppLayout>
