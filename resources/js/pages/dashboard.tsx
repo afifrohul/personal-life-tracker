@@ -15,7 +15,6 @@ import {
     LuCheck,
     LuCircleStop,
     LuFolderGit2,
-    LuGitBranch,
     LuGitMerge,
     LuLoader,
     LuScrollText,
@@ -276,7 +275,7 @@ export default function Dashboard({
                             icon={
                                 <LuUserCheck className="text-xl text-purple-600" />
                             }
-                            data={projectCount}
+                            data={personalTaskCount}
                             desc="Total Personal Task(s)"
                         />
                         <DashboardCardInfo
@@ -312,7 +311,7 @@ export default function Dashboard({
                             icon={
                                 <LuFolderGit2 className="text-xl text-purple-600" />
                             }
-                            data={personalTaskCount}
+                            data={projectCount}
                             desc="Total Project(s)"
                         />
                         <DashboardCardInfo
