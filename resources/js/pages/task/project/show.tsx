@@ -92,11 +92,11 @@ export default function Show({ project }: ShowProps) {
                         </div>
                     ) : row.original.status === 'in_progress' ? (
                         <div className="flex items-center gap-1 text-xs">
-                            <FiLoader className="h-4" /> In Progress
+                            <FiLoader className="h-4 text-yellow-600" /> In Progress
                         </div>
                     ) : (
                         <div className="flex items-center gap-1 text-xs">
-                            <FaStopCircle className="h-4 text-yellow-500" />{' '}
+                            <FaStopCircle className="h-4 text-rose-600" />{' '}
                             Pending
                         </div>
                     )}
@@ -165,12 +165,12 @@ export default function Show({ project }: ShowProps) {
                                         </div>
                                     ) : project.status === 'in_progress' ? (
                                         <div className="flex items-center gap-1 text-xs">
-                                            <FiLoader className="h-4" /> In
+                                            <FiLoader className="h-4 text-yellow-600" /> In
                                             Progress
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-1 text-xs">
-                                            <FaStopCircle className="h-4 text-yellow-500" />{' '}
+                                            <FaStopCircle className="h-4 text-rose-600" />{' '}
                                             Pending
                                         </div>
                                     )}
