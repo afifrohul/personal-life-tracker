@@ -50,11 +50,6 @@ export default function Index({ personalTasks }: IndexProps) {
                     : row.original.description || '-',
         },
         {
-            accessorKey: 'due_date',
-            header: 'Due Date',
-            cell: (info) => info.getValue(),
-        },
-        {
             accessorKey: 'priority',
             header: 'Priority',
             cell: ({ row }) => {
@@ -97,6 +92,11 @@ export default function Index({ personalTasks }: IndexProps) {
             ),
         },
         {
+            accessorKey: 'due_date',
+            header: 'Due Date',
+            cell: (info) => info.getValue(),
+        },
+        {
             id: 'actions',
             header: 'Actions',
             cell: ({ row }) => (
@@ -131,7 +131,7 @@ export default function Index({ personalTasks }: IndexProps) {
                                     }
                                 >
                                     <FaPlusCircle className="mr-2" /> Create New
-                                    Habit
+                                    Personal Task
                                 </Button>
                             }
                         />
