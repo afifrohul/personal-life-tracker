@@ -16,7 +16,7 @@ class PersonalTaskController extends Controller
     public function index()
     {
         try {
-            $personalTasks = PersonalTask::get();
+            $personalTasks = PersonalTask::orderBy('created_at', 'DESC')->get();
 
             return Inertia::render('task/personal-task/index', compact('personalTasks'));
         } catch (\Exception $e) {

@@ -17,7 +17,7 @@ class ProjectController extends Controller
     public function index()
     {
         try {
-            $projects = Project::get();
+            $projects = Project::orderBy('created_at', 'DESC')->get();
             return Inertia::render('task/project/index', compact('projects'));
         } catch (\Exception $e) {
             Log::error('Error loading projects: ' . $e->getMessage());
@@ -66,7 +66,9 @@ class ProjectController extends Controller
     public function show($id)
     {
         try {
-            $project = Project::with('projectTask')->findOrFail($id);
+            $project = Project::with(['projectTask' => function ($query) {
+                $query->orderBy('created_at', 'DESC');
+            }])->findOrFail($id);
             return Inertia::render('task/project/show', compact('project'));
         } catch (\Exception $e) {
             Log::error('Error loading project for detail: ' . $e->getMessage());
