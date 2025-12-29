@@ -105,31 +105,72 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent indicator="dashed" />}
-                            formatter={(value, name) => (
-                                <div className="flex items-center gap-2">
-                                    <div
-                                        className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--color-bg)"
-                                        style={
-                                            {
-                                                '--color-bg': `var(--color-${name})`,
-                                            } as React.CSSProperties
-                                        }
-                                    />
-                                    {chartConfig[
-                                        name as keyof typeof chartConfig
-                                    ]?.label || name}
-                                    <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
-                                        <p
-                                            className="font-semibold text-(--color-bg)"
+                            formatter={(value, name, item, index) => (
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--color-bg)"
                                             style={
                                                 {
                                                     '--color-bg': `var(--color-${name})`,
                                                 } as React.CSSProperties
                                             }
-                                        >
-                                            {formatRupiah(Number(value))}
-                                        </p>
+                                        />
+                                        <div className="flex gap-6">
+                                            <p>
+                                                {chartConfig[
+                                                    name as keyof typeof chartConfig
+                                                ]?.label || name}
+                                            </p>
+                                            <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
+                                                <p
+                                                    className="font-semibold text-(--color-bg)"
+                                                    style={
+                                                        {
+                                                            '--color-bg': `var(--color-${name})`,
+                                                        } as React.CSSProperties
+                                                    }
+                                                >
+                                                    {formatRupiah(
+                                                        Number(value),
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {index === 1 && (
+                                        <div>
+                                            <div className="mt-1.5 flex basis-full items-center border-t pt-1.5 text-xs font-medium text-foreground">
+                                                Balance
+                                                <div className="ml-auto flex items-baseline gap-0.5 text-foreground tabular-nums">
+                                                    {formatRupiah(
+                                                        item.payload.income -
+                                                            item.payload
+                                                                .expense,
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="flex basis-full items-center pt-1.5 text-xs font-medium text-foreground">
+                                                Saving Rate
+                                                <div className="ml-auto flex items-baseline gap-0.5 text-foreground tabular-nums">
+                                                    {item.payload.income ===
+                                                        0 &&
+                                                    item.payload.expense === 0
+                                                        ? 0
+                                                        : (
+                                                              ((item.payload
+                                                                  .income -
+                                                                  item.payload
+                                                                      .expense) /
+                                                                  item.payload
+                                                                      .income) *
+                                                              100
+                                                          ).toFixed(2)}
+                                                    %
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         />
