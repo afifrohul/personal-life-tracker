@@ -6,6 +6,8 @@ use Laravel\Fortify\Features;
 
 use App\Http\Controllers\DashboardController;
 
+use App\Http\Controllers\Mood\MoodLogController;
+
 use App\Http\Controllers\Habit\HabitTrackerController;
 use App\Http\Controllers\Habit\HabitCalendarController;
 use App\Http\Controllers\Habit\HabitCategoryController;
@@ -28,10 +30,12 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
-    Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
-
-    Route::get('/habit-calendar', [HabitCalendarController::class, 'index'])->name('habit-calendar.index');
+    Route::get('/mood-logs', [MoodLogController::class, 'index'])->name('mood-logs.index');
+    Route::get('/mood-logs/create', [MoodLogController::class, 'create'])->name('mood-logs.create');
+    Route::post('/mood-logs', [MoodLogController::class, 'store'])->name('mood-logs.store');
+    Route::get('/mood-logs/{id}/edit', [MoodLogController::class, 'edit'])->name('mood-logs.edit');
+    Route::put('/mood-logs/{id}', [MoodLogController::class, 'update'])->name('mood-logs.update');
+    Route::delete('/mood-logs/{id}', [MoodLogController::class, 'destroy'])->name('mood-logs.destroy');
 
     Route::get('/habit-categories', [HabitCategoryController::class, 'index'])->name('habit-categories.index');
     Route::get('/habit-categories/create', [HabitCategoryController::class, 'create'])->name('habit-categories.create');
@@ -40,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/habit-categories/{id}', [HabitCategoryController::class, 'update'])->name('habit-categories.update');
     Route::delete('/habit-categories/{id}', [HabitCategoryController::class, 'destroy'])->name('habit-categories.destroy');
     
+    Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
+    Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
+    Route::get('/habit-calendar', [HabitCalendarController::class, 'index'])->name('habit-calendar.index');
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');

@@ -23,6 +23,7 @@ import {
     LayoutGrid,
     ScrollText,
     SquareLibrary,
+    Sticker,
     UserRoundCheck,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -32,6 +33,14 @@ const Dashboards: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+];
+
+const Moods: NavItem[] = [
+    {
+        title: 'Mood Log',
+        href: '/mood-logs',
+        icon: Sticker,
     },
 ];
 
@@ -111,6 +120,7 @@ export function AppSidebar() {
 
             <SidebarContent>
                 <NavMain header="Dashboard" items={Dashboards} />
+                <NavMain header="Mood" items={Moods} />
                 <NavMain header="Habit" items={Habits} />
                 <NavMain header="Finance" items={Finances} />
                 <NavMain header="Task" items={Tasks} />
