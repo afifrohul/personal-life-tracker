@@ -2,6 +2,12 @@ import { ChartExp } from '@/components/chart-exp';
 import ChartExpGainByCategory from '@/components/chart-exp-gain-by-category';
 import ChartExpGainByHabit from '@/components/chart-exp-gain-by-habit';
 import { ChartHabit } from '@/components/chart-habit';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -178,70 +184,69 @@ export default function Index({
                         </CardContent>
                     </Card>
                 </div>
-                <div className="flex w-full gap-4">
-                    {categories?.map((item, index) => {
-                        const iconCategoryName = item.icon;
-                        const IconCategoryComponent = (
-                            lucideIcons as Record<string, any>
-                        )[iconCategoryName];
-
-                        return (
-                            <Card
-                                key={index}
-                                className="w-full gap-3 border p-4"
-                            >
-                                <CardHeader className="p-0">
-                                    <div className="flex items-center gap-2">
-                                        <IconCategoryComponent className="h-3.5 w-3.5" />
-                                        <p className="text-sm">{item.name}</p>
-                                    </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-1.5">
-                                        {item.habits?.map((h, index) => {
-                                            const iconHabitName = h.icon;
-                                            const IconHabitComponent = (
-                                                lucideIcons as Record<
-                                                    string,
-                                                    any
-                                                >
-                                            )[iconHabitName];
+                <Card className="p-0">
+                    <CardContent>
+                        <Accordion
+                            type="single"
+                            collapsible
+                            className="w-full"
+                            defaultValue="item-1"
+                        >
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger>
+                                    Habit List
+                                </AccordionTrigger>
+                                <AccordionContent className="flex flex-col gap-4 text-balance">
+                                    <div className="grid w-full grid-cols-3 gap-4">
+                                        {categories?.map((item, index) => {
+                                            const iconCategoryName = item.icon;
+                                            const IconCategoryComponent = (lucideIcons as Record<string,any>)[iconCategoryName];
 
                                             return (
-                                                <div
+                                                <Card
                                                     key={index}
-                                                    className="flex justify-between rounded border px-1 py-0.5"
+                                                    className="w-full gap-3 border p-4"
                                                 >
-                                                    <div className="flex items-center gap-2">
-                                                        <IconHabitComponent
-                                                            className="h-3 w-3"
-                                                            style={{
-                                                                color: h.color,
-                                                            }}
-                                                        />
-                                                        <p
-                                                            className="text-xs"
-                                                            key={index}
-                                                        >
-                                                            {h.name}
-                                                        </p>
-                                                    </div>
-                                                    <Link
-                                                        href={`/habit-tracker/${h.id}`}
-                                                    >
-                                                        <div className="rounded bg-accent px-1 py-0.5 text-xs underline duration-200 hover:bg-muted">
-                                                            Track
+                                                    <CardHeader className="p-0">
+                                                        <div className="flex items-center gap-2">
+                                                            <IconCategoryComponent className="h-3.5 w-3.5" />
+                                                            <p className="text-sm">
+                                                                {item.name}
+                                                            </p>
                                                         </div>
-                                                    </Link>
-                                                </div>
+                                                    </CardHeader>
+                                                    <CardContent>
+                                                        <div className="space-y-1.5">
+                                                            {item.habits?.map(
+                                                                (h, index) => {
+                                                                    const iconHabitName = h.icon;
+                                                                    const IconHabitComponent = ( lucideIcons as Record<string, any> )[ iconHabitName];
+                                                                    return (
+                                                                        <div key={index} className="flex justify-between rounded border px-1 py-0.5">
+                                                                            <div className="flex items-center gap-2">
+                                                                                <IconHabitComponent className="h-3 w-3" style={{color: h.color,}} />
+                                                                                <p className="text-xs" key={index}>{h.name}</p>
+                                                                            </div>
+                                                                            <Link href={`/habit-tracker/${h.id}`}>
+                                                                                <div className="rounded bg-accent px-1 py-0.5 text-xs underline duration-200 hover:bg-muted">
+                                                                                    Track
+                                                                                </div>
+                                                                            </Link>
+                                                                        </div>
+                                                                    );
+                                                                },
+                                                            )}
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             );
                                         })}
                                     </div>
-                                </CardContent>
-                            </Card>
-                        );
-                    })}
-                </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </CardContent>
+                </Card>
                 <Card className="p-1.5">
                     <div className="overflow-x-auto rounded">
                         <table className="min-w-full text-xs">
