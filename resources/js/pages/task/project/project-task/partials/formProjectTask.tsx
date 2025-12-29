@@ -29,8 +29,8 @@ import * as z from 'zod';
 
 const formSchema = z.object({
     title: z.string(),
-    description: z.string(),
-    due_date: z.string(),
+    description: z.string().nullable().optional(),
+    due_date: z.string().nullable().optional(),
     priority: z.string(),
     status: z.string(),
 });
@@ -102,14 +102,14 @@ export function ProjectTaskForm({
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="description">
-                                Description
+                                Description <span className='text-xs'>(Optional)</span>
                             </FieldLabel>
                             <Input
                                 {...field}
+                                value={field.value || ''}
                                 id="description"
                                 placeholder="Enter description"
                                 autoComplete="off"
-                                required
                             />
                             {fieldState.invalid && (
                                 <FieldError errors={[fieldState.error]} />
@@ -195,7 +195,7 @@ export function ProjectTaskForm({
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>Due Date</FieldLabel>
+                                <FieldLabel>Due Date <span className='text-xs'>(Optional)</span></FieldLabel>
 
                                 <Popover>
                                     <PopoverTrigger asChild>

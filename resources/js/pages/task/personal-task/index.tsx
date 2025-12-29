@@ -81,7 +81,8 @@ export default function Index({ personalTasks }: IndexProps) {
                         </div>
                     ) : row.original.status === 'in_progress' ? (
                         <div className="flex items-center gap-1 text-xs">
-                            <FiLoader className="h-4 text-yellow-600" /> In Progress
+                            <FiLoader className="h-4 text-yellow-600" /> In
+                            Progress
                         </div>
                     ) : (
                         <div className="flex items-center gap-1 text-xs">
@@ -95,8 +96,16 @@ export default function Index({ personalTasks }: IndexProps) {
         {
             accessorKey: 'due_date',
             header: 'Due Date',
-            cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMM yyyy'),
+            cell: ({ row }) => {
+                if (row.original.due_date != null) {
+                    return format(
+                        new Date(row.original.due_date as string),
+                        'dd MMM yyyy',
+                    );
+                } else {
+                    return '-';
+                }
+            },
         },
         {
             id: 'actions',

@@ -21,7 +21,7 @@ import * as z from 'zod';
 
 const formSchema = z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string().nullable().optional(),
     status: z.string(),
 });
 
@@ -88,14 +88,15 @@ export function ProjectForm({
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel htmlFor="description">
-                                Description
+                                Description{' '}
+                                <span className="text-xs">(Optional)</span>
                             </FieldLabel>
                             <Input
                                 {...field}
+                                value={field.value || ''}
                                 id="description"
                                 placeholder="Enter description"
                                 autoComplete="off"
-                                required
                             />
                             {fieldState.invalid && (
                                 <FieldError errors={[fieldState.error]} />
