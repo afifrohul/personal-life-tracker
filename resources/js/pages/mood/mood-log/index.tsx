@@ -32,7 +32,13 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
-import { FaFaceAngry, FaFaceFrown, FaFaceMeh, FaFaceSmile, FaFaceSmileBeam } from 'react-icons/fa6';
+import {
+    FaFaceAngry,
+    FaFaceFrown,
+    FaFaceMeh,
+    FaFaceSmile,
+    FaFaceSmileBeam,
+} from 'react-icons/fa6';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -59,36 +65,36 @@ export default function Index({ mood_logs }: MoodLogIndexProps) {
             cell: ({ row }) => {
                 if (Number(row.original.mood_score) === 1) {
                     return (
-                        <div className="flex items-center gap-2">
-                            <FaFaceAngry className="text-lg text-rose-500" />
+                        <div className="flex items-center gap-2 text-rose-500 font-medium">
+                            <FaFaceAngry className="text-lg" />
                             <p>Bad</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 2) {
                     return (
-                        <div className='flex items-center gap-2'>
-                            <FaFaceFrown className='text-lg text-amber-500' />
+                        <div className="flex items-center gap-2 text-amber-500 font-medium">
+                            <FaFaceFrown className="text-lg" />
                             <p>Not Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 3) {
                     return (
-                        <div className='flex items-center gap-2'>
-                            <FaFaceMeh className='text-lg text-yellow-500' />
+                        <div className="flex items-center gap-2 text-yellow-500 font-medium">
+                            <FaFaceMeh className="text-lg" />
                             <p>Okay</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 4) {
                     return (
-                        <div className='flex items-center gap-2'>
-                            <FaFaceSmile className='text-lg text-lime-500' />
+                        <div className="flex items-center gap-2 text-lime-500 font-medium">
+                            <FaFaceSmile className="text-lg" />
                             <p>Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 5) {
                     return (
-                        <div className='flex items-center gap-2'>
-                            <FaFaceSmileBeam className='text-lg text-emerald-500' />
+                        <div className="flex items-center gap-2 text-teal-500 font-medium">
+                            <FaFaceSmileBeam className="text-lg" />
                             <p>Great</p>
                         </div>
                     );
