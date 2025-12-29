@@ -19,11 +19,19 @@ import {
     LuLoader,
     LuScrollText,
     LuSquareLibrary,
+    LuSticker,
     LuUserCheck,
     LuWallet,
 } from 'react-icons/lu';
 import { MdOutlineCategory, MdOutlineWavingHand } from 'react-icons/md';
 import { RiCoinsLine, RiHandCoinLine } from 'react-icons/ri';
+import {
+    FaFaceAngry,
+    FaFaceFrown,
+    FaFaceMeh,
+    FaFaceSmile,
+    FaFaceSmileBeam,
+} from 'react-icons/fa6';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -69,6 +77,12 @@ interface DashboardProps {
     pendingProjectTaskCount: number;
     inProgressProjectTaskCount: number;
     completedProjectTaskCount: number;
+    moodLogCount: number;
+    badMoodCount: number;
+    notGoodMoodCount: number;
+    okayMoodCount: number;
+    goodMoodCount: number;
+    greatMoodCount: number;
 }
 
 export default function Dashboard({
@@ -96,6 +110,12 @@ export default function Dashboard({
     pendingProjectTaskCount,
     inProgressProjectTaskCount,
     completedProjectTaskCount,
+    moodLogCount,
+    badMoodCount,
+    notGoodMoodCount,
+    okayMoodCount,
+    goodMoodCount,
+    greatMoodCount,
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -152,6 +172,64 @@ export default function Dashboard({
                                 {time}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <div className="flex w-full items-center gap-3">
+                        <p className="text-xs text-muted-foreground">Mood</p>
+                        <div className="h-px w-full rounded border-b"></div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                        <DashboardCardInfo
+                            color="purple"
+                            icon={
+                                <LuSticker className="text-xl text-purple-600" />
+                            }
+                            data={moodLogCount}
+                            desc="Total Mood Log(s)"
+                        />
+                        <DashboardCardInfo
+                            color="rose"
+                            icon={
+                                <FaFaceAngry className="text-xl text-rose-600" />
+                            }
+                            data={badMoodCount}
+                            desc="Total Bad Mood(s)"
+                        />
+                        <DashboardCardInfo
+                            color="amber"
+                            icon={
+                                <FaFaceFrown className="text-xl text-amber-600" />
+                            }
+                            data={notGoodMoodCount}
+                            desc="Total Not Good Mood(s)"
+                        />
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                        <DashboardCardInfo
+                            color="yellow"
+                            icon={
+                                <FaFaceMeh className="text-xl text-yellow-600" />
+                            }
+                            data={okayMoodCount}
+                            desc="Total Okay Mood Log(s)"
+                        />
+                        <DashboardCardInfo
+                            color="green"
+                            icon={
+                                <FaFaceSmile className="text-xl text-green-600" />
+                            }
+                            data={goodMoodCount}
+                            desc="Total Good Mood(s)"
+                        />
+                        <DashboardCardInfo
+                            color="teal"
+                            icon={
+                                <FaFaceSmileBeam className="text-xl text-teal-600" />
+                            }
+                            data={greatMoodCount}
+                            desc="Total Great Mood(s)"
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">

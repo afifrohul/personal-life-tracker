@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
+use App\Models\MoodLog;
+
 use App\Models\Habit;
 use App\Models\HabitCategory;
 use App\Models\HabitLog;
@@ -25,6 +27,13 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user()->load('profileStat');
+
+        $moodLogCount = MoodLog::count();
+        $badMoodCount = MoodLog::where('mood_score', 1)->count();
+        $notGoodMoodCount = MoodLog::where('mood_score', 2)->count();
+        $okayMoodCount = MoodLog::where('mood_score', 3)->count();
+        $goodMoodCount = MoodLog::where('mood_score', 4)->count();
+        $greatMoodCount = MoodLog::where('mood_score', 5)->count();
 
         $habitCategoryCount = HabitCategory::count();
         $habitCount = Habit::count();
@@ -73,7 +82,14 @@ class DashboardController extends Controller
 
         return Inertia::render('dashboard', compact(
             'user',
-            
+
+            'moodLogCount',
+            'badMoodCount',
+            'notGoodMoodCount',
+            'okayMoodCount',
+            'goodMoodCount',
+            'greatMoodCount',
+    
             'habitCategoryCount',
             'habitCount',
             'habitLogCount',
