@@ -6,6 +6,13 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { CalendarDays, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import {
+    FaFaceAngry,
+    FaFaceFrown,
+    FaFaceMeh,
+    FaFaceSmile,
+    FaFaceSmileBeam,
+} from 'react-icons/fa6';
 import { GiMoneyStack } from 'react-icons/gi';
 import { GrTransaction } from 'react-icons/gr';
 import {
@@ -17,6 +24,7 @@ import {
     LuFolderGit2,
     LuGitMerge,
     LuLoader,
+    LuNotebookPen,
     LuScrollText,
     LuSquareLibrary,
     LuSticker,
@@ -25,13 +33,6 @@ import {
 } from 'react-icons/lu';
 import { MdOutlineCategory, MdOutlineWavingHand } from 'react-icons/md';
 import { RiCoinsLine, RiHandCoinLine } from 'react-icons/ri';
-import {
-    FaFaceAngry,
-    FaFaceFrown,
-    FaFaceMeh,
-    FaFaceSmile,
-    FaFaceSmileBeam,
-} from 'react-icons/fa6';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -83,6 +84,7 @@ interface DashboardProps {
     okayMoodCount: number;
     goodMoodCount: number;
     greatMoodCount: number;
+    journalLogCount: number;
 }
 
 export default function Dashboard({
@@ -116,6 +118,7 @@ export default function Dashboard({
     okayMoodCount,
     goodMoodCount,
     greatMoodCount,
+    journalLogCount
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -341,6 +344,23 @@ export default function Dashboard({
                             desc="Total Expense This Month"
                         />
                     </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <div className="flex w-full items-center gap-3">
+                        <p className="text-xs text-muted-foreground">Journal</p>
+                        <div className="h-px w-full rounded border-b"></div>
+                    </div>
+                    <div className="">
+                        <DashboardCardInfo
+                            color="indigo"
+                            icon={
+                                <LuNotebookPen className="text-xl text-indigo-600" />
+                            }
+                            data={flowcashCategoryCount}
+                            desc="Total Journal Log(s)"
+                        />
+                    </div>
+
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex w-full items-center gap-3">

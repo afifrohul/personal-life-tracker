@@ -18,6 +18,8 @@ use App\Models\UserProfileStat;
 use App\Models\FlowcashCategory;
 use App\Models\Flowcash;
 
+use App\Models\JournalLog;
+
 use App\Models\PersonalTask;
 use App\Models\Project;
 use App\Models\ProjectTask;
@@ -79,6 +81,7 @@ class DashboardController extends Controller
         $pendingProjectTaskCount = ProjectTask::where('status', 'pending')->count();
         $inProgressProjectTaskCount = ProjectTask::where('status', 'in_progress')->count();
         $completedProjectTaskCount = ProjectTask::where('status', 'completed')->count();
+        $journalLogCount = JournalLog::count();
 
         return Inertia::render('dashboard', compact(
             'user',
@@ -103,6 +106,8 @@ class DashboardController extends Controller
             'monthlyIncome',
             'monthlyExpense',
             'monthlyDifference',
+
+            'journalLogCount',
 
             'personalTaskCount',
             'pendingPersonalTaskCount',
