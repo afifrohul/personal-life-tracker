@@ -356,7 +356,7 @@ export default function Dashboard({
                             icon={
                                 <LuNotebookPen className="text-xl text-indigo-600" />
                             }
-                            data={flowcashCategoryCount}
+                            data={journalLogCount}
                             desc="Total Journal Log(s)"
                         />
                     </div>
