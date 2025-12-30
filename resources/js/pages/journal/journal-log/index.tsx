@@ -187,7 +187,9 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                         </div>
                                     </div>
                                     <Separator className="my-2"></Separator>
-                                    <p className="text-sm">{item.content}</p>
+                                    <div className='whitespace-pre-wrap'>
+                                        <p className="text-sm">{item.content}</p>
+                                    </div>
                                 </div>
                             ))
                         )}
