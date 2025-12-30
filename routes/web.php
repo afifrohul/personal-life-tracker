@@ -18,6 +18,8 @@ use App\Http\Controllers\Finance\FinanceTrackerController;
 use App\Http\Controllers\Finance\FlowcashCategoryController;
 use App\Http\Controllers\Finance\FlowcashController;
 
+use App\Http\Controllers\Journal\JournalLogController;
+
 use App\Http\Controllers\Task\PersonalTaskController;
 use App\Http\Controllers\Task\ProjectController;
 
@@ -98,6 +100,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/{projectId}/tasks/{id}/edit', [ProjectController::class, 'editTask'])->name('projects.task.edit');
     Route::put('/projects/{projectId}/tasks/{id}', [ProjectController::class, 'updateTask'])->name('projects.task.update');
     Route::delete('/projects/{projectId}/tasks/{id}', [ProjectController::class, 'destroyTask'])->name('projects.task.destroy');
+
+    Route::get('/journal-logs', [JournalLogController::class, 'index'])->name('journal-logs.index');
 
 });
 

@@ -21,6 +21,7 @@ import {
     FileChartColumn,
     FolderGit2,
     LayoutGrid,
+    NotebookPen,
     ScrollText,
     SquareLibrary,
     Sticker,
@@ -89,6 +90,13 @@ const Finances: NavItem[] = [
         icon: ArrowLeftRight,
     },
 ];
+const Journals: NavItem[] = [
+    {
+        title: 'Journal Log',
+        href: '/journal-logs',
+        icon: NotebookPen,
+    },
+];
 
 const Tasks: NavItem[] = [
     {
@@ -123,6 +131,7 @@ export function AppSidebar() {
                 <NavMain header="Mood" items={Moods} />
                 <NavMain header="Habit" items={Habits} />
                 <NavMain header="Finance" items={Finances} />
+                <NavMain header="Journal" items={Journals} />
                 <NavMain header="Task" items={Tasks} />
             </SidebarContent>
 
