@@ -6,26 +6,24 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { CalendarDays, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import {
-    FaFaceAngry,
-    FaFaceFrown,
-    FaFaceMeh,
-    FaFaceSmile,
-    FaFaceSmileBeam,
-} from 'react-icons/fa6';
 import { GiMoneyStack } from 'react-icons/gi';
 import { GrTransaction } from 'react-icons/gr';
 import {
+    LuAngry,
     LuArrowDownLeft,
     LuArrowUpRight,
     LuBike,
     LuCheck,
     LuCircleStop,
     LuFolderGit2,
+    LuFrown,
     LuGitMerge,
     LuLoader,
+    LuMeh,
     LuNotebookPen,
     LuScrollText,
+    LuSmile,
+    LuSmilePlus,
     LuSquareLibrary,
     LuSticker,
     LuUserCheck,
@@ -118,7 +116,7 @@ export default function Dashboard({
     okayMoodCount,
     goodMoodCount,
     greatMoodCount,
-    journalLogCount
+    journalLogCount,
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -193,16 +191,14 @@ export default function Dashboard({
                         />
                         <DashboardCardInfo
                             color="rose"
-                            icon={
-                                <FaFaceAngry className="text-xl text-rose-600" />
-                            }
+                            icon={<LuAngry className="text-xl text-rose-600" />}
                             data={badMoodCount}
                             desc="Total Bad Mood(s)"
                         />
                         <DashboardCardInfo
                             color="amber"
                             icon={
-                                <FaFaceFrown className="text-xl text-amber-600" />
+                                <LuFrown className="text-xl text-amber-600" />
                             }
                             data={notGoodMoodCount}
                             desc="Total Not Good Mood(s)"
@@ -211,16 +207,14 @@ export default function Dashboard({
                     <div className="grid grid-cols-3 gap-4">
                         <DashboardCardInfo
                             color="yellow"
-                            icon={
-                                <FaFaceMeh className="text-xl text-yellow-600" />
-                            }
+                            icon={<LuMeh className="text-xl text-yellow-600" />}
                             data={okayMoodCount}
                             desc="Total Okay Mood Log(s)"
                         />
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <FaFaceSmile className="text-xl text-green-600" />
+                                <LuSmile className="text-xl text-green-600" />
                             }
                             data={goodMoodCount}
                             desc="Total Good Mood(s)"
@@ -228,7 +222,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="teal"
                             icon={
-                                <FaFaceSmileBeam className="text-xl text-teal-600" />
+                                <LuSmilePlus className="text-xl text-teal-600" />
                             }
                             data={greatMoodCount}
                             desc="Total Great Mood(s)"
@@ -360,7 +354,6 @@ export default function Dashboard({
                             desc="Total Journal Log(s)"
                         />
                     </div>
-
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex w-full items-center gap-3">
