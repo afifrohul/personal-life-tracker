@@ -30,7 +30,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -192,11 +192,38 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
         );
     };
 
+    function addDays(date: Date, days: number) {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + days);
+        return newDate;
+    }
+
+    const nowDate = new Date(selectedDate);
+    const nextDate = addDays(nowDate, 1);
+    const prevDate = addDays(nowDate, -1);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="default"
+                        onClick={() => {
+                            setDate(prevDate);
+                            router.get(
+                                '/habit-logs',
+                                { date: format(prevDate, 'yyyy-MM-dd') },
+                                {
+                                    preserveState: true,
+                                    preserveScroll: true,
+                                },
+                            );
+                        }}
+                    >
+                        <ChevronLeft />
+                    </Button>
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -225,12 +252,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                     if (newDate) {
                                         router.get(
                                             '/habit-logs',
-                                            {
-                                                date: format(
-                                                    newDate,
-                                                    'yyyy-MM-dd',
-                                                ),
-                                            },
+                                            { date: format(newDate, 'yyyy-MM-dd') },
                                             {
                                                 preserveState: true,
                                                 preserveScroll: true,
@@ -241,6 +263,23 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                             />
                         </PopoverContent>
                     </Popover>
+                    <Button
+                        variant="outline"
+                        size="default"
+                        onClick={() => {
+                            setDate(nextDate);
+                            router.get(
+                                '/habit-logs',
+                                { date: format(nextDate, 'yyyy-MM-dd') },
+                                {
+                                    preserveState: true,
+                                    preserveScroll: true,
+                                },
+                            );
+                        }}
+                    >
+                        <ChevronRight />
+                    </Button>
                 </div>
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">
@@ -267,10 +306,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                             <DialogHeader className="mb-4">
                                                 <DialogTitle>
                                                     Create Habit Log on{' '}
-                                                    {format(
-                                                        new Date(selectedDate),
-                                                        'dd MMMM yyyy',
-                                                    )}
+                                                    {format(new Date(selectedDate), 'dd MMMM yyyy')}
                                                 </DialogTitle>
                                             </DialogHeader>
                                             <div className="grid gap-4">
@@ -280,35 +316,16 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                                     </Label>
                                                     <Select
                                                         value={form.habit_id}
-                                                        onValueChange={(
-                                                            value,
-                                                        ) =>
-                                                            handleChange(
-                                                                'habit_id',
-                                                                value,
-                                                            )
-                                                        }
+                                                        onValueChange={(value) => handleChange('habit_id', value)}
                                                     >
                                                         <SelectTrigger>
                                                             <SelectValue placeholder="Select habit" />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {habits?.map(
-                                                                (
-                                                                    item,
-                                                                    index,
-                                                                ) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        value={String(
-                                                                            item.id,
-                                                                        )}
-                                                                    >
-                                                                        {
-                                                                            item.name
-                                                                        }
+                                                                (item, index) => (
+                                                                    <SelectItem key={index} value={String(item.id,)}>
+                                                                        {item.name}
                                                                     </SelectItem>
                                                                 ),
                                                             )}

@@ -12,7 +12,13 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { format } from 'date-fns';
-import { ChevronDownIcon, PencilLine, Trash } from 'lucide-react';
+import {
+    ChevronDownIcon,
+    ChevronLeft,
+    ChevronRight,
+    PencilLine,
+    Trash,
+} from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -42,55 +48,96 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
         selectedDate ? new Date(selectedDate) : undefined,
     );
 
+    function addDays(date: Date, days: number) {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + days);
+        return newDate;
+    }
+
+    const nowDate = new Date(selectedDate);
+    const nextDate = addDays(nowDate, 1);
+    const prevDate = addDays(nowDate, -1);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Journal Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex items-center gap-4">
-                    <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                id="date"
-                                className="w-full justify-between font-normal"
-                            >
-                                {date
-                                    ? format(new Date(date), 'dd MMMM yyyy')
-                                    : 'Select date'}
-                                <ChevronDownIcon />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                            className="w-auto overflow-hidden p-0"
-                            align="start"
+                    <div className="flex flex-1 items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="default"
+                            onClick={() => {
+                                setDate(prevDate);
+                                router.get(
+                                    '/journal-logs',
+                                    { date: format(prevDate, 'yyyy-MM-dd') },
+                                    {
+                                        preserveState: true,
+                                        preserveScroll: true,
+                                    },
+                                );
+                            }}
                         >
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                captionLayout="dropdown"
-                                onSelect={(newDate) => {
-                                    setDate(newDate);
-                                    setOpen(false);
+                            <ChevronLeft />
+                        </Button>
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    id="date"
+                                    className="w-full justify-between font-normal"
+                                >
+                                    {date
+                                        ? format(new Date(date), 'dd MMMM yyyy')
+                                        : 'Select date'}
+                                    <ChevronDownIcon />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                className="w-auto overflow-hidden p-0"
+                                align="start"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    captionLayout="dropdown"
+                                    onSelect={(newDate) => {
+                                        setDate(newDate);
+                                        setOpen(false);
 
-                                    if (newDate) {
-                                        router.get(
-                                            '/journal-logs',
-                                            {
-                                                date: format(
-                                                    newDate,
-                                                    'yyyy-MM-dd',
-                                                ),
-                                            },
-                                            {
-                                                preserveState: true,
-                                                preserveScroll: true,
-                                            },
-                                        );
-                                    }
-                                }}
-                            />
-                        </PopoverContent>
-                    </Popover>
+                                        if (newDate) {
+                                            router.get(
+                                                '/journal-logs',
+                                                { date: format(newDate,'yyyy-MM-dd')},
+                                                {
+                                                    preserveState: true,
+                                                    preserveScroll: true,
+                                                },
+                                            );
+                                        }
+                                    }}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                        <Button
+                            variant="outline"
+                            size="default"
+                            onClick={() => {
+                                setDate(nextDate);
+                                router.get(
+                                    '/journal-logs',
+                                    { date: format(nextDate, 'yyyy-MM-dd')},
+                                    {
+                                        preserveState: true,
+                                        preserveScroll: true,
+                                    },
+                                );
+                            }}
+                        >
+                            <ChevronRight />
+                        </Button>
+                    </div>
                     <Button
                         variant="outline"
                         onClick={() =>
