@@ -79,13 +79,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/flowcashes/{id}', [FlowcashController::class, 'destroy'])->name('flowcashes.destroy');
 
     Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
-    Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
     Route::get('/personal-tasks/create', [PersonalTaskController::class, 'create'])->name('personal-tasks.create');
     Route::post('/personal-tasks', [PersonalTaskController::class, 'store'])->name('personal-tasks.store');
     Route::get('/personal-tasks/{id}/edit', [PersonalTaskController::class, 'edit'])->name('personal-tasks.edit');
     Route::put('/personal-tasks/{id}', [PersonalTaskController::class, 'update'])->name('personal-tasks.update');
     Route::delete('/personal-tasks/{id}', [PersonalTaskController::class, 'destroy'])->name('personal-tasks.destroy');
-    Route::get('/personal-tasks', [PersonalTaskController::class, 'index'])->name('personal-tasks.index');
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
@@ -102,6 +100,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/projects/{projectId}/tasks/{id}', [ProjectController::class, 'destroyTask'])->name('projects.task.destroy');
 
     Route::get('/journal-logs', [JournalLogController::class, 'index'])->name('journal-logs.index');
+    Route::get('/journal-logs/create', [JournalLogController::class, 'create'])->name('journal-logs.create');
+    Route::post('/journal-logs', [JournalLogController::class, 'store'])->name('journal-logs.store');
+    Route::get('/journal-logs/{id}/edit', [JournalLogController::class, 'edit'])->name('journal-logs.edit');
+    Route::put('/journal-logs/{id}', [JournalLogController::class, 'update'])->name('journal-logs.update');
+    Route::delete('/journal-logs/{id}', [JournalLogController::class, 'destroy'])->name('journal-logs.destroy');
 
 });
 

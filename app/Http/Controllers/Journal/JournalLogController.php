@@ -22,8 +22,8 @@ class JournalLogController extends Controller
                 $date = now()->format('Y-m-d');
             }
 
-            $logs = JournalLog::orderBy('date', 'DESC')->where('date', $date)->get();
-            return Inertia::render('journal/log/index', [
+            $logs = JournalLog::orderBy('created_at', 'DESC')->where('date', $date)->get();
+            return Inertia::render('journal/journal-log/index', [
                 'logs' => $logs,
                 'selectedDate' => $date,
             ]);
@@ -38,7 +38,7 @@ class JournalLogController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('journal/journal-log/create');
     }
 
     /**
@@ -46,13 +46,30 @@ class JournalLogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'content' => 'required'
+        ]);
+
+        try {
+
+            $journalLog = new JournalLog();
+            $journalLog->date = $request->date;
+            $journalLog->content = $request->content;
+            $journalLog->save();
+
+            return redirect()->route('journal-logs.index')->with('success', 'Journal log created successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Error storing journal log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create journal log.');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(JournalLog $journalLog)
+    public function show($id)
     {
         //
     }
@@ -60,24 +77,55 @@ class JournalLogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JournalLog $journalLog)
+    public function edit($id)
     {
-        //
+        try {
+            $journalLog = JournalLog::findOrFail($id);
+            return Inertia::render('journal/journal-log/edit', compact('journalLog'));
+        } catch (\Exception $e) {
+            Log::error('Error loading journal log for edit: ' . $e->getMessage());
+            return redirect()->route('journal-logs.index')->with('error', 'Journal log not found.');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JournalLog $journalLog)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'content' => 'required'
+        ]);
+
+        try {
+
+            $journalLog = JournalLog::findOrFail($id);
+            $journalLog->date = $request->date;
+            $journalLog->content = $request->content;
+            $journalLog->save();
+
+            return redirect()->route('journal-logs.index')->with('success', 'Journal log updated successfully.');
+
+        } catch (\Exception $e) {
+            Log::error('Error updating journal log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update journal log.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JournalLog $journalLog)
+    public function destroy($id)
     {
-        //
+        try {
+            $journalLog = JournalLog::findOrFail($id);
+            $journalLog->delete();
+
+            return redirect()->route('journal-logs.index')->with('success', 'Journal log deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting journal log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete journal log.');
+        }
     }
 }

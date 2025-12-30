@@ -1,3 +1,5 @@
+import DeleteButton from '@/components/delete-button';
+import EditButton from '@/components/edit-button';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -10,8 +12,9 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { format } from 'date-fns';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, PencilLine, Trash } from 'lucide-react';
 import { useState } from 'react';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,43 +42,11 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
         selectedDate ? new Date(selectedDate) : undefined,
     );
 
-    const [openForm, setOpenForm] = useState(false);
-
-    const [form, setForm] = useState({
-        habit_id: '',
-        date: selectedDate,
-    });
-
-    const handleChange = (key: any, value: any) => {
-        setForm((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const resetForm = () =>
-        setForm({
-            habit_id: '',
-            date: selectedDate,
-        });
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        router.post(
-            '/habit-logs',
-            { ...form, habit_id: Number(form.habit_id) },
-            {
-                preserveScroll: true,
-                onSuccess: () => {
-                    setOpenForm(false);
-                    resetForm();
-                },
-            },
-        );
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Journal Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex">
+                <div className="flex items-center gap-4">
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -120,19 +91,42 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                             />
                         </PopoverContent>
                     </Popover>
+                    <Button
+                        variant="outline"
+                        onClick={() => router.get('/journal-logs/create')}
+                    >
+                        <FaPlusCircle className="mr-2" /> Create New Journal Log
+                    </Button>
                 </div>
-                <div className="rounded-xl border p-4">
+                <div className="">
                     <div className="mx-auto flex w-full flex-col gap-4">
                         {logs?.length === 0 ? (
-                            <div className='text-sm text-center italic'>Journal log not found.</div>
+                            <div className="rounded-md border p-4 text-center text-sm italic">
+                                Journal log not found.
+                            </div>
                         ) : (
                             logs?.map((item, index) => (
-                                <div className="" key={index}>
-                                    <p className="text-sm font-medium italic">
-                                        Journal Log -{' '}
-                                        {format(item.date, 'dd MMMM yyyy')}{' '}
-                                        {format(item.created_at, 'HH:m:s')}
-                                    </p>
+                                <div
+                                    className="rounded-md border p-4"
+                                    key={index}
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-sm font-medium italic">
+                                            Journal Log - {format(item.date, 'dd MMMM yyyy')}{' '} {format(item.created_at,'HH:mm:ss')} {item.created_at != item.updated_at ? '(Edited)' : null}
+                                        </p>
+
+                                        <div className="flex justify-start gap-2">
+                                            <EditButton
+                                                url={`/journal-logs/${item.id}/edit`}
+                                                label={<PencilLine />}
+                                            />
+                                            <DeleteButton
+                                                url={`/journal-logs/${item.id}`}
+                                                label={<Trash />}
+                                                confirmMessage="Are you sure to delete this log?"
+                                            />
+                                        </div>
+                                    </div>
                                     <Separator className="my-2"></Separator>
                                     <p className="text-sm">{item.content}</p>
                                 </div>
