@@ -36,9 +36,17 @@ class JournalLogController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('journal/journal-log/create');
+        if ($request->input('date')) {
+            $date = $request->input('date');
+        } else {
+            $date = now()->format('Y-m-d');
+        }
+        
+        return Inertia::render('journal/journal-log/create', [
+            'selectedDate' => $date
+        ]);
     }
 
     /**

@@ -93,7 +93,11 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                     </Popover>
                     <Button
                         variant="outline"
-                        onClick={() => router.get('/journal-logs/create')}
+                        onClick={() =>
+                            router.get(
+                                `/journal-logs/create?date=${selectedDate}`,
+                            )
+                        }
                     >
                         <FaPlusCircle className="mr-2" /> Create New Journal Log
                     </Button>
@@ -112,7 +116,15 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                 >
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium italic">
-                                            Journal Log - {format(item.date, 'dd MMMM yyyy')}{' '} {format(item.created_at,'HH:mm:ss')} {item.created_at != item.updated_at ? '(Edited)' : null}
+                                            Journal Log -{' '}
+                                            {format(item.date, 'dd MMMM yyyy')}{' '}
+                                            {format(
+                                                item.created_at,
+                                                'HH:mm:ss',
+                                            )}{' '}
+                                            {item.created_at != item.updated_at
+                                                ? '(Edited)'
+                                                : null}
                                         </p>
 
                                         <div className="flex justify-start gap-2">

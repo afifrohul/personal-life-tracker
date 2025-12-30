@@ -8,7 +8,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Journal Log - Create', href: '/journal-logs/create' },
 ];
 
-export default function Create() {
+interface CreateProps {
+    selectedDate: string;
+}
+
+export default function Create({ selectedDate }: CreateProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Journal Log" />
@@ -18,7 +22,11 @@ export default function Create() {
                         Create Journal Log
                     </h1>
                     <Separator className="my-4" />
-                    <JournalLogForm submitUrl={`/journal-logs`} method="post" />
+                    <JournalLogForm
+                        initialData={{ date: selectedDate, content: '' }}
+                        submitUrl={`/journal-logs`}
+                        method="post"
+                    />
                 </div>
             </div>
         </AppLayout>
