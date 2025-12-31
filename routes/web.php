@@ -6,6 +6,7 @@ use Laravel\Fortify\Features;
 
 use App\Http\Controllers\DashboardController;
 
+use App\Http\Controllers\Mood\MoodTrackerController;
 use App\Http\Controllers\Mood\MoodLogController;
 
 use App\Http\Controllers\Habit\HabitTrackerController;
@@ -32,6 +33,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/mood-tracker', [MoodTrackerController::class, 'index'])->name('mood-tracker.index');
     Route::get('/mood-logs', [MoodLogController::class, 'index'])->name('mood-logs.index');
     Route::get('/mood-logs/create', [MoodLogController::class, 'create'])->name('mood-logs.create');
     Route::post('/mood-logs', [MoodLogController::class, 'store'])->name('mood-logs.store');

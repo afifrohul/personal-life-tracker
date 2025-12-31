@@ -18,6 +18,7 @@ import {
     Blocks,
     CalendarCheck,
     ChartArea,
+    ChartColumn,
     FileChartColumn,
     FolderGit2,
     LayoutGrid,
@@ -38,6 +39,11 @@ const Dashboards: NavItem[] = [
 ];
 
 const Moods: NavItem[] = [
+    {
+        title: 'Mood Tracker',
+        href: '/mood-tracker',
+        icon: ChartColumn,
+    },
     {
         title: 'Mood Log',
         href: '/mood-logs',
