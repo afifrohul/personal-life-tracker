@@ -6,8 +6,8 @@ import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Habit Tracker',
-        href: '/habit-tracker',
+        title: 'Mood Tracker',
+        href: '/mood-tracker',
     },
 ];
 
@@ -21,7 +21,7 @@ export default function Index({ chartData, moodDistribution, uniqueYears }: Inde
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Habit Tracker" />
+            <Head title="Mood Tracker" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div>
                     <ChartMood chartData={chartData}></ChartMood>
