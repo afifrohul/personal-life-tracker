@@ -168,6 +168,7 @@ export function ChartHabit({ chartData }: ChartProps) {
                                         ).toLocaleDateString('en-US', {
                                             month: 'short',
                                             day: 'numeric',
+                                            year: 'numeric'
                                         });
                                     }}
                                     indicator="dot"
