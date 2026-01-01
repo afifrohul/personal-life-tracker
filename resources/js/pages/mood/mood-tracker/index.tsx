@@ -1,5 +1,6 @@
 import { ChartMood } from '@/components/chart-mood';
 import { ChartMoodByScore } from '@/components/chart-mood-by-score';
+import { Calendar } from '@/components/ui/calendar';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -14,11 +15,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface IndexProps {
     chartData: [];
     moodDistribution: [];
-    uniqueYears: []
+    uniqueYears: [];
 }
 
-export default function Index({ chartData, moodDistribution, uniqueYears }: IndexProps) {
-
+export default function Index({
+    chartData,
+    moodDistribution,
+    uniqueYears,
+}: IndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Tracker" />
@@ -27,7 +31,12 @@ export default function Index({ chartData, moodDistribution, uniqueYears }: Inde
                     <ChartMood chartData={chartData}></ChartMood>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <ChartMoodByScore moodDistribution={moodDistribution} uniqueYears={uniqueYears}></ChartMoodByScore>
+                    <ChartMoodByScore
+                        moodDistribution={moodDistribution}
+                        uniqueYears={uniqueYears}
+                    ></ChartMoodByScore>
+                    <div>
+                    </div>
                 </div>
             </div>
         </AppLayout>
