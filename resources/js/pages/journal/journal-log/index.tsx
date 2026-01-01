@@ -109,7 +109,12 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                         if (newDate) {
                                             router.get(
                                                 '/journal-logs',
-                                                { date: format(newDate,'yyyy-MM-dd')},
+                                                {
+                                                    date: format(
+                                                        newDate,
+                                                        'yyyy-MM-dd',
+                                                    ),
+                                                },
                                                 {
                                                     preserveState: true,
                                                     preserveScroll: true,
@@ -127,7 +132,7 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                 setDate(nextDate);
                                 router.get(
                                     '/journal-logs',
-                                    { date: format(nextDate, 'yyyy-MM-dd')},
+                                    { date: format(nextDate, 'yyyy-MM-dd') },
                                     {
                                         preserveState: true,
                                         preserveScroll: true,
@@ -165,10 +170,6 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                         <p className="text-sm font-medium italic">
                                             Journal Log -{' '}
                                             {format(item.date, 'dd MMMM yyyy')}{' '}
-                                            {format(
-                                                item.created_at,
-                                                'HH:mm:ss',
-                                            )}{' '}
                                             {item.created_at != item.updated_at
                                                 ? '(Edited)'
                                                 : null}
@@ -187,8 +188,10 @@ export default function Index({ logs, selectedDate }: JournalLogIndexProps) {
                                         </div>
                                     </div>
                                     <Separator className="my-2"></Separator>
-                                    <div className='whitespace-pre-wrap'>
-                                        <p className="text-sm">{item.content}</p>
+                                    <div className="whitespace-pre-wrap">
+                                        <p className="text-sm">
+                                            {item.content}
+                                        </p>
                                     </div>
                                 </div>
                             ))
