@@ -13,7 +13,14 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { eachDayOfInterval, eachWeekOfInterval, format } from 'date-fns';
-import { Angry, CircleDashed, Frown, Meh, Smile, SmilePlus } from 'lucide-react';
+import {
+    Angry,
+    CircleDashed,
+    Frown,
+    Meh,
+    Smile,
+    SmilePlus,
+} from 'lucide-react';
 import { useState } from 'react';
 
 type CalendarMood = {
@@ -42,87 +49,23 @@ export default function CalendarMood({ chartData, uniqueYears }: ChartProps) {
         end: new Date(Number(yearMoodCalendar), nowMonth, 1),
     });
 
-    const firstRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate(),
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 6,
-        ),
-    });
-    const secondRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 7,
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 13,
-        ),
-    });
-    const thirdRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 14,
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 20,
-        ),
-    });
-    const fourthRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 21,
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 27,
-        ),
-    });
-    const fifthRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 28,
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 34,
-        ),
-    });
-    const sixthRow = eachDayOfInterval({
-        start: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 35,
-        ),
-        end: new Date(
-            weeks[0].getFullYear(),
-            weeks[0].getMonth(),
-            weeks[0].getDate() + 41,
-        ),
-    });
+    const allDayWeeks = [];
 
-    const allDayWeeks = [
-        firstRow,
-        secondRow,
-        thirdRow,
-        fourthRow,
-        fifthRow,
-        sixthRow,
-    ];
+    for (let i = 0; i < 6; i++) {
+        const row = eachDayOfInterval({
+            start: new Date(
+                weeks[0].getFullYear(),
+                weeks[0].getMonth(),
+                weeks[0].getDate() + i * 7,
+            ),
+            end: new Date(
+                weeks[0].getFullYear(),
+                weeks[0].getMonth(),
+                weeks[0].getDate() + i * 7 + 6,
+            ),
+        });
+        allDayWeeks.push(row);
+    }
 
     const start = format(weeks[0], 'yyyy-MM-dd');
     const end = format(weeks[0].setDate(weeks[0].getDate() + 41), 'yyyy-MM-dd');
@@ -138,7 +81,7 @@ export default function CalendarMood({ chartData, uniqueYears }: ChartProps) {
                     <div className="flex flex-1 flex-col justify-center gap-1">
                         <CardTitle>Mood Calendar</CardTitle>
                         <CardDescription>
-                          Show history mood in calendar view
+                            Show history mood in calendar view
                         </CardDescription>
                     </div>
                     <div className="flex items-center gap-4">
