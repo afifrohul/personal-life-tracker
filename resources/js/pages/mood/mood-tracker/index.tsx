@@ -1,3 +1,4 @@
+import CalendarMood from '@/components/calendar-mood';
 import { ChartMood } from '@/components/chart-mood';
 import { ChartMoodByScore } from '@/components/chart-mood-by-score';
 import { Calendar } from '@/components/ui/calendar';
@@ -36,6 +37,7 @@ export default function Index({
                         uniqueYears={uniqueYears}
                     ></ChartMoodByScore>
                     <div>
+                        <CalendarMood chartData={chartData} uniqueYears={uniqueYears}></CalendarMood>
                     </div>
                 </div>
             </div>

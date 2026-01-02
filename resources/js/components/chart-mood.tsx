@@ -38,11 +38,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const moodColors: Record<number, string> = {
-    1: '#f43f5e', 
-    2: '#d97706', 
-    3: '#eab308', 
-    4: '#22c55e', 
-    5: '#0d9488', 
+    1: '#f43f5e',
+    2: '#d97706',
+    3: '#eab308',
+    4: '#22c55e',
+    5: '#0d9488',
 };
 
 const moodLabels: Record<number, string> = {
@@ -58,7 +58,7 @@ interface ChartMoodProps {
 }
 
 export function ChartMood({ chartData }: ChartMoodProps) {
-    const [range, setRange] = useState<'7d' | '14d' | '30d' | '90d'>('30d');
+    const [range, setRange] = useState<'7d' | '14d' | '30d' | '90d'>('7d');
 
     const daysMap = {
         '7d': 7,
