@@ -13,12 +13,22 @@ class MoodLogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $mood_logs = MoodLog::orderBy('date', 'DESC')->get();
 
-            $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(24);
+            $view = $request->input('view', 'column');
+
+            if ($view == 'column') {
+                $mood_logs = [];
+                $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(24)->withQueryString();
+            } else if ($view == 'list') {
+                $mood_logs = MoodLog::orderBy('date', 'DESC')->get();
+                $mood_logs_column = [];
+            } else {
+                $mood_logs = [];
+                $mood_logs_column = [];
+            }
 
             return Inertia::render('mood/mood-log/index', compact('mood_logs', 'mood_logs_column'));
         } catch (\Exception $e) {

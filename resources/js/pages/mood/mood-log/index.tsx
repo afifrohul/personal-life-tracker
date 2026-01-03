@@ -45,6 +45,12 @@ import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    MdKeyboardArrowLeft,
+    MdKeyboardArrowRight,
+    MdKeyboardDoubleArrowLeft,
+    MdKeyboardDoubleArrowRight,
+} from 'react-icons/md';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -63,14 +69,24 @@ type MoodLog = {
 interface MoodLogIndexProps {
     mood_logs: MoodLog[];
     mood_logs_column: {
-        data: MoodLog[]
-    }
+        data: MoodLog[];
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        from: number;
+        to: number;
+        total: number;
+        prev_page_url: string | null;
+        next_page_url: string | null;
+        first_page_url: string;
+        last_page_url: string;
+    };
 }
 
-export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps) {
-
-    console.log(mood_logs_column)
-
+export default function Index({
+    mood_logs,
+    mood_logs_column,
+}: MoodLogIndexProps) {
     const columns: ColumnDef<MoodLog>[] = [
         {
             accessorKey: 'mood_score',
@@ -134,8 +150,6 @@ export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps
         },
     ];
 
-    const [open, setOpen] = useState(false);
-
     const [openForm, setOpenForm] = useState(false);
 
     const [form, setForm] = useState({
@@ -168,6 +182,24 @@ export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps
         );
     };
 
+    const goToUrl = (url: string) => {
+        router.get(url);
+    };
+
+    const changeTab = (value: string) => {
+        router.get(
+            '/mood-logs',
+            {
+                view: value,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Log" />
@@ -176,13 +208,19 @@ export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps
                     <div className="flex items-center justify-between">
                         <TabsList className="">
                             <div>
-                                <TabsTrigger value="column">
+                                <TabsTrigger
+                                    value="column"
+                                    onClick={() => changeTab('column')}
+                                >
                                     <div className="flex items-center gap-1">
                                         <Columns3 />
                                         <p className="text-xs">Column View</p>
                                     </div>
                                 </TabsTrigger>
-                                <TabsTrigger value="list">
+                                <TabsTrigger
+                                    value="list"
+                                    onClick={() => changeTab('list')}
+                                >
                                     <div className="flex items-center gap-1">
                                         <List />
                                         <p className="text-xs">List View</p>
@@ -315,70 +353,150 @@ export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps
                         <div className="rounded-xl border p-4">
                             <div className="mx-auto flex w-full flex-col gap-4">
                                 <div className="grid grid-cols-3 gap-4">
-                                    {mood_logs_column.data?.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center justify-between gap-8 rounded-xl border px-4 py-2"
-                                        >
-                                            <div className="flex flex-col gap-2">
-                                                <p className="text-sm font-semibold">
-                                                    {Number(item.mood_score) ===
-                                                    1
-                                                        ? 'Bad'
-                                                        : Number(
-                                                                item.mood_score,
-                                                            ) === 2
-                                                          ? 'Not Good'
-                                                          : Number(
-                                                                  item.mood_score,
-                                                              ) === 3
-                                                            ? 'Okay'
+                                    {mood_logs_column.data?.map(
+                                        (item, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex items-center justify-between gap-8 rounded-xl border px-4 py-2"
+                                            >
+                                                <div className="flex flex-col gap-2">
+                                                    <p className="text-sm font-semibold">
+                                                        {Number(
+                                                            item.mood_score,
+                                                        ) === 1
+                                                            ? 'Bad'
                                                             : Number(
                                                                     item.mood_score,
-                                                                ) === 4
-                                                              ? 'Good'
-                                                              : 'Great'}
-                                                </p>
-                                                <div className="flex items-center gap-4 text-xs">
-                                                    <div className="flex items-center gap-1.5">
-                                                        <CalendarDays className="h-4 w-4" />
-                                                        <p className="italic">
-                                                            {format(
-                                                                item.date,
-                                                                'dd MMMM yyyy',
-                                                            )}
-                                                        </p>
-                                                    </div>
-                                                    <div className="flex items-center gap-1.5">
-                                                        <Clock className="h-4 w-4" />
-                                                        <p className="italic">
-                                                            {format(
-                                                                item.created_at,
-                                                                'HH:ii:ss',
-                                                            )}
-                                                        </p>
+                                                                ) === 2
+                                                              ? 'Not Good'
+                                                              : Number(
+                                                                      item.mood_score,
+                                                                  ) === 3
+                                                                ? 'Okay'
+                                                                : Number(
+                                                                        item.mood_score,
+                                                                    ) === 4
+                                                                  ? 'Good'
+                                                                  : 'Great'}
+                                                    </p>
+                                                    <div className="flex items-center gap-4 text-xs">
+                                                        <div className="flex items-center gap-1.5">
+                                                            <CalendarDays className="h-4 w-4" />
+                                                            <p className="italic">
+                                                                {format(
+                                                                    item.date,
+                                                                    'dd MMMM yyyy',
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <Clock className="h-4 w-4" />
+                                                            <p className="italic">
+                                                                {format(
+                                                                    item.created_at,
+                                                                    'HH:ii:ss',
+                                                                )}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                    {Number(item.mood_score) ===
+                                                    1 ? (
+                                                        <Angry className="h-9 w-9 fill-rose-500" />
+                                                    ) : Number(
+                                                          item.mood_score,
+                                                      ) === 2 ? (
+                                                        <Frown className="h-9 w-9 fill-amber-500" />
+                                                    ) : Number(
+                                                          item.mood_score,
+                                                      ) === 3 ? (
+                                                        <Meh className="h-9 w-9 fill-yellow-500" />
+                                                    ) : Number(
+                                                          item.mood_score,
+                                                      ) === 4 ? (
+                                                        <Smile className="h-9 w-9 fill-green-500" />
+                                                    ) : (
+                                                        <SmilePlus className="h-9 w-9 fill-teal-500" />
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div>
-                                                {Number(item.mood_score) ===
-                                                1 ? (
-                                                    <Angry className="h-9 w-9 fill-rose-500" />
-                                                ) : Number(item.mood_score) ===
-                                                  2 ? (
-                                                    <Frown className="h-9 w-9 fill-amber-500" />
-                                                ) : Number(item.mood_score) ===
-                                                  3 ? (
-                                                    <Meh className="h-9 w-9 fill-yellow-500" />
-                                                ) : Number(item.mood_score) ===
-                                                  4 ? (
-                                                    <Smile className="h-9 w-9 fill-green-500" />
-                                                ) : (
-                                                    <SmilePlus className="h-9 w-9 fill-teal-500" />
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
+                                        ),
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between">
+                            <p className="text-xs">
+                                Showing {mood_logs_column.from} to{' '}
+                                {mood_logs_column.to} of{' '}
+                                {mood_logs_column.total} data
+                            </p>
+
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center justify-center gap-2">
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        disabled={
+                                            mood_logs_column.current_page === 1
+                                        }
+                                        onClick={() =>
+                                            goToUrl(
+                                                mood_logs_column.first_page_url,
+                                            )
+                                        }
+                                    >
+                                        <MdKeyboardDoubleArrowLeft />
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        disabled={
+                                            mood_logs_column.current_page === 1
+                                        }
+                                        onClick={() =>
+                                            goToUrl(
+                                                mood_logs_column.prev_page_url as string,
+                                            )
+                                        }
+                                    >
+                                        <MdKeyboardArrowLeft />
+                                    </Button>
+                                    <span className="text-xs">
+                                        {mood_logs_column.current_page} /{' '}
+                                        {mood_logs_column.last_page}
+                                    </span>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        disabled={
+                                            mood_logs_column.current_page ===
+                                            mood_logs_column.last_page
+                                        }
+                                        onClick={() =>
+                                            goToUrl(
+                                                mood_logs_column.next_page_url as string,
+                                            )
+                                        }
+                                    >
+                                        <MdKeyboardArrowRight />
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        disabled={
+                                            mood_logs_column.current_page ===
+                                            mood_logs_column.last_page
+                                        }
+                                        onClick={() =>
+                                            goToUrl(
+                                                mood_logs_column.last_page_url,
+                                            )
+                                        }
+                                    >
+                                        <MdKeyboardDoubleArrowRight />
+                                    </Button>
                                 </div>
                             </div>
                         </div>
