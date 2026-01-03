@@ -1,5 +1,6 @@
 import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
+import { AlertDialogHeader } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -7,7 +8,6 @@ import {
     DialogClose,
     DialogContent,
     DialogFooter,
-    DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
@@ -31,14 +31,20 @@ import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import {
     Angry,
+    CalendarDays,
     CalendarIcon,
+    Clock,
+    Columns3,
     Frown,
+    List,
     Meh,
     Smile,
     SmilePlus,
 } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -51,13 +57,20 @@ type MoodLog = {
     id: number;
     date: string;
     mood_score: string;
+    created_at: string;
 };
 
 interface MoodLogIndexProps {
     mood_logs: MoodLog[];
+    mood_logs_column: {
+        data: MoodLog[]
+    }
 }
 
-export default function Index({ mood_logs }: MoodLogIndexProps) {
+export default function Index({ mood_logs, mood_logs_column }: MoodLogIndexProps) {
+
+    console.log(mood_logs_column)
+
     const columns: ColumnDef<MoodLog>[] = [
         {
             accessorKey: 'mood_score',
@@ -159,141 +172,229 @@ export default function Index({ mood_logs }: MoodLogIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="rounded-xl border p-4">
-                    <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<MoodLog>
-                            showIndexColumn
-                            columns={columns}
-                            data={mood_logs}
-                            createButton={
-                                <Dialog
-                                    open={openForm}
-                                    onOpenChange={(isOpen) => {
-                                        setOpenForm(isOpen);
-                                        if (isOpen) resetForm();
-                                    }}
-                                >
-                                    <DialogTrigger asChild>
-                                        <Button variant="outline">
-                                            <FaPlusCircle className="mr-2" />{' '}
-                                            Create New Mood Log
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className="sm:max-w-[425px]">
-                                        <form onSubmit={handleSubmit}>
-                                            <DialogHeader className="mb-4">
-                                                <DialogTitle>
-                                                    Create Mood Log
-                                                </DialogTitle>
-                                            </DialogHeader>
-                                            <div className="grid gap-4">
-                                                {/* Mood */}
-                                                <div className="grid gap-3">
-                                                    <Label>Mood</Label>
-                                                    <Select
-                                                        value={form.mood_score}
-                                                        onValueChange={(
+                <Tabs defaultValue="column">
+                    <div className="flex items-center justify-between">
+                        <TabsList className="">
+                            <div>
+                                <TabsTrigger value="column">
+                                    <div className="flex items-center gap-1">
+                                        <Columns3 />
+                                        <p className="text-xs">Column View</p>
+                                    </div>
+                                </TabsTrigger>
+                                <TabsTrigger value="list">
+                                    <div className="flex items-center gap-1">
+                                        <List />
+                                        <p className="text-xs">List View</p>
+                                    </div>
+                                </TabsTrigger>
+                            </div>
+                        </TabsList>
+                        <div>
+                            <Dialog
+                                open={openForm}
+                                onOpenChange={(isOpen) => {
+                                    setOpenForm(isOpen);
+                                    if (isOpen) resetForm();
+                                }}
+                            >
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <FaPlusCircle className="mr-2" /> Create
+                                        New Mood Log
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <form onSubmit={handleSubmit}>
+                                        <AlertDialogHeader className="mb-4">
+                                            <DialogTitle>
+                                                Create Mood Log
+                                            </DialogTitle>
+                                        </AlertDialogHeader>
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label>Mood</Label>
+                                                <Select
+                                                    value={form.mood_score}
+                                                    onValueChange={(value) =>
+                                                        handleChange(
+                                                            'mood_score',
                                                             value,
-                                                        ) =>
-                                                            handleChange(
-                                                                'mood_score',
-                                                                value,
-                                                            )
-                                                        }
-                                                    >
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select mood" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="1">
-                                                                Bad
-                                                            </SelectItem>
-                                                            <SelectItem value="2">
-                                                                Not Good
-                                                            </SelectItem>
-                                                            <SelectItem value="3">
-                                                                Okay
-                                                            </SelectItem>
-                                                            <SelectItem value="4">
-                                                                Good
-                                                            </SelectItem>
-                                                            <SelectItem value="5">
-                                                                Great
-                                                            </SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-
-                                                {/* Date */}
-                                                <div className="grid gap-3">
-                                                    <Label>Date</Label>
-                                                    <Popover>
-                                                        <PopoverTrigger asChild>
-                                                            <Button
-                                                                variant="outline"
-                                                                className="w-full justify-between text-left font-normal"
-                                                            >
-                                                                {form.date
-                                                                    ? format(
-                                                                          new Date(
-                                                                              form.date,
-                                                                          ),
-                                                                          'PPP',
-                                                                      )
-                                                                    : 'Pick a date'}
-                                                                <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
-                                                            </Button>
-                                                        </PopoverTrigger>
-
-                                                        <PopoverContent
-                                                            className="w-auto p-0"
-                                                            align="start"
-                                                        >
-                                                            <Calendar
-                                                                mode="single"
-                                                                selected={
-                                                                    form.date
-                                                                        ? new Date(
-                                                                              form.date,
-                                                                          )
-                                                                        : undefined
-                                                                }
-                                                                onSelect={(
-                                                                    date,
-                                                                ) => {
-                                                                    handleChange(
-                                                                        'date',
-                                                                        date
-                                                                            ? format(
-                                                                                  date,
-                                                                                  'yyyy-MM-dd',
-                                                                              )
-                                                                            : '',
-                                                                    );
-                                                                }}
-                                                            />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
+                                                        )
+                                                    }
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select mood" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="1">
+                                                            Bad
+                                                        </SelectItem>
+                                                        <SelectItem value="2">
+                                                            Not Good
+                                                        </SelectItem>
+                                                        <SelectItem value="3">
+                                                            Okay
+                                                        </SelectItem>
+                                                        <SelectItem value="4">
+                                                            Good
+                                                        </SelectItem>
+                                                        <SelectItem value="5">
+                                                            Great
+                                                        </SelectItem>
+                                                    </SelectContent>
+                                                </Select>
                                             </div>
 
-                                            <DialogFooter className="mt-4">
-                                                <DialogClose asChild>
-                                                    <Button variant="outline">
-                                                        Cancel
-                                                    </Button>
-                                                </DialogClose>
-                                                <Button type="submit">
-                                                    Save
+                                            <div className="grid gap-3">
+                                                <Label>Date</Label>
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant="outline"
+                                                            className="w-full justify-between text-left font-normal"
+                                                        >
+                                                            {form.date
+                                                                ? format(
+                                                                      new Date(
+                                                                          form.date,
+                                                                      ),
+                                                                      'PPP',
+                                                                  )
+                                                                : 'Pick a date'}
+                                                            <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </PopoverTrigger>
+
+                                                    <PopoverContent
+                                                        className="w-auto p-0"
+                                                        align="start"
+                                                    >
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={
+                                                                form.date
+                                                                    ? new Date(
+                                                                          form.date,
+                                                                      )
+                                                                    : undefined
+                                                            }
+                                                            onSelect={(
+                                                                date,
+                                                            ) => {
+                                                                handleChange(
+                                                                    'date',
+                                                                    date
+                                                                        ? format(
+                                                                              date,
+                                                                              'yyyy-MM-dd',
+                                                                          )
+                                                                        : '',
+                                                                );
+                                                            }}
+                                                        />
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </div>
+                                        </div>
+
+                                        <DialogFooter className="mt-4">
+                                            <DialogClose asChild>
+                                                <Button variant="outline">
+                                                    Cancel
                                                 </Button>
-                                            </DialogFooter>
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
-                            }
-                        />
+                                            </DialogClose>
+                                            <Button type="submit">Save</Button>
+                                        </DialogFooter>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
                     </div>
-                </div>
+                    <TabsContent value="column">
+                        <div className="rounded-xl border p-4">
+                            <div className="mx-auto flex w-full flex-col gap-4">
+                                <div className="grid grid-cols-3 gap-4">
+                                    {mood_logs_column.data?.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex items-center justify-between gap-8 rounded-xl border px-4 py-2"
+                                        >
+                                            <div className="flex flex-col gap-2">
+                                                <p className="text-sm font-semibold">
+                                                    {Number(item.mood_score) ===
+                                                    1
+                                                        ? 'Bad'
+                                                        : Number(
+                                                                item.mood_score,
+                                                            ) === 2
+                                                          ? 'Not Good'
+                                                          : Number(
+                                                                  item.mood_score,
+                                                              ) === 3
+                                                            ? 'Okay'
+                                                            : Number(
+                                                                    item.mood_score,
+                                                                ) === 4
+                                                              ? 'Good'
+                                                              : 'Great'}
+                                                </p>
+                                                <div className="flex items-center gap-4 text-xs">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <CalendarDays className="h-4 w-4" />
+                                                        <p className="italic">
+                                                            {format(
+                                                                item.date,
+                                                                'dd MMMM yyyy',
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Clock className="h-4 w-4" />
+                                                        <p className="italic">
+                                                            {format(
+                                                                item.created_at,
+                                                                'HH:ii:ss',
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                {Number(item.mood_score) ===
+                                                1 ? (
+                                                    <Angry className="h-9 w-9 fill-rose-500" />
+                                                ) : Number(item.mood_score) ===
+                                                  2 ? (
+                                                    <Frown className="h-9 w-9 fill-amber-500" />
+                                                ) : Number(item.mood_score) ===
+                                                  3 ? (
+                                                    <Meh className="h-9 w-9 fill-yellow-500" />
+                                                ) : Number(item.mood_score) ===
+                                                  4 ? (
+                                                    <Smile className="h-9 w-9 fill-green-500" />
+                                                ) : (
+                                                    <SmilePlus className="h-9 w-9 fill-teal-500" />
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="list">
+                        <div className="rounded-xl border p-4">
+                            <div className="mx-auto flex w-full flex-col gap-4">
+                                <DataTable<MoodLog>
+                                    showIndexColumn
+                                    columns={columns}
+                                    data={mood_logs}
+                                />
+                            </div>
+                        </div>
+                    </TabsContent>
+                </Tabs>
             </div>
         </AppLayout>
     );

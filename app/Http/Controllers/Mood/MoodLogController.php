@@ -17,7 +17,10 @@ class MoodLogController extends Controller
     {
         try {
             $mood_logs = MoodLog::orderBy('date', 'DESC')->get();
-            return Inertia::render('mood/mood-log/index', compact('mood_logs'));
+
+            $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(24);
+
+            return Inertia::render('mood/mood-log/index', compact('mood_logs', 'mood_logs_column'));
         } catch (\Exception $e) {
             Log::error('Error loading mood logs: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load mood logs.');
