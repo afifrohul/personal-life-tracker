@@ -20,6 +20,7 @@ import {
     ChartArea,
     ChartColumn,
     FileChartColumn,
+    FileText,
     FolderGit2,
     LayoutGrid,
     NotebookPen,
@@ -30,11 +31,16 @@ import {
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const Dashboards: NavItem[] = [
+const Informations: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Summary',
+        href: '/summary',
+        icon: FileText,
     },
 ];
 
@@ -133,7 +139,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain header="Dashboard" items={Dashboards} />
+                <NavMain header="Informations" items={Informations} />
                 <NavMain header="Mood" items={Moods} />
                 <NavMain header="Habit" items={Habits} />
                 <NavMain header="Finance" items={Finances} />

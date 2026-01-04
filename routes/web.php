@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SummaryController;
 
 use App\Http\Controllers\Mood\MoodTrackerController;
 use App\Http\Controllers\Mood\MoodLogController;
@@ -32,6 +33,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('summary', [SummaryController::class, 'index'])->name('summary');
 
     Route::get('/mood-tracker', [MoodTrackerController::class, 'index'])->name('mood-tracker.index');
     Route::get('/mood-logs', [MoodLogController::class, 'index'])->name('mood-logs.index');
