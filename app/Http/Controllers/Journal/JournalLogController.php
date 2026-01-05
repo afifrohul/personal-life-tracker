@@ -16,16 +16,46 @@ class JournalLogController extends Controller
     public function index(Request $request)
     {
         try {
-            if ($request->input('date')) {
-                $date = $request->input('date');
-            } else {
-                $date = now()->format('Y-m-d');
-            }
 
-            $logs = JournalLog::orderBy('created_at', 'DESC')->where('date', $date)->get();
+            $view = $request->input('view', 'list');
+
+            if ($view == 'list') {
+
+                if ($request->input('date')) {
+                $date = $request->input('date');
+                } else {
+                    $date = now()->format('Y-m-d');
+                }
+
+                $logs = JournalLog::orderBy('created_at', 'DESC')->where('date', $date)->get();
+                $all_logs = [];
+
+            } else if ($view == 'calendar') {
+
+                $logs = [];
+                $date = null;
+                $all_logs = JournalLog::get()
+                    ->map(fn($log) => [
+                        'id' => $log->id,
+                        'title' => substr($log->content, 0, 20) . '...',
+                        'start' => $log->date,
+                        'end' => $log->date,
+                        'extendedProps' => [
+                            'desc' => $log->content,
+                            'date' => $log->date,
+                        ],
+                    ]);
+
+            } else {
+                $logs = [];
+                $date = null;
+                $all_logs = [];
+            };
+
             return Inertia::render('journal/journal-log/index', [
                 'logs' => $logs,
                 'selectedDate' => $date,
+                'all_logs' => $all_logs
             ]);
         } catch (\Exception $e) {
             Log::error('Error loading journal logs: ' . $e->getMessage());
