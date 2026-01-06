@@ -33,7 +33,7 @@ class SummaryController extends Controller
                 $date = now()->format('Y-m-d');
             }
 
-            $mood = MoodLog::where('date', $date)->first()->mood_score;
+            $mood = MoodLog::where('date', $date)->first()?->mood_score;
             $habit = HabitLog::with('habit')->where('date', $date)->get();
             $exp = HabitLog::with('habit')->where('date', $date)->sum('exp_gain');
             $income = Flowcash::with('flowcashCategory')->where('date', $date)->where('type', 'income')->get();
