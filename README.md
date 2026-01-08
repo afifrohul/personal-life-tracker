@@ -97,7 +97,7 @@ To get a local copy of this project up and running, follow these steps.
 5. **Migrate Database:**
 
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
 
@@ -109,7 +109,13 @@ To get a local copy of this project up and running, follow these steps.
 - **Production mode:** `npm run build && php artisan serve`
 
 > Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to view the app in your browser. 
-> Create a new account to log in on the register page.
+
+- **Login credentials:**
+- Email address: user@example.com
+- Password: password
+
+> You can change your credentials on the [settings](http://127.0.0.1:8000/settings/) page later.
+
 
 ## 🤝 Contributing
 

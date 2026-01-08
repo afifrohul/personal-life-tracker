@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::firstOrCreate(
-            ['email' => 'afif@example.com'],
+            ['email' => 'user@example.com'],
             [
-                'name' => 'Afif Rohul',
+                'name' => 'User',
                 'password' => 'password',
                 'email_verified_at' => now(),
             ]
@@ -28,12 +28,12 @@ class DatabaseSeeder extends Seeder
             ['user_id' => 1],
         );
 
-        $this->call([
-            HabitCategorySeeder::class,
-            HabitSeeder::class,
-            HabitLogSeeder::class,
-            FlowcashCategorySeeder::class,
-            FlowcashSeeder::class
-        ]);
+        // $this->call([
+        //     HabitCategorySeeder::class,
+        //     HabitSeeder::class,
+        //     HabitLogSeeder::class,
+        //     FlowcashCategorySeeder::class,
+        //     FlowcashSeeder::class
+        // ]);
     }
 }
