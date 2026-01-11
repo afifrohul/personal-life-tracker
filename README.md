@@ -94,7 +94,7 @@ To get a local copy of this project up and running, follow these steps.
    php artisan key:generate
    ```
 
-5. **Migrate Database:**
+5. **Migrate and seed database:**
 
    ```bash
    php artisan migrate --seed
