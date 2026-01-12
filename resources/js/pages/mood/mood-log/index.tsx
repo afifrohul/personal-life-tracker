@@ -40,6 +40,7 @@ import {
     Meh,
     Smile,
     SmilePlus,
+    SquarePen,
     Trash,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -142,6 +143,18 @@ export default function Index({
             header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex justify-start gap-2">
+                    <Button
+                        className=""
+                        variant="outline"
+                        size={'sm'}
+                        onClick={() => {
+                            setMode('edit');
+                            setOpenForm(true);
+                            filteredMood(row.original.id);
+                        }}
+                    >
+                        Edit
+                    </Button>
                     <DeleteButton
                         url={`/mood-logs/${row.original.id}`}
                         confirmMessage="Are you sure to delete this log?"
@@ -151,11 +164,42 @@ export default function Index({
         },
     ];
 
+    const filteredMood = (id: number) => {
+        const mood = mood_logs?.filter((mood) => {
+            return mood.id === id;
+        });
+
+        setIdEdit(mood[0].id);
+        setForm({
+            mood_score: String(mood[0].mood_score),
+            date: mood[0].date,
+            view: 'list',
+        });
+    };
+
+    const filteredMoodColumn = (id: number) => {
+        const mood = mood_logs_column.data?.filter((mood) => {
+            return mood.id === id;
+        });
+
+        setIdEdit(mood[0].id);
+        setForm({
+            mood_score: String(mood[0].mood_score),
+            date: mood[0].date,
+            view: 'column',
+        });
+    };
+
+    const [mode, setMode] = useState<'create' | 'edit'>('create');
+
+    const [idEdit, setIdEdit] = useState<number>();
+
     const [openForm, setOpenForm] = useState(false);
 
     const [form, setForm] = useState({
         mood_score: '',
         date: '',
+        view: '',
     });
 
     const handleChange = (key: any, value: any) => {
@@ -166,21 +210,37 @@ export default function Index({
         setForm({
             mood_score: '',
             date: '',
+            view: '',
         });
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: any, id?: number) => {
         e.preventDefault();
-        router.post(
-            '/mood-logs',
-            { ...form, mood_score: Number(form.mood_score) },
-            {
-                preserveScroll: true,
-                onSuccess: () => {
-                    setOpenForm(false);
-                    resetForm();
+
+        if (mode == 'create') {
+            router.post(
+                '/mood-logs',
+                { ...form, mood_score: Number(form.mood_score) },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setOpenForm(false);
+                        resetForm();
+                    },
                 },
-            },
-        );
+            );
+        } else {
+            router.put(
+                `/mood-logs/${id}`,
+                { ...form, mood_score: Number(form.mood_score) },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setOpenForm(false);
+                        resetForm();
+                    },
+                },
+            );
+        }
     };
 
     const goToUrl = (url: string) => {
@@ -233,6 +293,7 @@ export default function Index({
                             <Dialog
                                 open={openForm}
                                 onOpenChange={(isOpen) => {
+                                    setMode('create');
                                     setOpenForm(isOpen);
                                     if (isOpen) resetForm();
                                 }}
@@ -244,10 +305,19 @@ export default function Index({
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
-                                    <form onSubmit={handleSubmit}>
+                                    <form
+                                        onSubmit={
+                                            mode == 'create'
+                                                ? handleSubmit
+                                                : (e) => handleSubmit(e, idEdit)
+                                        }
+                                    >
                                         <AlertDialogHeader className="mb-4">
                                             <DialogTitle>
-                                                Create Mood Log
+                                                {mode == 'create'
+                                                    ? 'Create'
+                                                    : 'Edit'}{' '}
+                                                Mood Log
                                             </DialogTitle>
                                         </AlertDialogHeader>
                                         <div className="grid gap-4">
@@ -361,7 +431,7 @@ export default function Index({
                                                 className="flex items-center justify-between gap-8 rounded-xl border px-3 py-2"
                                             >
                                                 <div className="flex w-full items-center gap-4">
-                                                    <div className="flex items-center flex-1 justify-between">
+                                                    <div className="flex flex-1 items-center justify-between">
                                                         <div className="flex flex-col gap-2">
                                                             <p className="text-sm font-semibold">
                                                                 {Number(
@@ -427,13 +497,30 @@ export default function Index({
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div className="flex flex-col">
+                                                        <Button
+                                                            className="scale-65"
+                                                            variant="outline"
+                                                            onClick={() => {
+                                                                setMode('edit');
+                                                                setOpenForm(
+                                                                    true,
+                                                                );
+                                                                filteredMoodColumn(
+                                                                    item.id,
+                                                                );
+                                                            }}
+                                                        >
+                                                            <SquarePen className="" />
+                                                        </Button>
                                                         <DeleteButton
-                                                            variant='outline'
-                                                            className='scale-65'
+                                                            variant="outline"
+                                                            className="scale-65"
                                                             url={`/mood-logs/${item.id}`}
                                                             confirmMessage="Are you sure to delete this log?"
-                                                            label={<Trash className=''/>}
+                                                            label={
+                                                                <Trash className="" />
+                                                            }
                                                         />
                                                     </div>
                                                 </div>

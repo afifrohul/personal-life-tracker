@@ -21,7 +21,7 @@ class MoodLogController extends Controller
 
             if ($view == 'column') {
                 $mood_logs = [];
-                $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(24)->withQueryString();
+                $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(21)->withQueryString();
             } else if ($view == 'list') {
                 $mood_logs = MoodLog::orderBy('date', 'DESC')->get();
                 $mood_logs_column = [];
@@ -52,7 +52,7 @@ class MoodLogController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            'mood_score' => 'required'
+            'mood_score' => 'required',
         ]);
 
         try {
@@ -62,7 +62,7 @@ class MoodLogController extends Controller
             $mood_log->mood_score = $request->mood_score;
             $mood_log->save();
 
-            return redirect()->route('mood-logs.index')->with('success', 'Mood log created successfully.');
+            return redirect()->back()->with('success', 'Mood log created successfully.');
         } catch (\Exception $e) {
             Log::error('Error storing mood log: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to create mood log.');
@@ -90,7 +90,23 @@ class MoodLogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'date' => 'required',
+            'mood_score' => 'required',
+        ]);
+
+        try {
+
+            $mood_log = MoodLog::findOrFail($id);
+            $mood_log->date = $request->date;
+            $mood_log->mood_score = $request->mood_score;
+            $mood_log->save();
+
+            return redirect()->back()->with('success', 'Mood log updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error updating mood log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update mood log.');
+        }
     }
 
     /**
@@ -102,7 +118,7 @@ class MoodLogController extends Controller
             $mood_log = MoodLog::findOrFail($id);
             $mood_log->delete();
 
-            return redirect()->route('mood-logs.index')->with('success', 'Mood log deleted successfully.');
+            return redirect()->back()->with('success', 'Mood log deleted successfully.');
         } catch (\Exception $e) {
             Log::error('Error deleting mood log: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to delete mood log.');
