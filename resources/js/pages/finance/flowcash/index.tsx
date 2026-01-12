@@ -2,6 +2,13 @@ import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
 import { Button } from '@/components/ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
@@ -9,6 +16,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
+import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -35,9 +43,28 @@ type Flowcash = {
 
 interface FlowcashIndexProps {
     flowcashes: Flowcash[];
+    categories: Category[];
 }
 
-export default function Index({ flowcashes }: FlowcashIndexProps) {
+export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
+    const [category, setCategory] = useState('');
+    const [type, setType] = useState('');
+
+    const applyFilter = (category: string, type: string) => {
+        router.get(
+            '/flowcashes',
+            {
+                category: Number(category),
+                type: type,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
+
     const columns: ColumnDef<Flowcash>[] = [
         {
             accessorKey: 'description',
@@ -115,6 +142,65 @@ export default function Index({ flowcashes }: FlowcashIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Flowcash" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="flex items-center gap-4">
+                    <Select
+                        value={category}
+                        onValueChange={(value) => {
+                            setCategory(value);
+                            applyFilter(value, type);
+                        }}
+                    >
+                        <SelectTrigger
+                            className="hidden w-full rounded-lg sm:ml-auto sm:flex"
+                            aria-label="Select a value"
+                        >
+                            <SelectValue placeholder="Filter by category" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem
+                                value={String(0)}
+                                className="rounded-lg"
+                            >
+                                All
+                            </SelectItem>
+                            {categories?.map((item, index) => (
+                                <SelectItem
+                                    key={index}
+                                    value={String(item.id)}
+                                    className="rounded-lg"
+                                >
+                                    {item.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select
+                        value={type}
+                        onValueChange={(value) => {
+                            setType(value);
+                            applyFilter(category, value);
+                        }}
+                    >
+                        <SelectTrigger
+                            className="hidden w-full rounded-lg sm:ml-auto sm:flex"
+                            aria-label="Select a value"
+                        >
+                            <SelectValue placeholder="Filter by type" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem value="all" className="rounded-lg">
+                                All
+                            </SelectItem>
+                            <SelectItem value="income" className="rounded-lg">
+                                Income
+                            </SelectItem>
+                            <SelectItem value="expense" className="rounded-lg">
+                                Expense
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">
                         <DataTable<Flowcash>

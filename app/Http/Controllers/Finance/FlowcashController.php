@@ -14,11 +14,28 @@ class FlowcashController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC')->get();
-            return Inertia::render('finance/flowcash/index', compact('flowcashes'));
+
+            $category = $request->input('category', 0);
+            $type = $request->input('type', 'all');
+
+            $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC');
+
+            if ($category != 0) {
+                $flowcashes->where('flowcash_category_id', $category);
+            }
+
+            if ($type != 'all') {
+                $flowcashes->where('type', $type);
+            }
+            
+            $flowcashes = $flowcashes->get();
+
+            $categories = FlowcashCategory::get();
+
+            return Inertia::render('finance/flowcash/index', compact('flowcashes', 'categories'));
         } catch (\Exception $e) {
             Log::error('Error loading flowcashes: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load flowcashes.');
