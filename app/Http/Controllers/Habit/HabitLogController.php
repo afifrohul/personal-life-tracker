@@ -90,7 +90,28 @@ class HabitLogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'habit_id' => 'required',
+            'date' => 'required'
+        ]);
+
+        try {
+
+            $habit = Habit::findOrFail($validated['habit_id']);
+
+            $validated['exp_gain'] = $habit->difficulty === 'easy' ? 5 : ($habit->difficulty === 'medium' ? 10 : 20);
+
+            $log = HabitLog::findOrFail($id);
+            $log->habit_id = $validated['habit_id'];
+            $log->date = $validated['date'];
+            $log->exp_gain = $validated['exp_gain'];
+            $log->save();
+
+            return redirect()->back()->with('success', 'Habit log updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error update habit log: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update habit log.');
+        }
     }
 
     /**

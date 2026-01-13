@@ -59,6 +59,7 @@ type Log = {
     id: number;
     exp_gain: number;
     date: string;
+    habit_id: number;
     habit: Habit;
 };
 
@@ -146,6 +147,17 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex justify-start gap-2">
+                    <Button
+                        variant={'outline'}
+                        size={'sm'}
+                        onClick={() => {
+                            setMode('edit');
+                            setOpenForm(true);
+                            filteredHabitLog(row.original.id);
+                        }}
+                    >
+                        Edit
+                    </Button>
                     <DeleteButton
                         url={`/habit-logs/${row.original.id}`}
                         confirmMessage="Are you sure to delete this log?"
@@ -159,6 +171,22 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
     const [date, setDate] = useState<Date | undefined>(
         selectedDate ? new Date(selectedDate) : undefined,
     );
+
+    const filteredHabitLog = (id: number) => {
+        const habitLog = logs?.filter((log) => {
+            return log.id === id;
+        });
+
+        setIdEdit(habitLog[0].id);
+        setForm({
+            habit_id: String(habitLog[0].habit_id),
+            date: habitLog[0].date,
+        });
+    };
+
+    const [mode, setMode] = useState<'create' | 'edit'>('create');
+
+    const [idEdit, setIdEdit] = useState<number>();
 
     const [openForm, setOpenForm] = useState(false);
 
@@ -177,19 +205,35 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             date: selectedDate,
         });
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: any, id?: number) => {
         e.preventDefault();
-        router.post(
-            '/habit-logs',
-            { ...form, habit_id: Number(form.habit_id) },
-            {
-                preserveScroll: true,
-                onSuccess: () => {
-                    setOpenForm(false);
-                    resetForm();
+
+        if (mode == 'create') {
+            router.post(
+                '/habit-logs',
+                { ...form, habit_id: Number(form.habit_id) },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setOpenForm(false);
+                        resetForm();
+                    },
                 },
-            },
-        );
+            );
+        } else {
+            router.put(
+                `/habit-logs/${id}`,
+                { ...form, habit_id: Number(form.habit_id) },
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setOpenForm(false);
+                        resetForm();
+                    },
+                },
+            );
+
+        }
     };
 
     function addDays(date: Date, days: number) {
@@ -252,7 +296,12 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                     if (newDate) {
                                         router.get(
                                             '/habit-logs',
-                                            { date: format(newDate, 'yyyy-MM-dd') },
+                                            {
+                                                date: format(
+                                                    newDate,
+                                                    'yyyy-MM-dd',
+                                                ),
+                                            },
                                             {
                                                 preserveState: true,
                                                 preserveScroll: true,
@@ -291,6 +340,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                 <Dialog
                                     open={openForm}
                                     onOpenChange={(isOpen) => {
+                                        setMode('create');
                                         setOpenForm(isOpen);
                                         if (isOpen) resetForm();
                                     }}
@@ -302,11 +352,12 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[425px]">
-                                        <form onSubmit={handleSubmit}>
+                                        <form onSubmit={mode == 'create' ? handleSubmit : (e) => handleSubmit(e, idEdit)}>
                                             <DialogHeader className="mb-4">
                                                 <DialogTitle>
-                                                    Create Habit Log on{' '}
-                                                    {format(new Date(selectedDate), 'dd MMMM yyyy')}
+                                                    {mode === 'create'
+                                                        ? `Create Habit Log on ${format(new Date(selectedDate), 'dd MMMM yyyy')}`
+                                                        : 'Edit Habit Log'}
                                                 </DialogTitle>
                                             </DialogHeader>
                                             <div className="grid gap-4">
@@ -316,16 +367,35 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                                     </Label>
                                                     <Select
                                                         value={form.habit_id}
-                                                        onValueChange={(value) => handleChange('habit_id', value)}
+                                                        onValueChange={(
+                                                            value,
+                                                        ) =>
+                                                            handleChange(
+                                                                'habit_id',
+                                                                value,
+                                                            )
+                                                        }
                                                     >
                                                         <SelectTrigger>
                                                             <SelectValue placeholder="Select habit" />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {habits?.map(
-                                                                (item, index) => (
-                                                                    <SelectItem key={index} value={String(item.id,)}>
-                                                                        {item.name}
+                                                                (
+                                                                    item,
+                                                                    index,
+                                                                ) => (
+                                                                    <SelectItem
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        value={String(
+                                                                            item.id,
+                                                                        )}
+                                                                    >
+                                                                        {
+                                                                            item.name
+                                                                        }
                                                                     </SelectItem>
                                                                 ),
                                                             )}
