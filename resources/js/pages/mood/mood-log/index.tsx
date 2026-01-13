@@ -173,7 +173,6 @@ export default function Index({
         setForm({
             mood_score: String(mood[0].mood_score),
             date: mood[0].date,
-            view: 'list',
         });
     };
 
@@ -186,7 +185,6 @@ export default function Index({
         setForm({
             mood_score: String(mood[0].mood_score),
             date: mood[0].date,
-            view: 'column',
         });
     };
 
@@ -199,7 +197,6 @@ export default function Index({
     const [form, setForm] = useState({
         mood_score: '',
         date: '',
-        view: '',
     });
 
     const handleChange = (key: any, value: any) => {
@@ -210,7 +207,6 @@ export default function Index({
         setForm({
             mood_score: '',
             date: '',
-            view: '',
         });
 
     const handleSubmit = (e: any, id?: number) => {
