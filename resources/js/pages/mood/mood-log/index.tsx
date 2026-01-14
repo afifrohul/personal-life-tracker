@@ -96,36 +96,36 @@ export default function Index({
             cell: ({ row }) => {
                 if (Number(row.original.mood_score) === 1) {
                     return (
-                        <div className="flex items-center gap-2 font-medium text-rose-500">
-                            <Angry className="text-lg" />
+                        <div className="flex items-center gap-2 font-medium">
+                            <Angry className="text-lg fill-rose-500" />
                             <p>Bad</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 2) {
                     return (
-                        <div className="flex items-center gap-2 font-medium text-amber-500">
-                            <Frown className="text-lg" />
+                        <div className="flex items-center gap-2 font-medium">
+                            <Frown className="text-lg fill-amber-500" />
                             <p>Not Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 3) {
                     return (
-                        <div className="flex items-center gap-2 font-medium text-yellow-500">
-                            <Meh className="text-lg" />
+                        <div className="flex items-center gap-2 font-medium">
+                            <Meh className="text-lg fill-yellow-500" />
                             <p>Okay</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 4) {
                     return (
-                        <div className="flex items-center gap-2 font-medium text-lime-500">
-                            <Smile className="text-lg" />
+                        <div className="flex items-center gap-2 font-medium">
+                            <Smile className="text-lg fill-green-500" />
                             <p>Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 5) {
                     return (
-                        <div className="flex items-center gap-2 font-medium text-teal-500">
-                            <SmilePlus className="text-lg" />
+                        <div className="flex items-center gap-2 font-medium">
+                            <SmilePlus className="text-lg fill-teal-500" />
                             <p>Great</p>
                         </div>
                     );
