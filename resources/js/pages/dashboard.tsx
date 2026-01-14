@@ -148,8 +148,8 @@ export default function Dashboard({
                 <div className="grid grid-cols-5 gap-4">
                     <div className="col-span-3 flex-1 space-y-2 rounded-md border bg-card p-4">
                         <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-300 bg-cyan-100">
-                                <MdOutlineWavingHand className="text-cyan-600" />
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/20 bg-cyan-400/10">
+                                <MdOutlineWavingHand className="text-cyan-500" />
                             </div>
                             <div>
                                 <p className="text-sm font-medium">
@@ -184,21 +184,21 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="purple"
                             icon={
-                                <LuSticker className="text-xl text-purple-600" />
+                                <LuSticker className="text-xl text-purple-500" />
                             }
                             data={moodLogCount}
                             desc="Total Mood Log(s)"
                         />
                         <DashboardCardInfo
                             color="rose"
-                            icon={<LuAngry className="text-xl text-rose-600" />}
+                            icon={<LuAngry className="text-xl text-rose-500" />}
                             data={badMoodCount}
                             desc="Total Bad Mood(s)"
                         />
                         <DashboardCardInfo
                             color="amber"
                             icon={
-                                <LuFrown className="text-xl text-amber-600" />
+                                <LuFrown className="text-xl text-amber-500" />
                             }
                             data={notGoodMoodCount}
                             desc="Total Not Good Mood(s)"
@@ -207,14 +207,14 @@ export default function Dashboard({
                     <div className="grid grid-cols-3 gap-4">
                         <DashboardCardInfo
                             color="yellow"
-                            icon={<LuMeh className="text-xl text-yellow-600" />}
+                            icon={<LuMeh className="text-xl text-yellow-500" />}
                             data={okayMoodCount}
                             desc="Total Okay Mood Log(s)"
                         />
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <LuSmile className="text-xl text-green-600" />
+                                <LuSmile className="text-xl text-green-500" />
                             }
                             data={goodMoodCount}
                             desc="Total Good Mood(s)"
@@ -222,7 +222,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="teal"
                             icon={
-                                <LuSmilePlus className="text-xl text-teal-600" />
+                                <LuSmilePlus className="text-xl text-teal-500" />
                             }
                             data={greatMoodCount}
                             desc="Total Great Mood(s)"
@@ -238,7 +238,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="teal"
                             icon={
-                                <LuSquareLibrary className="text-xl text-teal-600" />
+                                <LuSquareLibrary className="text-xl text-teal-500" />
                             }
                             data={habitCategoryCount}
                             desc="Total Habit Category(s)"
@@ -246,7 +246,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="indigo"
                             icon={
-                                <LuBike className="text-xl text-indigo-600" />
+                                <LuBike className="text-xl text-indigo-500" />
                             }
                             data={habitCount}
                             desc="Total Habit(s)"
@@ -254,7 +254,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="blue"
                             icon={
-                                <LuScrollText className="text-xl text-blue-600" />
+                                <LuScrollText className="text-xl text-blue-500" />
                             }
                             data={habitLogCount}
                             desc="Total Habit Log(s)"
@@ -270,7 +270,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="indigo"
                             icon={
-                                <MdOutlineCategory className="text-xl text-indigo-600" />
+                                <MdOutlineCategory className="text-xl text-indigo-500" />
                             }
                             data={flowcashCategoryCount}
                             desc="Total Flowcash Category(s)"
@@ -278,7 +278,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="sky"
                             icon={
-                                <GrTransaction className="text-xl text-sky-600" />
+                                <GrTransaction className="text-xl text-sky-500" />
                             }
                             data={flowcashCount}
                             desc="Total Flowcash(s)"
@@ -286,7 +286,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="teal"
                             icon={
-                                <LuWallet className="text-xl text-teal-600" />
+                                <LuWallet className="text-xl text-teal-500" />
                             }
                             data={formatRupiah(totalBalance)}
                             desc="Available Balance"
@@ -295,7 +295,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <GiMoneyStack className="text-xl text-green-600" />
+                                <GiMoneyStack className="text-xl text-green-500" />
                             }
                             data={formatRupiah(totalIncome)}
                             desc="Total Income"
@@ -304,7 +304,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <RiHandCoinLine className="text-xl text-rose-600" />
+                                <RiHandCoinLine className="text-xl text-rose-500" />
                             }
                             data={formatRupiah(totalExpense)}
                             desc="Total Expense"
@@ -316,7 +316,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="teal"
                             icon={
-                                <RiCoinsLine className="text-xl text-teal-600" />
+                                <RiCoinsLine className="text-xl text-teal-500" />
                             }
                             data={formatRupiah(monthlyDifference)}
                             desc="Available Balance This Month"
@@ -324,7 +324,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <LuArrowDownLeft className="text-xl text-green-600" />
+                                <LuArrowDownLeft className="text-xl text-green-500" />
                             }
                             data={formatRupiah(monthlyIncome)}
                             desc="Total Income This Month"
@@ -332,7 +332,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuArrowUpRight className="text-xl text-rose-600" />
+                                <LuArrowUpRight className="text-xl text-rose-500" />
                             }
                             data={formatRupiah(monthlyExpense)}
                             desc="Total Expense This Month"
@@ -348,7 +348,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="indigo"
                             icon={
-                                <LuNotebookPen className="text-xl text-indigo-600" />
+                                <LuNotebookPen className="text-xl text-indigo-500" />
                             }
                             data={journalLogCount}
                             desc="Total Journal Log(s)"
@@ -364,7 +364,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="purple"
                             icon={
-                                <LuUserCheck className="text-xl text-purple-600" />
+                                <LuUserCheck className="text-xl text-purple-500" />
                             }
                             data={personalTaskCount}
                             desc="Total Personal Task(s)"
@@ -372,7 +372,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-600" />
+                                <LuCircleStop className="text-xl text-rose-500" />
                             }
                             data={pendingPersonalTaskCount}
                             desc="Total Pending Personal Task(s)"
@@ -380,7 +380,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="yellow"
                             icon={
-                                <LuLoader className="text-xl text-yellow-600" />
+                                <LuLoader className="text-xl text-yellow-500" />
                             }
                             data={inProgressPersonalTaskCount}
                             desc="Total In Progress Personal Task(s)"
@@ -389,7 +389,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <LuCheck className="text-xl text-green-600" />
+                                <LuCheck className="text-xl text-green-500" />
                             }
                             data={completedPersonalTaskCount}
                             desc="Total Completed Personal Task(s)"
@@ -400,7 +400,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="purple"
                             icon={
-                                <LuFolderGit2 className="text-xl text-purple-600" />
+                                <LuFolderGit2 className="text-xl text-purple-500" />
                             }
                             data={projectCount}
                             desc="Total Project(s)"
@@ -408,7 +408,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-600" />
+                                <LuCircleStop className="text-xl text-rose-500" />
                             }
                             data={pendingProjectCount}
                             desc="Total Pending Project(s)"
@@ -416,7 +416,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="yellow"
                             icon={
-                                <LuLoader className="text-xl text-yellow-600" />
+                                <LuLoader className="text-xl text-yellow-500" />
                             }
                             data={inProgressProjectCount}
                             desc="Total In Progress Project(s)"
@@ -425,7 +425,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <LuCheck className="text-xl text-green-600" />
+                                <LuCheck className="text-xl text-green-500" />
                             }
                             data={completedProjectCount}
                             desc="Total Completed Project(s)"
@@ -436,7 +436,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="purple"
                             icon={
-                                <LuGitMerge className="text-xl text-purple-600" />
+                                <LuGitMerge className="text-xl text-purple-500" />
                             }
                             data={projectTaskCount}
                             desc="Total Project Task(s)"
@@ -444,7 +444,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-600" />
+                                <LuCircleStop className="text-xl text-rose-500" />
                             }
                             data={pendingProjectTaskCount}
                             desc="Total Pending Project Task(s)"
@@ -452,7 +452,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="yellow"
                             icon={
-                                <LuLoader className="text-xl text-yellow-600" />
+                                <LuLoader className="text-xl text-yellow-500" />
                             }
                             data={inProgressProjectTaskCount}
                             desc="Total In Progress Project Task(s)"
@@ -461,7 +461,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <LuCheck className="text-xl text-green-600" />
+                                <LuCheck className="text-xl text-green-500" />
                             }
                             data={completedProjectTaskCount}
                             desc="Total Completed Project Task(s)"
