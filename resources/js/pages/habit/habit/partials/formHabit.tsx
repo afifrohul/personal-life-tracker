@@ -154,22 +154,46 @@ export function HabitForm({
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="color">
-                                    Color (HEX)
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="color"
-                                    placeholder="Example: #059669"
-                                    autoComplete="off"
-                                    required
-                                />
+                                <FieldLabel htmlFor="color">Color</FieldLabel>
+
+                                <div className="flex items-center gap-3">
+                                    {/* Color Picker */}
+                                    <input
+                                        type="color"
+                                        value={field.value || '#000000'}
+                                        onChange={(e) =>
+                                            field.onChange(e.target.value)
+                                        }
+                                        className="h-10 w-10 cursor-pointer"
+                                    />
+
+                                    {/* HEX Input */}
+                                    <Input
+                                        {...field}
+                                        id="color"
+                                        placeholder="#059669"
+                                        className="flex-1"
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                <div>
+                                    <a
+                                        href="https://tailscan.com/colors"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-xs text-indigo-500 underline"
+                                    >
+                                        Click this to get tailwind color reference
+                                    </a>
+                                </div>
+
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
                                 )}
                             </Field>
                         )}
                     />
+
                     <Controller
                         name="difficulty"
                         control={form.control}
@@ -221,6 +245,13 @@ export function HabitForm({
                         return (
                             <Field data-invalid={fieldState.invalid}>
                                 <FieldLabel htmlFor="icon">Icon</FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="icon"
+                                    placeholder="Enter icon name using PascalCase. Example: BriefcaseMedical"
+                                    autoComplete="off"
+                                    required
+                                />
                                 <div>
                                     <a
                                         href="https://lucide.dev/icons/"
@@ -231,13 +262,6 @@ export function HabitForm({
                                         Click this to get icons list name
                                     </a>
                                 </div>
-                                <Input
-                                    {...field}
-                                    id="icon"
-                                    placeholder="Enter icon name using PascalCase. Example: BriefcaseMedical"
-                                    autoComplete="off"
-                                    required
-                                />
                                 <div className="mt-2 flex h-10 flex-col gap-2">
                                     <p className="text-xs">Preview icon</p>
                                     <div>
