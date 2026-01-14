@@ -16,6 +16,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
+import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -99,9 +100,14 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
             header: 'Type',
             cell: ({ row }) => (
                 <div
-                    className={`${row.original.type === 'income' ? 'bg-green-600' : 'bg-red-600'} w-fit rounded px-1 py-0.5`}
+                    className={`flex items-center gap-1 border font-medium ${row.original.type === 'income' ? 'border-teal-400/20 bg-teal-400/10 text-teal-500' : 'border-rose-400/20 bg-rose-400/10 text-rose-500'} w-fit rounded px-1 py-0.5`}
                 >
-                    <p className="text-white capitalize">{row.original.type}</p>
+                    {row.original.type === 'income' ? (
+                        <ArrowDownLeft className="h-2.5 w-2.5" />
+                    ) : (
+                        <ArrowUpRight className="h-2.5 w-2.5" />
+                    )}
+                    <p className="capitalize">{row.original.type}</p>
                 </div>
             ),
         },
@@ -116,7 +122,7 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
             header: 'Amount',
             cell: ({ row }) => (
                 <p
-                    className={`${row.original.type === 'income' ? 'text-green-600' : 'text-red-500'}`}
+                    className={`font-medium ${row.original.type === 'income' ? 'text-teal-500' : 'text-rose-500'}`}
                 >
                     {formatRupiah(row.original.amount)}
                 </p>
