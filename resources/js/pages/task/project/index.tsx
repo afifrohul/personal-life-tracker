@@ -1,6 +1,7 @@
 import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
+import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
@@ -46,36 +47,26 @@ export default function Index({ projects }: IndexProps) {
         {
             accessorKey: 'status',
             header: 'Status',
-            cell: ({ row }) => {
-                const color =
-                    row.original.status === 'pending'
-                        ? 'text-rose-500 bg-rose-400/10 border-rose-400/20'
-                        : row.original.status === 'in_progress'
-                          ? 'text-yellow-500 bg-yellow-400/10 border-yellow-400/20'
-                          : 'text-teal-500 bg-teal-400/10 border-teal-400/20';
-                return (
-                    <div
-                        className={`flex w-fit items-center gap-1 rounded border px-2 py-1 text-xs ${color}`}
-                    >
-                        {row.original.status === 'pending' ? (
-                            <div className="flex w-fit items-center gap-1">
-                                <FaStopCircle className="h-4" />
-                                <p className="font-medium">Pending</p>
-                            </div>
-                        ) : row.original.status === 'in_progress' ? (
-                            <div className="flex w-fit items-center gap-1">
-                                <FiLoader className="h-4" />
-                                <p className="font-medium">In Progress</p>
-                            </div>
-                        ) : (
-                            <div className="flex w-fit items-center gap-1">
-                                <FaCheckCircle className="h-4" />
-                                <p className="font-medium">Completed</p>
-                            </div>
-                        )}
-                    </div>
-                );
-            },
+            cell: ({ row }) =>
+                row.original.status === 'completed' ? (
+                    <SubtleBadge
+                        color="teal"
+                        label={'Completed'}
+                        icon={<FaCheckCircle className="h-2.5 w-2.5" />}
+                    />
+                ) : row.original.status === 'in_progress' ? (
+                    <SubtleBadge
+                        color="yellow"
+                        label={'In Progress'}
+                        icon={<FiLoader className="h-2.5 w-2.5" />}
+                    />
+                ) : (
+                    <SubtleBadge
+                        color="rose"
+                        label={'Pending'}
+                        icon={<FaStopCircle className="h-2.5 w-2.5" />}
+                    />
+                ),
         },
         {
             accessorKey: 'created_at',

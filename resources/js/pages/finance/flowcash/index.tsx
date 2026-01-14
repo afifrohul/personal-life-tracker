@@ -1,6 +1,7 @@
 import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
+import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import {
     Select,
@@ -98,18 +99,20 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
         {
             accessorKey: 'type',
             header: 'Type',
-            cell: ({ row }) => (
-                <div
-                    className={`flex items-center gap-1 border font-medium ${row.original.type === 'income' ? 'border-teal-400/20 bg-teal-400/10 text-teal-500' : 'border-rose-400/20 bg-rose-400/10 text-rose-500'} w-fit rounded px-1 py-0.5`}
-                >
-                    {row.original.type === 'income' ? (
-                        <ArrowDownLeft className="h-2.5 w-2.5" />
-                    ) : (
-                        <ArrowUpRight className="h-2.5 w-2.5" />
-                    )}
-                    <p className="capitalize">{row.original.type}</p>
-                </div>
-            ),
+            cell: ({ row }) =>
+                row.original.type === 'income' ? (
+                    <SubtleBadge
+                        color="teal"
+                        label={row.original.type}
+                        icon={<ArrowDownLeft className="h-2.5 w-2.5" />}
+                    />
+                ) : (
+                    <SubtleBadge
+                        color="rose"
+                        label={row.original.type}
+                        icon={<ArrowUpRight className="h-2.5 w-2.5" />}
+                    />
+                ),
         },
         {
             accessorKey: 'date',
