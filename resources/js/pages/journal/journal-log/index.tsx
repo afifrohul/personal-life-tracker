@@ -288,7 +288,7 @@ export default function Index({
                         <div className="space-y-4 rounded-md border p-4 text-xs">
                             <p className="text-muted-foreground italic">
                                 *tips: use the following calendar view to easily
-                                see all journal logs. use list view to add, change, and delete journal logs.
+                                see all journal logs. use list view to create, edit, and delete journal logs.
                             </p>
 
                             <FullCalendar
