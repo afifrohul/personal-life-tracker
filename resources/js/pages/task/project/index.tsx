@@ -46,25 +46,36 @@ export default function Index({ projects }: IndexProps) {
         {
             accessorKey: 'status',
             header: 'Status',
-            cell: ({ row }) => (
-                <div className="w-fit rounded border px-2 py-1">
-                    {row.original.status === 'completed' ? (
-                        <div className="flex items-center gap-1 text-xs">
-                            <FaCheckCircle className="h-4 text-green-600" />{' '}
-                            Completed
-                        </div>
-                    ) : row.original.status === 'in_progress' ? (
-                        <div className="flex items-center gap-1 text-xs">
-                            <FiLoader className="h-4 text-yellow-600" /> In Progress
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-1 text-xs">
-                            <FaStopCircle className="h-4 text-rose-600" />{' '}
-                            Pending
-                        </div>
-                    )}
-                </div>
-            ),
+            cell: ({ row }) => {
+                const color =
+                    row.original.status === 'pending'
+                        ? 'text-rose-500 bg-rose-400/10 border-rose-400/20'
+                        : row.original.status === 'in_progress'
+                          ? 'text-yellow-500 bg-yellow-400/10 border-yellow-400/20'
+                          : 'text-teal-500 bg-teal-400/10 border-teal-400/20';
+                return (
+                    <div
+                        className={`flex w-fit items-center gap-1 rounded border px-2 py-1 text-xs ${color}`}
+                    >
+                        {row.original.status === 'pending' ? (
+                            <div className="flex w-fit items-center gap-1">
+                                <FaStopCircle className="h-4" />
+                                <p className="font-medium">Pending</p>
+                            </div>
+                        ) : row.original.status === 'in_progress' ? (
+                            <div className="flex w-fit items-center gap-1">
+                                <FiLoader className="h-4" />
+                                <p className="font-medium">In Progress</p>
+                            </div>
+                        ) : (
+                            <div className="flex w-fit items-center gap-1">
+                                <FaCheckCircle className="h-4" />
+                                <p className="font-medium">Completed</p>
+                            </div>
+                        )}
+                    </div>
+                );
+            },
         },
         {
             accessorKey: 'created_at',
