@@ -16,10 +16,14 @@ class UserProfileStat extends Model
         return $this->belongsTo(User::class);
     }
 
+    public static function expToNextLevel(int $level): int
+    {
+        return (int) floor(50 * pow(1.15, $level - 1));
+    }
+
     public function getExpToNextLevelAttribute(): int
     {
-        return app(LevelService::class)
-            ->expToNextLevel($this->level);
+        return self::expToNextLevel($this->level);
     }
 
     public function getRemainingExpAttribute(): int

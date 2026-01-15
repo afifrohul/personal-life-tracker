@@ -8,12 +8,11 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\Habit;
 use App\Models\HabitLog;
+use App\Services\Habit\CompleteHabitService;
+use App\Services\Habit\UndoHabitCompletionService;
 
 class HabitLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         try {
@@ -36,58 +35,22 @@ class HabitLogController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, CompleteHabitService $completeHabitService) 
     {
         $validated = $request->validate([
-            'habit_id' => 'required',
-            'date' => 'required'
+            'habit_id' => 'required|exists:habits,id',
+            'date' => 'required|date',
         ]);
 
-        try {
+        $completeHabitService->execute(
+            $request->user(),
+            Habit::findOrFail($validated['habit_id']),
+            $validated['date']
+        );
 
-            $habit = Habit::findOrFail($validated['habit_id']);
-
-            $validated['exp_gain'] = $habit->difficulty === 'easy' ? 5 : ($habit->difficulty === 'medium' ? 10 : 20);
-
-            HabitLog::create($validated);
-
-            return redirect()->back()->with('success', 'Habit log created successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error storing habit log: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to create habit log.');
-        }
+        return redirect()->back()->with('success', 'Habit log created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -114,19 +77,12 @@ class HabitLogController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy($id, UndoHabitCompletionService $undoHabitCompletionService)
     {
-        try {
-            $log = HabitLog::findOrFail($id);
-            $log->delete();
+        $habitLog = HabitLog::findOrFail($id);
+        $undoHabitCompletionService->execute($habitLog);
 
-            return redirect()->back()->with('success', 'Habit log deleted successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error deleting habit log: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete habit log.');
-        }
+        return redirect()->back()->with('success', 'Habit log deleted.');
     }
+
 }
