@@ -53,6 +53,7 @@ import {
     MdKeyboardDoubleArrowLeft,
     MdKeyboardDoubleArrowRight,
 } from 'react-icons/md';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -97,35 +98,35 @@ export default function Index({
                 if (Number(row.original.mood_score) === 1) {
                     return (
                         <div className="flex items-center gap-2 font-medium">
-                            <Angry className="text-lg fill-rose-500" />
+                            <Angry className="fill-rose-500 text-lg" />
                             <p>Bad</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 2) {
                     return (
                         <div className="flex items-center gap-2 font-medium">
-                            <Frown className="text-lg fill-amber-500" />
+                            <Frown className="fill-amber-500 text-lg" />
                             <p>Not Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 3) {
                     return (
                         <div className="flex items-center gap-2 font-medium">
-                            <Meh className="text-lg fill-yellow-500" />
+                            <Meh className="fill-yellow-500 text-lg" />
                             <p>Okay</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 4) {
                     return (
                         <div className="flex items-center gap-2 font-medium">
-                            <Smile className="text-lg fill-green-500" />
+                            <Smile className="fill-green-500 text-lg" />
                             <p>Good</p>
                         </div>
                     );
                 } else if (Number(row.original.mood_score) === 5) {
                     return (
                         <div className="flex items-center gap-2 font-medium">
-                            <SmilePlus className="text-lg fill-teal-500" />
+                            <SmilePlus className="fill-teal-500 text-lg" />
                             <p>Great</p>
                         </div>
                     );
@@ -222,6 +223,9 @@ export default function Index({
                         setOpenForm(false);
                         resetForm();
                     },
+                    onError: () => {
+                        toast.error('You already logged your mood for this date.')
+                    },
                 },
             );
         } else {
@@ -233,6 +237,9 @@ export default function Index({
                     onSuccess: () => {
                         setOpenForm(false);
                         resetForm();
+                    },
+                    onError: () => {
+                        toast.error('You already logged your mood for this date.')
                     },
                 },
             );

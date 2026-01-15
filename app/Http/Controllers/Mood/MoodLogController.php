@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\MoodLog;
+use Illuminate\Validation\Rule;
 
 class MoodLogController extends Controller
 {
@@ -51,7 +52,11 @@ class MoodLogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date' => 'required',
+            'date' => [
+                'required',
+                'date',
+                Rule::unique('mood_logs'),
+            ],
             'mood_score' => 'required',
         ]);
 
@@ -91,7 +96,11 @@ class MoodLogController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'date' => 'required',
+            'date' => [
+                'required',
+                'date',
+                Rule::unique('mood_logs')->ignore($id),
+            ],
             'mood_score' => 'required',
         ]);
 
