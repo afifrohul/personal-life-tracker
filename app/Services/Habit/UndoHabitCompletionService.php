@@ -2,6 +2,7 @@
 
 namespace App\Services\Habit;
 
+use App\Models\User;
 use App\Models\HabitLog;
 use App\Services\Level\RevokeExpService;
 
@@ -11,12 +12,12 @@ class UndoHabitCompletionService
         protected RevokeExpService $revokeExpService
     ) {}
 
-    public function execute(HabitLog $log): void
+    public function execute(User $user, HabitLog $log): void
     {
-       \DB::transaction(function () use ($log) {
+       \DB::transaction(function () use ($user, $log) {
 
             $this->revokeExpService->execute(
-                1,
+                $user,
                 $log->exp_gain
             );
 

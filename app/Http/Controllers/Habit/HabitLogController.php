@@ -10,6 +10,7 @@ use App\Models\Habit;
 use App\Models\HabitLog;
 use App\Services\Habit\CompleteHabitService;
 use App\Services\Habit\UndoHabitCompletionService;
+use App\Services\Habit\UpdateHabitLogService;
 
 class HabitLogController extends Controller
 {
@@ -51,36 +52,27 @@ class HabitLogController extends Controller
         return redirect()->back()->with('success', 'Habit log created.');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, UpdateHabitLogService $updateHabitLogService, $id)
     {
         $validated = $request->validate([
-            'habit_id' => 'required',
-            'date' => 'required'
+            'habit_id' => 'required|exists:habits,id',
+            'date' => 'required|date',
         ]);
 
-        try {
+        $updateHabitLogService->execute(
+            auth()->user(),
+            $id,
+            $validated['habit_id'],
+            $validated['date']
+        );
 
-            $habit = Habit::findOrFail($validated['habit_id']);
-
-            $validated['exp_gain'] = $habit->difficulty === 'easy' ? 5 : ($habit->difficulty === 'medium' ? 10 : 20);
-
-            $log = HabitLog::findOrFail($id);
-            $log->habit_id = $validated['habit_id'];
-            $log->date = $validated['date'];
-            $log->exp_gain = $validated['exp_gain'];
-            $log->save();
-
-            return redirect()->back()->with('success', 'Habit log updated successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error update habit log: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update habit log.');
-        }
+        return back()->with('success', 'Habit log updated.');
     }
 
     public function destroy($id, UndoHabitCompletionService $undoHabitCompletionService)
     {
         $habitLog = HabitLog::findOrFail($id);
-        $undoHabitCompletionService->execute($habitLog);
+        $undoHabitCompletionService->execute(auth()->user(), $habitLog);
 
         return redirect()->back()->with('success', 'Habit log deleted.');
     }

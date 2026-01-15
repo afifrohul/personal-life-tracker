@@ -7,9 +7,9 @@ use App\Models\UserProfileStat;
 
 class RevokeExpService
 {
-    public function execute(int $userId, int $exp): void
+    public function execute(User $user, int $exp): void
     {
-        $stats = UserProfileStat::where('user_id', $userId)
+        $stats = UserProfileStat::where('user_id', $user->id)
             ->lockForUpdate()
             ->firstOrFail();
 
