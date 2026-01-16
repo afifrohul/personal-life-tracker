@@ -55,7 +55,7 @@ class MoodLogController extends Controller
             'date' => [
                 'required',
                 'date',
-                Rule::unique('mood_logs'),
+                Rule::unique('mood_logs')->whereNull('deleted_at'),
             ],
             'mood_score' => 'required',
         ]);
@@ -99,7 +99,7 @@ class MoodLogController extends Controller
             'date' => [
                 'required',
                 'date',
-                Rule::unique('mood_logs')->ignore($id),
+                Rule::unique('mood_logs')->whereNull('deleted_at')->ignore($id),
             ],
             'mood_score' => 'required',
         ]);
