@@ -48,7 +48,12 @@ export default function Index({ categories }: CategoryIndexProps) {
                     );
                 }
 
-                return <IconComponent className="h-4 w-4" />;
+                return (
+                    <div className='flex items-center gap-1'>
+                        <IconComponent className="h-4 w-4" />
+                        <p>{row.original.icon}</p>
+                    </div>
+                );
             },
         },
         {
@@ -85,7 +90,8 @@ export default function Index({ categories }: CategoryIndexProps) {
                                         router.get('/habit-categories/create')
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New Habit Category
+                                    <FaPlusCircle className="mr-2" /> Create New
+                                    Habit Category
                                 </Button>
                             }
                         />

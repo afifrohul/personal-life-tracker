@@ -74,7 +74,12 @@ export default function Index({ habits }: HabitIndexProps) {
                     );
                 }
 
-                return <IconComponent className="h-4 w-4" />;
+                return (
+                    <div className='flex items-center gap-1'>
+                        <IconComponent className="h-4 w-4" />
+                        <p>{row.original.icon}</p>
+                    </div>
+                );
             },
         },
         {
