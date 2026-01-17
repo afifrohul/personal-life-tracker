@@ -246,7 +246,7 @@ export default function Index({
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <p className="text-sm font-medium italic">
-                                                        Journal Log -{' '}
+                                                        Journal Log —{' '}
                                                         {format(
                                                             item.date,
                                                             'dd MMMM yyyy',
@@ -314,7 +314,7 @@ export default function Index({
                                         <div className="text-sm italic">
                                             {selectedLog && (
                                                 <p className="text-sm italic">
-                                                    Journal Log -{' '}
+                                                    Journal Log —{' '}
                                                     {format(
                                                         new Date(
                                                             selectedLog.extendedProps.date,

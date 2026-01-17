@@ -71,7 +71,7 @@ export default function Show({
                     <Card>
                         <CardHeader>
                             <CardTitle>
-                                Detail Habit Tracker - {habit.name}
+                                Detail Habit Tracker — {habit.name}
                             </CardTitle>
                         </CardHeader>
 

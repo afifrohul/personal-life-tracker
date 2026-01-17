@@ -479,7 +479,7 @@ export default function Summary({
                                 >
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium italic">
-                                            Journal Log -{' '}
+                                            Journal Log —{' '}
                                             {format(item.date, 'dd MMMM yyyy')}{' '}
                                             {item.created_at != item.updated_at
                                                 ? '(Edited)'
