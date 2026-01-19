@@ -5,7 +5,9 @@ namespace Database\Seeders\demo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-use App\Models\HabitLog;
+use App\Models\User;
+use App\Models\Habit;
+use App\Services\Habit\CompleteHabitService;
 
 class HabitLogSeeder extends Seeder
 {
@@ -14,34 +16,28 @@ class HabitLogSeeder extends Seeder
      */
     public function run(): void
     {
+        $completeHabit = app(CompleteHabitService::class);
+        $user = User::firstOrFail();
+
+        $habits = Habit::all();
 
         $startDate = Carbon::create(2025, 1, 1);
-        $endDate   = now();
+        $endDate = now();
 
-        $dates = [];
         $date = $startDate->copy();
 
-        // Loop tanggal
         while ($date->lte($endDate)) {
 
-            // berapa habit yang dilakukan hari itu (1–6)
-            $habitCountToday = rand(1, 6);
-
-            // ambil habit_id random tanpa duplikasi di hari yang sama
-            $habitIds = collect(range(1, 6))
+            $habits
                 ->shuffle()
-                ->take($habitCountToday)
-                ->values();
-
-            foreach ($habitIds as $habitId) {
-                HabitLog::create([
-                    'habit_id'   => $habitId,
-                    'exp_gain'   => 10,
-                    'date'       => $date->format('Y-m-d'),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+                ->take(rand(1, min(6, $habits->count())))
+                ->each(function (Habit $habit) use ($completeHabit, $user, $date) {
+                    $completeHabit->execute(
+                        $user,
+                        $habit,
+                        $date->format('Y-m-d')
+                    );
+                });
 
             $date->addDay();
         }

@@ -24,7 +24,6 @@ class CompleteHabitService
             };
 
             $log = HabitLog::create([
-                'user_id' => $user->id,
                 'habit_id' => $habit->id,
                 'date' => $date,
                 'exp_gain' => $expGain,
