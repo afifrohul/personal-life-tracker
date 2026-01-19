@@ -95,6 +95,7 @@ To get a local copy of this project up and running, follow these steps.
    ```
 
 5. **Run Lift installer:**
+   <br>
   Lift uses a custom installation command to guide you through database setup and initial data configuration.
 
    ```bash
@@ -106,35 +107,42 @@ To get a local copy of this project up and running, follow these steps.
     🗄️ Database Migration Mode
 
     How do you want to migrate the database?
+   
     [0] Fresh migrate (drop all tables)
+   
     [1] Normal migrate
-
     <br>
 
     Options:
     - Fresh migrate (drop all tables)
-    Drops all existing tables and recreates them from scratch.
-    ✅ Recommended for first installation or clean setup.
-    ⚠️ This will delete all existing data.
+   
+      Drops all existing tables and recreates them from scratch.
+      ✅ Recommended for first installation or clean setup.
+      ⚠️ This will delete all existing data.
 
     - Normal migrate
-    Runs pending migrations without deleting existing data.
-    ✅ Useful when updating an existing Lift installation.
+   
+      Runs pending migrations without deleting existing data.
+      ✅ Useful when updating an existing Lift installation.
 
     <br>
 
     📊 Demo Data Installation
     Do you want to install Lift with demo data?
+   
     [0] Yes, install demo data
+   
     [1] No, start with empty data
     <br>
 
     Options:
     - Yes, install demo data
+   
       Seeds the application with realistic demo data across mood tracking, habits, finance, journaling, and project management.
       ✅ Recommended if you want to explore features, dashboards, and charts quickly.
  
     - No, start with empty data
+   
       Installs Lift with only core system data.
       ✅ Recommended if you plan to use Lift as your personal daily life tracker.
 
