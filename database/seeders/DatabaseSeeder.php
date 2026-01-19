@@ -29,11 +29,15 @@ class DatabaseSeeder extends Seeder
         );
 
         // $this->call([
+        //     MoodLogSeeder::class,
         //     HabitCategorySeeder::class,
         //     HabitSeeder::class,
         //     HabitLogSeeder::class,
         //     FlowcashCategorySeeder::class,
-        //     FlowcashSeeder::class
+        //     FlowcashSeeder::class,
+        //     JournalLogSeeder::class,
+        //     PersonalTaskSeeder::class,
+        //     ProjectSeeder::class
         // ]);
     }
 }

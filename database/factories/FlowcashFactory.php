@@ -20,7 +20,7 @@ class FlowcashFactory extends Factory
     {
         return [
             'flowcash_category_id' => FlowcashCategory::all()->random()->id, // Pilih kategori acak
-            'date' => $this->faker->dateTimeBetween('-2 year', 'now'), // Tanggal dalam 1 tahun terakhir
+            'date' => $this->faker->dateTimeBetween('-1 year', 'now'), // Tanggal dalam 1 tahun terakhir
             'amount' => $this->faker->randomFloat(2, 50000, 100000), 
             'description' => $this->faker->sentence(1), // Deskripsi acak
             'type' => $this->faker->randomElement(['income', 'expense']), // Jenis transaksi
