@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\demo;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\JournalLog;
 use Carbon\Carbon;
-use App\Models\MoodLog;
 
-class MoodLogSeeder extends Seeder
+class JournalLogSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,9 +20,9 @@ class MoodLogSeeder extends Seeder
         $date = $startDate->copy();
 
         while ($date->lte($endDate)) {
-            MoodLog::create([
+            JournalLog::create([
                 'date'       => $date->format('Y-m-d'),
-                'mood_score' => rand(1,5),
+                'content'    => fake()->sentence(10),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
