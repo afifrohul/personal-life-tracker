@@ -49,8 +49,8 @@ interface FlowcashIndexProps {
 }
 
 export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
-    const [category, setCategory] = useState('');
-    const [type, setType] = useState('');
+    const [category, setCategory] = useState('0');
+    const [type, setType] = useState('all');
 
     const applyFilter = (category: string, type: string) => {
         router.get(
@@ -170,7 +170,7 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
                                 value={String(0)}
                                 className="rounded-lg"
                             >
-                                All
+                                All Categories
                             </SelectItem>
                             {categories?.map((item, index) => (
                                 <SelectItem
@@ -198,7 +198,7 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl">
                             <SelectItem value="all" className="rounded-lg">
-                                All
+                                All Types
                             </SelectItem>
                             <SelectItem value="income" className="rounded-lg">
                                 Income
