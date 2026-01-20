@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class FlowcashController extends Controller
 {
@@ -20,8 +21,14 @@ class FlowcashController extends Controller
 
             $category = $request->input('category', 0);
             $type = $request->input('type', 'all');
+            $from = $request->input('from');
+            $to = $request->input('to');
 
             $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC');
+
+            if ((!empty($from) && !empty($to))) {
+                $flowcashes->whereBetween('date', [$from, $to]);
+            }
 
             if ($category != 0) {
                 $flowcashes->where('flowcash_category_id', $category);

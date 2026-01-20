@@ -3,6 +3,12 @@ import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
 import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
 import {
     Select,
     SelectContent,
@@ -17,8 +23,9 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, CalendarDays } from 'lucide-react';
 import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -51,13 +58,28 @@ interface FlowcashIndexProps {
 export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
     const [category, setCategory] = useState('0');
     const [type, setType] = useState('all');
+    const [open, setOpen] = useState(false);
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+        from: undefined,
+        to: undefined,
+    });
 
-    const applyFilter = (category: string, type: string) => {
+    const applyFilter = (
+        category: string,
+        type: string,
+        dateRange: DateRange | undefined,
+    ) => {
         router.get(
             '/flowcashes',
             {
                 category: Number(category),
                 type: type,
+                from: dateRange?.from
+                    ? format(dateRange.from, 'yyyy-MM-dd')
+                    : undefined,
+                to: dateRange?.to
+                    ? format(dateRange.to, 'yyyy-MM-dd')
+                    : undefined,
             },
             {
                 preserveState: true,
@@ -152,11 +174,40 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
             <Head title="Flowcash" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex items-center gap-4">
+                    <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                id="date"
+                                className="w-full justify-between font-normal"
+                            >
+                                {dateRange?.from && dateRange?.to
+                                    ? `${format(dateRange.from, 'dd MMM yyyy')} - ${format(dateRange.to, 'dd MMM yyyy')}`
+                                    : 'Select date range'}
+                                <CalendarDays />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                            className="w-auto overflow-hidden p-0"
+                            align="start"
+                        >
+                            <Calendar
+                                mode="range"
+                                defaultMonth={dateRange?.from}
+                                selected={dateRange}
+                                onSelect={(value) => {
+                                    setDateRange(value);
+                                    applyFilter(category, type, value);
+                                }}
+                                numberOfMonths={2}
+                            />
+                        </PopoverContent>
+                    </Popover>
                     <Select
                         value={category}
                         onValueChange={(value) => {
                             setCategory(value);
-                            applyFilter(value, type);
+                            applyFilter(value, type, dateRange);
                         }}
                     >
                         <SelectTrigger
@@ -187,7 +238,7 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
                         value={type}
                         onValueChange={(value) => {
                             setType(value);
-                            applyFilter(category, value);
+                            applyFilter(category, value, dateRange);
                         }}
                     >
                         <SelectTrigger
