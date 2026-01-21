@@ -84,11 +84,13 @@ interface MoodLogIndexProps {
         first_page_url: string;
         last_page_url: string;
     };
+    view: string
 }
 
 export default function Index({
     mood_logs,
     mood_logs_column,
+    view
 }: MoodLogIndexProps) {
     const columns: ColumnDef<MoodLog>[] = [
         {
@@ -268,7 +270,7 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <Tabs defaultValue="column">
+                <Tabs defaultValue={view}>
                     <div className="flex items-center justify-between">
                         <TabsList className="">
                             <div>

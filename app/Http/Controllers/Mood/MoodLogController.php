@@ -31,7 +31,7 @@ class MoodLogController extends Controller
                 $mood_logs_column = [];
             }
 
-            return Inertia::render('mood/mood-log/index', compact('mood_logs', 'mood_logs_column'));
+            return Inertia::render('mood/mood-log/index', compact('mood_logs', 'mood_logs_column', 'view'));
         } catch (\Exception $e) {
             Log::error('Error loading mood logs: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load mood logs.');
