@@ -1,13 +1,15 @@
 import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
+import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaCircle, FaPlusCircle, FaStopCircle } from 'react-icons/fa';
+import { FiLoader } from 'react-icons/fi';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,6 +30,7 @@ type Habit = {
     color: string;
     exp: number;
     icon: string;
+    difficulty: string
     habit_category: Category;
 };
 
@@ -57,7 +60,26 @@ export default function Index({ habits }: HabitIndexProps) {
         {
             accessorKey: 'difficulty',
             header: 'Difficulty',
-            cell: (info) => info.getValue(),
+            cell: ({ row }) =>
+                row.original.difficulty === 'easy' ? (
+                    <SubtleBadge
+                        color="teal"
+                        label={row.original.difficulty}
+                        icon={<FaCircle className="h-1.5 w-1.5" />}
+                        />
+                    ) : row.original.difficulty === 'medium' ? (
+                        <SubtleBadge
+                        color="yellow"
+                        label={row.original.difficulty}
+                        icon={<FaCircle className="h-1.5 w-1.5" />}
+                        />
+                    ) : (
+                        <SubtleBadge
+                        color="rose"
+                        label={row.original.difficulty}
+                        icon={<FaCircle className="h-1.5 w-1.5" />}
+                    />
+                ),
         },
         {
             accessorKey: 'icon',
@@ -75,7 +97,7 @@ export default function Index({ habits }: HabitIndexProps) {
                 }
 
                 return (
-                    <div className='flex items-center gap-1'>
+                    <div className="flex items-center gap-1">
                         <IconComponent className="h-4 w-4" />
                         <p>{row.original.icon}</p>
                     </div>
