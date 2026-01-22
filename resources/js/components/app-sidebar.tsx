@@ -46,28 +46,18 @@ const Informations: NavItem[] = [
 
 const Moods: NavItem[] = [
     {
-        title: 'Mood Tracker',
-        href: '/mood-tracker',
-        icon: ChartColumn,
-    },
-    {
         title: 'Mood Log',
         href: '/mood-logs',
         icon: Sticker,
     },
+    {
+        title: 'Mood Tracker',
+        href: '/mood-tracker',
+        icon: ChartColumn,
+    },
 ];
 
 const Habits: NavItem[] = [
-    {
-        title: 'Habit Tracker',
-        href: '/habit-tracker',
-        icon: FileChartColumn,
-    },
-    {
-        title: 'Habit Calendar',
-        href: '/habit-calendar',
-        icon: CalendarCheck,
-    },
     {
         title: 'Habit Category',
         href: '/habit-categories',
@@ -83,14 +73,19 @@ const Habits: NavItem[] = [
         href: '/habit-logs',
         icon: ScrollText,
     },
+    {
+        title: 'Habit Tracker',
+        href: '/habit-tracker',
+        icon: FileChartColumn,
+    },
+    {
+        title: 'Habit Calendar',
+        href: '/habit-calendar',
+        icon: CalendarCheck,
+    },
 ];
 
 const Finances: NavItem[] = [
-    {
-        title: 'Finance Tracker',
-        href: '/finance-tracker',
-        icon: ChartArea,
-    },
     {
         title: 'Flowcash Category',
         href: '/flowcash-categories',
@@ -100,6 +95,11 @@ const Finances: NavItem[] = [
         title: 'Flowcash',
         href: '/flowcashes',
         icon: ArrowLeftRight,
+    },
+    {
+        title: 'Finance Tracker',
+        href: '/finance-tracker',
+        icon: ChartArea,
     },
 ];
 const Journals: NavItem[] = [
@@ -130,7 +130,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href='/' prefetch>
+                            <Link href="/" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
