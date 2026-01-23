@@ -82,6 +82,7 @@ class DashboardController extends Controller
         $inProgressProjectTaskCount = ProjectTask::where('status', 'in_progress')->count();
         $completedProjectTaskCount = ProjectTask::where('status', 'completed')->count();
         $journalLogCount = JournalLog::count();
+        $jounalLogThisMonthCount = JournalLog::whereMonth('date', $currentMonth)->count();
 
         return Inertia::render('dashboard', compact(
             'user',
@@ -108,6 +109,7 @@ class DashboardController extends Controller
             'monthlyDifference',
 
             'journalLogCount',
+            'jounalLogThisMonthCount',
 
             'personalTaskCount',
             'pendingPersonalTaskCount',

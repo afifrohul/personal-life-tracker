@@ -20,6 +20,7 @@ import {
     LuGitMerge,
     LuLoader,
     LuMeh,
+    LuNotebook,
     LuNotebookPen,
     LuScrollText,
     LuSmile,
@@ -83,6 +84,7 @@ interface DashboardProps {
     goodMoodCount: number;
     greatMoodCount: number;
     journalLogCount: number;
+    jounalLogThisMonthCount: number;
 }
 
 export default function Dashboard({
@@ -117,6 +119,7 @@ export default function Dashboard({
     goodMoodCount,
     greatMoodCount,
     journalLogCount,
+    jounalLogThisMonthCount
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -344,14 +347,22 @@ export default function Dashboard({
                         <p className="text-xs text-muted-foreground">Journal</p>
                         <div className="h-px w-full rounded border-b"></div>
                     </div>
-                    <div className="">
+                    <div className="grid grid-cols-2 gap-4">
                         <DashboardCardInfo
                             color="indigo"
                             icon={
-                                <LuNotebookPen className="text-xl text-indigo-500" />
+                                <LuNotebook className="text-xl text-indigo-500" />
                             }
                             data={journalLogCount}
                             desc="Total Journal Log(s)"
+                        />
+                        <DashboardCardInfo
+                            color="fuchsia"
+                            icon={
+                                <LuNotebookPen className="text-xl text-fuchsia-500" />
+                            }
+                            data={jounalLogThisMonthCount}
+                            desc="Total Journal Log(s) This Month"
                         />
                     </div>
                 </div>
