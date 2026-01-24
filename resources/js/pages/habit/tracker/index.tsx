@@ -2,6 +2,7 @@ import { ChartExp } from '@/components/chart-exp';
 import ChartExpGainByCategory from '@/components/chart-exp-gain-by-category';
 import ChartExpGainByHabit from '@/components/chart-exp-gain-by-habit';
 import { ChartHabit } from '@/components/chart-habit';
+import SubtleBadge from '@/components/subtle-badge';
 import {
     Accordion,
     AccordionContent,
@@ -9,7 +10,6 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useInitials } from '@/hooks/use-initials';
@@ -118,15 +118,13 @@ export default function Index({
                                             <p className="font-semibold">
                                                 {user.name}
                                             </p>
-                                            <Badge
-                                                variant="default"
-                                                className="bg-blue-500 text-white dark:bg-blue-600"
-                                            >
-                                                <BadgeCheckIcon />
-                                                <p className="text-xs">
-                                                    Verified
-                                                </p>
-                                            </Badge>
+                                            <SubtleBadge
+                                                color="blue"
+                                                label="Verified"
+                                                icon={
+                                                    <BadgeCheckIcon className="h-3.5 w-3.5" />
+                                                }
+                                            />
                                         </div>
                                         <p className="text-sm font-light">
                                             {user.email}
@@ -193,14 +191,17 @@ export default function Index({
                             defaultValue="item-1"
                         >
                             <AccordionItem value="item-1">
-                                <AccordionTrigger>
-                                    Habit List
-                                </AccordionTrigger>
+                                <AccordionTrigger>Habit List</AccordionTrigger>
                                 <AccordionContent className="flex flex-col gap-4 text-balance">
                                     <div className="grid w-full grid-cols-3 gap-4">
                                         {categories?.map((item, index) => {
                                             const iconCategoryName = item.icon;
-                                            const IconCategoryComponent = (lucideIcons as Record<string,any>)[iconCategoryName];
+                                            const IconCategoryComponent = (
+                                                lucideIcons as Record<
+                                                    string,
+                                                    any
+                                                >
+                                            )[iconCategoryName];
 
                                             return (
                                                 <Card
@@ -219,15 +220,45 @@ export default function Index({
                                                         <div className="space-y-1.5">
                                                             {item.habits?.map(
                                                                 (h, index) => {
-                                                                    const iconHabitName = h.icon;
-                                                                    const IconHabitComponent = ( lucideIcons as Record<string, any> )[ iconHabitName];
+                                                                    const iconHabitName =
+                                                                        h.icon;
+                                                                    const IconHabitComponent =
+                                                                        (
+                                                                            lucideIcons as Record<
+                                                                                string,
+                                                                                any
+                                                                            >
+                                                                        )[
+                                                                            iconHabitName
+                                                                        ];
                                                                     return (
-                                                                        <div key={index} className="flex justify-between rounded border px-1 py-0.5">
+                                                                        <div
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className="flex justify-between rounded border px-1 py-0.5"
+                                                                        >
                                                                             <div className="flex items-center gap-2">
-                                                                                <IconHabitComponent className="h-3 w-3" style={{color: h.color,}} />
-                                                                                <p className="text-xs" key={index}>{h.name}</p>
+                                                                                <IconHabitComponent
+                                                                                    className="h-3 w-3"
+                                                                                    style={{
+                                                                                        color: h.color,
+                                                                                    }}
+                                                                                />
+                                                                                <p
+                                                                                    className="text-xs"
+                                                                                    key={
+                                                                                        index
+                                                                                    }
+                                                                                >
+                                                                                    {
+                                                                                        h.name
+                                                                                    }
+                                                                                </p>
                                                                             </div>
-                                                                            <Link href={`/habit-tracker/${h.id}`}>
+                                                                            <Link
+                                                                                href={`/habit-tracker/${h.id}`}
+                                                                            >
                                                                                 <div className="rounded bg-accent px-1 py-0.5 text-xs underline duration-200 hover:bg-muted">
                                                                                     Track
                                                                                 </div>
