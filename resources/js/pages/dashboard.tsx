@@ -6,7 +6,6 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { CalendarDays, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { GiMoneyStack } from 'react-icons/gi';
 import { GrTransaction } from 'react-icons/gr';
 import {
     LuAngry,
@@ -31,6 +30,7 @@ import {
     LuWallet,
 } from 'react-icons/lu';
 import { MdOutlineCategory, MdOutlineWavingHand } from 'react-icons/md';
+import { PiMoneyWavyBold } from 'react-icons/pi';
 import { RiCoinsLine, RiHandCoinLine } from 'react-icons/ri';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -119,7 +119,7 @@ export default function Dashboard({
     goodMoodCount,
     greatMoodCount,
     journalLogCount,
-    jounalLogThisMonthCount
+    jounalLogThisMonthCount,
 }: DashboardProps) {
     const [now, setNow] = useState(new Date());
 
@@ -298,7 +298,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="green"
                             icon={
-                                <GiMoneyStack className="text-xl text-green-500" />
+                                <PiMoneyWavyBold className="text-xl text-green-500" />
                             }
                             data={formatRupiah(totalIncome)}
                             desc="Total Income"
