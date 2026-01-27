@@ -1,3 +1,4 @@
+import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -210,7 +211,7 @@ export default function Summary({
                                 <CircleDashed className="h-8 w-8 text-muted" />
                             )}
                         </div>
-                        <p className="mt-1 text-center font-medium text-xs">
+                        <p className="mt-1 text-center text-xs font-medium">
                             {Number(mood) === 1
                                 ? 'Bad'
                                 : Number(mood) === 2
@@ -286,12 +287,13 @@ export default function Summary({
                     <Separator className="my-2"></Separator>
                     <div className="grid w-full grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
-                            <div className="flex w-fit items-center gap-2 rounded border px-1 py-0.5">
-                                <ArrowUpRight className="h-4 w-4 text-rose-500" />
-                                <p className="text-xs font-medium">
-                                    Expense ({expense?.length})
-                                </p>
-                            </div>
+                            <SubtleBadge
+                                color="rose"
+                                label={`Expense (${expense?.length})`}
+                                icon={
+                                    <ArrowUpRight className="h-4 w-4 text-rose-500" />
+                                }
+                            />
                             <div className="rounded border p-2 text-xs">
                                 {expense?.length >= 1 ? (
                                     <table className="w-full table-auto">
@@ -373,12 +375,13 @@ export default function Summary({
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <div className="flex w-fit items-center gap-2 rounded border px-1 py-0.5">
-                                <ArrowDownLeft className="h-4 w-4 text-teal-500" />
-                                <p className="text-xs font-medium">
-                                    Income ({income?.length})
-                                </p>
-                            </div>
+                            <SubtleBadge
+                                color="teal"
+                                label={`Income (${income?.length})`}
+                                icon={
+                                    <ArrowDownLeft className="h-4 w-4 text-teal-500" />
+                                }
+                            />
                             <div className="rounded border p-2 text-xs">
                                 {income?.length >= 1 ? (
                                     <table className="w-full table-auto">
