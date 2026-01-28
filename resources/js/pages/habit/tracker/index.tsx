@@ -18,11 +18,13 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
+    ArrowBigRightDash,
     Award,
     BadgeCheckIcon,
     ChartNoAxesCombined,
     Square,
     SquareCheck,
+    SquarePlus,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -133,7 +135,7 @@ export default function Index({
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <div className="flex items-center gap-2">
-                                        <ChartNoAxesCombined className="h-3.5 w-3.5 text-primary"></ChartNoAxesCombined>
+                                        <ChartNoAxesCombined className="h-3.5 w-3.5 text-primary" />
                                         <p className="text-xs">
                                             LEVEL {user.profile_stat?.level}
                                         </p>
@@ -152,14 +154,20 @@ export default function Index({
                         <CardContent>
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-col gap-1">
-                                    <p className="text-xs">
-                                        NEXT LEVEL:{' '}
-                                        {user.profile_stat?.level + 1}
-                                    </p>
-                                    <p className="text-xs">
-                                        {user.profile_stat?.remaining_exp} MORE
-                                        EXP TO GO
-                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
+                                        <p className="text-xs">
+                                            NEXT LEVEL:{' '}
+                                            {user.profile_stat?.level + 1}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <SquarePlus className="h-3.5 w-3.5 text-primary" />
+                                        <p className="text-xs">
+                                            {user.profile_stat?.remaining_exp}{' '}
+                                            MORE EXP TO GO
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <p className="text-xs font-semibold">
