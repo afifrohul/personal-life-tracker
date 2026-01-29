@@ -128,7 +128,7 @@ export default function Index({
                                                 }
                                             />
                                         </div>
-                                        <p className="text-sm font-light">
+                                        <p className="text-sm italic font-light">
                                             {user.email}
                                         </p>
                                     </div>
