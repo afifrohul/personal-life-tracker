@@ -25,6 +25,7 @@ import {
     Square,
     SquareCheck,
     SquarePlus,
+    TrendingUp,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -169,11 +170,14 @@ export default function Index({
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                    <p className="text-xs font-semibold">
-                                        {user.profile_stat?.level_exp} /{' '}
-                                        {user.profile_stat?.exp_to_next_level}
-                                    </p>
+                                <div className="flex items-center gap-3">
+                                    <div className='flex items-center gap-2'>
+                                        <TrendingUp className='w-3.5 h-3.5'/>
+                                        <p className="text-xs font-semibold">
+                                            {user.profile_stat?.level_exp} /{' '}
+                                            {user.profile_stat?.exp_to_next_level}
+                                        </p>
+                                    </div>
                                     <Progress
                                         value={progress}
                                         className="w-full flex-1"
