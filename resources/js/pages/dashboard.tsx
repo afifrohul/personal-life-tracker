@@ -269,7 +269,7 @@ export default function Dashboard({
                         <p className="text-xs text-muted-foreground">Finance</p>
                         <div className="h-px w-full rounded border-b"></div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         <DashboardCardInfo
                             color="indigo"
                             icon={
@@ -286,6 +286,8 @@ export default function Dashboard({
                             data={flowcashCount}
                             desc="Total Flowcash(s)"
                         />
+                    </div>
+                    <div className="flex gap-4">
                         <DashboardCardInfo
                             color="teal"
                             icon={
