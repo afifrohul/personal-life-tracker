@@ -88,7 +88,7 @@ export default function Index({ personalTasks }: IndexProps) {
                 ) : row.original.status === 'in_progress' ? (
                     <SubtleBadge
                         color="yellow"
-                        label={'Progress'}
+                        label={'In Progress'}
                         icon={<FiLoader className="h-2.5 w-2.5" />}
                     />
                 ) : (
