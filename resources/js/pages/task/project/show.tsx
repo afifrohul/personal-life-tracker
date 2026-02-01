@@ -52,7 +52,10 @@ export default function Show({ project }: ShowProps) {
         {
             accessorKey: 'title',
             header: 'Title',
-            cell: (info) => info.getValue(),
+            cell: ({ row }) =>
+                row.original.title?.length > 30
+                    ? row.original.title.substring(0, 30) + '...'
+                    : row.original.title || '-',
         },
         {
             accessorKey: 'description',

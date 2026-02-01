@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type Project = {
     id: number;
-    title: string;
+    name: string;
     description: string;
     status: string;
 };
@@ -34,7 +34,10 @@ export default function Index({ projects }: IndexProps) {
         {
             accessorKey: 'name',
             header: 'Name',
-            cell: (info) => info.getValue(),
+            cell: ({ row }) =>
+                row.original.name?.length > 30
+                    ? row.original.name.substring(0, 30) + '...'
+                    : row.original.name || '-',
         },
         {
             accessorKey: 'description',
