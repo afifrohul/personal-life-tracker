@@ -99,7 +99,7 @@ export default function Show({ project }: ShowProps) {
                 ) : row.original.status === 'in_progress' ? (
                     <SubtleBadge
                         color="yellow"
-                        label={'In Progress'}
+                        label={'Progress'}
                         icon={<FiLoader className="h-2.5 w-2.5" />}
                     />
                 ) : (
@@ -184,7 +184,7 @@ export default function Show({ project }: ShowProps) {
                                     ) : project.status === 'in_progress' ? (
                                         <SubtleBadge
                                             color="yellow"
-                                            label={'In Progress'}
+                                            label={'Progress'}
                                             icon={
                                                 <FiLoader className="h-2.5 w-2.5" />
                                             }
