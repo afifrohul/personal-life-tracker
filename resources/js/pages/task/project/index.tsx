@@ -8,6 +8,7 @@ import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
+import { Eye } from 'lucide-react';
 import { FaCheckCircle, FaPlusCircle, FaStopCircle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 
@@ -89,7 +90,7 @@ export default function Index({ projects }: IndexProps) {
                             router.get(`/projects/${row.original.id}/show`)
                         }
                     >
-                        View
+                        <Eye />
                     </Button>
                     <EditButton url={`/projects/${row.original.id}/edit`} />
                     <DeleteButton
