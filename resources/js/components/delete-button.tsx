@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
+import { Trash } from 'lucide-react';
 import { ReactElement } from 'react';
 
 type DeleteButtonProps = React.ComponentProps<typeof Button> & {
@@ -22,9 +23,10 @@ type DeleteButtonProps = React.ComponentProps<typeof Button> & {
 export default function DeleteButton({
     url,
     confirmMessage = 'Are you sure to delete this item?',
-    label = 'Delete',
+    label,
     ...props
 }: DeleteButtonProps) {
+    const displayLabel = label ?? <Trash />;
     const handleDelete = () => {
         router.delete(url);
     };
@@ -33,7 +35,7 @@ export default function DeleteButton({
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button size="sm" variant="default" {...props}>
-                    {label}
+                    {displayLabel}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
+import { SquarePen } from 'lucide-react';
 import { ReactElement } from 'react';
 
 type EditButtonProps = React.ComponentProps<typeof Button> & {
@@ -9,9 +10,10 @@ type EditButtonProps = React.ComponentProps<typeof Button> & {
 
 export default function EditButton({
     url,
-    label = 'Edit',
+    label,
     ...props
 }: EditButtonProps) {
+    const displayLabel = label ?? <SquarePen />;
     return (
         <Button
             size="sm"
@@ -19,7 +21,7 @@ export default function EditButton({
             onClick={() => router.get(url)}
             {...props}
         >
-            {label}
+            {displayLabel}
         </Button>
     );
 }

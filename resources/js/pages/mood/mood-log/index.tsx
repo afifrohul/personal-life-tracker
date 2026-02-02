@@ -41,7 +41,6 @@ import {
     Smile,
     SmilePlus,
     SquarePen,
-    Trash,
 } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
@@ -84,13 +83,13 @@ interface MoodLogIndexProps {
         first_page_url: string;
         last_page_url: string;
     };
-    view: string
+    view: string;
 }
 
 export default function Index({
     mood_logs,
     mood_logs_column,
-    view
+    view,
 }: MoodLogIndexProps) {
     const columns: ColumnDef<MoodLog>[] = [
         {
@@ -226,7 +225,9 @@ export default function Index({
                         resetForm();
                     },
                     onError: () => {
-                        toast.error('You already logged your mood for this date.')
+                        toast.error(
+                            'You already logged your mood for this date.',
+                        );
                     },
                 },
             );
@@ -241,7 +242,9 @@ export default function Index({
                         resetForm();
                     },
                     onError: () => {
-                        toast.error('You already logged your mood for this date.')
+                        toast.error(
+                            'You already logged your mood for this date.',
+                        );
                     },
                 },
             );
@@ -523,9 +526,6 @@ export default function Index({
                                                             className="scale-65"
                                                             url={`/mood-logs/${item.id}`}
                                                             confirmMessage="Are you sure to delete this log?"
-                                                            label={
-                                                                <Trash className="" />
-                                                            }
                                                         />
                                                     </div>
                                                 </div>
