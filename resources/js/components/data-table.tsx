@@ -30,6 +30,7 @@ interface DataTableProps<TData> {
     data: TData[];
     createButton?: React.ReactNode;
     showIndexColumn?: boolean;
+    initialPageSize?: number;
 }
 
 export default function DataTable<TData>({
@@ -37,6 +38,7 @@ export default function DataTable<TData>({
     data,
     createButton = null,
     showIndexColumn = false,
+    initialPageSize = 10,
 }: DataTableProps<TData>) {
     const [globalFilter, setGlobalFilter] = useState('');
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -73,6 +75,12 @@ export default function DataTable<TData>({
         state: {
             globalFilter,
             sorting,
+        },
+        initialState: {
+            pagination: {
+                pageSize: initialPageSize,
+                pageIndex: 0,
+            },
         },
         onGlobalFilterChange: setGlobalFilter,
         onSortingChange: setSorting,
@@ -174,11 +182,11 @@ export default function DataTable<TData>({
                                 table.setPageSize(Number(value))
                             }
                         >
-                            <SelectTrigger className="w-16">
+                            <SelectTrigger className="w-18">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {[10, 25, 50].map((num) => (
+                                {[10, 25, 50, 100].map((num) => (
                                     <SelectItem key={num} value={String(num)}>
                                         {num}
                                     </SelectItem>
