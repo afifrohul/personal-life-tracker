@@ -144,10 +144,7 @@ export function ChartExpense({ chartData, uniqueYears }: ChartProps) {
                     <LineChart
                         accessibilityLayer
                         data={filteredChartData}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}
+                        margin={{ top: 24, left: 12, right: 12 }}
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis
