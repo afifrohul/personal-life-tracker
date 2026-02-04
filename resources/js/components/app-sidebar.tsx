@@ -31,15 +31,18 @@ import {
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const Informations: NavItem[] = [
+const Dashboard: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
     },
+];
+
+const Summary: NavItem[] = [
     {
-        title: 'Summary',
-        href: '/summary',
+        title: 'Daily',
+        href: '/daily-summary',
         icon: FileText,
     },
 ];
@@ -139,7 +142,8 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain header="Informations" items={Informations} />
+                <NavMain header="Dashboard" items={Dashboard} />
+                <NavMain header="Summary" items={Summary} />
                 <NavMain header="Mood" items={Moods} />
                 <NavMain header="Habit" items={Habits} />
                 <NavMain header="Finance" items={Finances} />

@@ -33,7 +33,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('summary', [SummaryController::class, 'index'])->name('summary');
+
+    Route::get('daily-summary', [SummaryController::class, 'daily'])->name('summary.daily');
 
     Route::get('/mood-tracker', [MoodTrackerController::class, 'index'])->name('mood-tracker.index');
     Route::get('/mood-logs', [MoodLogController::class, 'index'])->name('mood-logs.index');

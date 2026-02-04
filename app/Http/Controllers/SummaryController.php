@@ -23,7 +23,7 @@ use App\Models\JournalLog;
 
 class SummaryController extends Controller
 {
-    public function index(Request $request)
+    public function daily(Request $request)
     {
         try {
 
@@ -42,7 +42,7 @@ class SummaryController extends Controller
             $expenseAmount = Flowcash::where('date', $date)->where('type', 'expense')->sum('amount');
             $journal = JournalLog::where('date', $date)->get();
 
-            return Inertia::render('summary', [
+            return Inertia::render('summary/daily', [
                 'selectedDate' => $date,
                 'mood' => $mood,
                 'habit' => $habit,

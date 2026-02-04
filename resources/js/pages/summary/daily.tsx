@@ -78,7 +78,7 @@ interface SummaryProps {
     journal: Journal[];
 }
 
-export default function Summary({
+export default function Daily({
     selectedDate,
     mood,
     habit,
