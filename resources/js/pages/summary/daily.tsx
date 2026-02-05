@@ -30,8 +30,8 @@ import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Summary',
-        href: '/summary',
+        title: 'Daily',
+        href: '/daily-summary',
     },
 ];
 
@@ -114,7 +114,7 @@ export default function Daily({
                             onClick={() => {
                                 setDate(prevDate);
                                 router.get(
-                                    '/summary',
+                                    '/daily-summary',
                                     { date: format(prevDate, 'yyyy-MM-dd') },
                                     {
                                         preserveState: true,
@@ -152,7 +152,7 @@ export default function Daily({
 
                                         if (newDate) {
                                             router.get(
-                                                '/summary',
+                                                '/daily-summary',
                                                 {
                                                     date: format(
                                                         newDate,
@@ -175,7 +175,7 @@ export default function Daily({
                             onClick={() => {
                                 setDate(nextDate);
                                 router.get(
-                                    '/summary',
+                                    '/daily-summary',
                                     { date: format(nextDate, 'yyyy-MM-dd') },
                                     {
                                         preserveState: true,
@@ -284,8 +284,8 @@ export default function Daily({
                             Flowcash Today ({expense?.length + income?.length})
                         </p>
                     </div>
-                    <Separator className="my-2"></Separator>
-                    <div className="grid w-full grid-cols-2 gap-4">
+                    <Separator className='my-2'></Separator>
+                    <div className="mt-2 grid w-full grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
                             <SubtleBadge
                                 color="rose"
@@ -294,10 +294,10 @@ export default function Daily({
                                     <ArrowUpRight className="h-4 w-4 text-rose-500" />
                                 }
                             />
-                            <div className="rounded border p-2 text-xs">
+                            <div className="rounded p-2 text-xs">
                                 {expense?.length >= 1 ? (
                                     <table className="w-full table-auto">
-                                        <thead className="text-left">
+                                        <thead className="text-left border-b">
                                             <tr>
                                                 <th>Description</th>
                                                 <th>Category</th>
@@ -346,7 +346,7 @@ export default function Daily({
                                                     </tr>
                                                 );
                                             })}
-                                            <tr className="border-t">
+                                            <tr className="">
                                                 <td colSpan={2}>Total</td>
                                                 <td className="font-medium text-rose-500">
                                                     {formatRupiah(
@@ -359,7 +359,7 @@ export default function Daily({
                                 ) : (
                                     <div className="w-full">
                                         <table className="w-full table-auto">
-                                            <thead className="text-left">
+                                            <thead className="text-left border-b">
                                                 <tr>
                                                     <th>Description</th>
                                                     <th>Category</th>
@@ -382,10 +382,10 @@ export default function Daily({
                                     <ArrowDownLeft className="h-4 w-4 text-teal-500" />
                                 }
                             />
-                            <div className="rounded border p-2 text-xs">
+                            <div className="rounded p-2 text-xs">
                                 {income?.length >= 1 ? (
                                     <table className="w-full table-auto">
-                                        <thead className="text-left">
+                                        <thead className="text-left border-b">
                                             <tr>
                                                 <th>Description</th>
                                                 <th>Category</th>
@@ -434,7 +434,7 @@ export default function Daily({
                                                     </tr>
                                                 );
                                             })}
-                                            <tr className="border-t">
+                                            <tr className="">
                                                 <td colSpan={2}>Total</td>
                                                 <td className="font-medium text-teal-500">
                                                     {formatRupiah(incomeAmount)}
@@ -445,7 +445,7 @@ export default function Daily({
                                 ) : (
                                     <div className="w-full">
                                         <table className="w-full table-auto">
-                                            <thead className="text-left">
+                                            <thead className="text-left border-b">
                                                 <tr>
                                                     <th>Description</th>
                                                     <th>Category</th>
@@ -469,28 +469,20 @@ export default function Daily({
                         </p>
                     </div>
                     <Separator className="my-2"></Separator>
-                    <div className="mx-auto flex w-full flex-col gap-2">
+                    <div className="mx-auto flex w-full flex-col gap-6">
                         {journal?.length === 0 ? (
                             <div className="text-sm italic">
                                 Journal log not found.
                             </div>
                         ) : (
                             journal?.map((item, index) => (
-                                <div
-                                    className="rounded-md border p-4"
-                                    key={index}
-                                >
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium italic">
-                                            Journal Log —{' '}
-                                            {format(item.date, 'dd MMMM yyyy')}{' '}
-                                            {item.created_at != item.updated_at
-                                                ? '(Edited)'
-                                                : null}
+                                <div className="grid grid-cols-6 items-baseline" key={index}>
+                                    <div className="">
+                                        <p className="text-xs italic text-muted-foreground">
+                                            {format(item.date, 'dd MMMM yyyy')} {format(item.created_at, 'HH:mm')} 
                                         </p>
                                     </div>
-                                    <Separator className="my-2"></Separator>
-                                    <div className="whitespace-pre-wrap">
+                                    <div className="whitespace-pre-wrap col-span-5">
                                         <p className="text-sm">
                                             {item.content}
                                         </p>
