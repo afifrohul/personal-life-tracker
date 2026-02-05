@@ -16,11 +16,13 @@ import {
     ArrowLeftRight,
     Bike,
     Blocks,
+    Calendar1,
     CalendarCheck,
+    CalendarDays,
+    CalendarRange,
     ChartArea,
     ChartColumn,
     FileChartColumn,
-    FileText,
     FolderGit2,
     LayoutGrid,
     NotebookPen,
@@ -43,7 +45,17 @@ const Summary: NavItem[] = [
     {
         title: 'Daily',
         href: '/daily-summary',
-        icon: FileText,
+        icon: Calendar1,
+    },
+    {
+        title: 'Weekly',
+        href: '/weekly-summary',
+        icon: CalendarRange,
+    },
+    {
+        title: 'Monhtly',
+        href: '/monthly-summary',
+        icon: CalendarDays,
     },
 ];
 
