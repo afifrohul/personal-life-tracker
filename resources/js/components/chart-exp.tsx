@@ -156,7 +156,7 @@ export function ChartExp({ chartData }: ChartProps) {
                                 />
                             }
                         />
-                        <Bar dataKey="exp" fill="var(--chart-1)" />
+                        <Bar dataKey="exp" fill="var(--chart-1)" radius={[4, 4, 0, 0]}/>
                     </BarChart>
                 </ChartContainer>
             </CardContent>
