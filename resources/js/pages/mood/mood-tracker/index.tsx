@@ -1,7 +1,7 @@
 import CalendarMood from '@/components/calendar-mood';
 import { ChartMood } from '@/components/chart-mood';
+import { ChartMoodAvg } from '@/components/chart-mood-avg';
 import { ChartMoodByScore } from '@/components/chart-mood-by-score';
-import { Calendar } from '@/components/ui/calendar';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -16,14 +16,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface IndexProps {
     chartData: [];
     moodDistribution: [];
+    moodAvg: [];
     uniqueYears: [];
 }
 
 export default function Index({
     chartData,
     moodDistribution,
+    moodAvg,
     uniqueYears,
 }: IndexProps) {
+    console.log(moodAvg);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Tracker" />
@@ -37,8 +41,14 @@ export default function Index({
                         uniqueYears={uniqueYears}
                     ></ChartMoodByScore>
                     <div>
-                        <CalendarMood chartData={chartData} uniqueYears={uniqueYears}></CalendarMood>
+                        <CalendarMood
+                            chartData={chartData}
+                            uniqueYears={uniqueYears}
+                        ></CalendarMood>
                     </div>
+                </div>
+                <div>
+                    <ChartMoodAvg chartData={moodAvg} uniqueYears={uniqueYears}></ChartMoodAvg>
                 </div>
             </div>
         </AppLayout>

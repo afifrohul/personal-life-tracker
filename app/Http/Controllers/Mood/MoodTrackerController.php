@@ -41,9 +41,27 @@ class MoodTrackerController extends Controller
                 ]
             );
 
+            $data = MoodLog::get();
+
+            $moodAvg = collect($data)
+                ->groupBy(function ($item) {
+                    return Carbon::parse($item['date'])->format('Y-m');
+                })
+                ->map(function ($items, $ym) {
+                    $date = Carbon::parse($ym . '-01');
+
+                    return [
+                        'year'  => $date->year,
+                        'month' => $date->format('F'),
+                        'mood_score' => round($items->avg('mood_score'), 2),
+                    ];
+                })
+                ->values();
+
+
             $uniqueYears = MoodLog::selectRaw('YEAR(date) as year')->distinct()->pluck('year');
 
-            return Inertia::render('mood/mood-tracker/index', compact('chartData', 'moodDistribution', 'uniqueYears'));
+            return Inertia::render('mood/mood-tracker/index', compact('chartData', 'moodDistribution', 'moodAvg', 'uniqueYears'));
 
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());
