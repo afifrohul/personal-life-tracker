@@ -225,7 +225,7 @@ export default function ChartExpenseByCategory({
             <CardContent className="flex-1 pb-6">
                 <ChartContainer
                     config={chartConfig}
-                    className="mx-auto h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+                    className="mx-auto max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
                 >
                     <PieChart margin={{ top: 20 }}>
                         <ChartTooltip

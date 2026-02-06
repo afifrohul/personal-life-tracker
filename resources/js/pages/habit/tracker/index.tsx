@@ -129,7 +129,7 @@ export default function Index({
                                                 }
                                             />
                                         </div>
-                                        <p className="text-sm italic font-light">
+                                        <p className="text-sm font-light italic">
                                             {user.email}
                                         </p>
                                     </div>
@@ -171,11 +171,14 @@ export default function Index({
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <div className='flex items-center gap-2'>
-                                        <TrendingUp className='w-3.5 h-3.5'/>
+                                    <div className="flex items-center gap-2">
+                                        <TrendingUp className="h-3.5 w-3.5" />
                                         <p className="text-xs font-semibold">
                                             {user.profile_stat?.level_exp} /{' '}
-                                            {user.profile_stat?.exp_to_next_level}
+                                            {
+                                                user.profile_stat
+                                                    ?.exp_to_next_level
+                                            }
                                         </p>
                                     </div>
                                     <Progress
@@ -364,12 +367,8 @@ export default function Index({
                     <ChartExp chartData={chartDataExp}></ChartExp>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <ChartExpGainByCategory
-                        data={expGainByCategory}
-                    ></ChartExpGainByCategory>
-                    <ChartExpGainByHabit
-                        data={expGainByHabit}
-                    ></ChartExpGainByHabit>
+                    <ChartExpGainByCategory data={expGainByCategory} />
+                    <ChartExpGainByHabit data={expGainByHabit} />
                 </div>
             </div>
         </AppLayout>
