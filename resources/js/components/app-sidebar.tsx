@@ -53,7 +53,7 @@ const Summary: NavItem[] = [
         icon: CalendarRange,
     },
     {
-        title: 'Monhtly',
+        title: 'Monthly',
         href: '/monthly-summary',
         icon: CalendarDays,
     },
