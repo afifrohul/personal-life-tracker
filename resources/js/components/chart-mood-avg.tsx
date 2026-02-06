@@ -76,10 +76,6 @@ function MoodTooltipContent({ active, payload }: any) {
     return (
         <div className="rounded-lg border bg-background px-3 py-2 shadow-sm">
             <div className="flex items-center gap-2">
-                {/* <span
-                    className="h-2.5 w-2.5 rounded-[2px]"
-                    style={{ backgroundColor: color }}
-                /> */}
                 <span className="text-sm font-medium">{data.month}</span>
             </div>
 
@@ -88,7 +84,7 @@ function MoodTooltipContent({ active, payload }: any) {
                 <span className="font-medium text-foreground">{score}</span>
             </div>
 
-            <div className='flex items-center gap-1'>
+            <div className="flex items-center gap-1">
                 <div
                     className="h-2.5 w-2.5 rounded-[2px]"
                     style={{ backgroundColor: color }}
@@ -173,6 +169,7 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
 
                                 return (
                                     <circle
+                                        key={payload.month + payload.year}
                                         cx={cx}
                                         cy={cy}
                                         r={5}

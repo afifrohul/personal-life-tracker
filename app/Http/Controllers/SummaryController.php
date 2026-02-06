@@ -58,4 +58,24 @@ class SummaryController extends Controller
             return back()->with('error', 'Failed to load data.');
         }
     }
+
+    public function weekly(Request $request)
+    {
+        try {
+            return Inertia::render('summary/weekly');
+        } catch (\Exception $e) {
+            Log::error('Error loading data: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load data.');
+        }
+    }
+
+    public function monthly(Request $request)
+    {
+        try {
+            return Inertia::render('summary/monthly');
+        } catch (\Exception $e) {
+            Log::error('Error loading data: ' . $e->getMessage());
+            return back()->with('error', 'Failed to load data.');
+        }
+    }
 }

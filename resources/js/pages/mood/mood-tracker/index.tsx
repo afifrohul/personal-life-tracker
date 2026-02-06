@@ -26,8 +26,6 @@ export default function Index({
     moodAvg,
     uniqueYears,
 }: IndexProps) {
-    console.log(moodAvg);
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mood Tracker" />
@@ -48,7 +46,10 @@ export default function Index({
                     </div>
                 </div>
                 <div>
-                    <ChartMoodAvg chartData={moodAvg} uniqueYears={uniqueYears}></ChartMoodAvg>
+                    <ChartMoodAvg
+                        chartData={moodAvg}
+                        uniqueYears={uniqueYears}
+                    ></ChartMoodAvg>
                 </div>
             </div>
         </AppLayout>
