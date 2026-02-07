@@ -22,6 +22,7 @@ import {
     Award,
     BadgeCheckIcon,
     ChartNoAxesCombined,
+    ChevronsRight,
     Square,
     SquareCheck,
     SquarePlus,
@@ -274,8 +275,9 @@ export default function Index({
                                                                             <Link
                                                                                 href={`/habit-tracker/${h.id}`}
                                                                             >
-                                                                                <div className="rounded bg-accent px-1 py-0.5 text-xs underline duration-200 hover:bg-muted">
+                                                                                <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground italic">
                                                                                     Track
+                                                                                    <ChevronsRight className="h-3 w-3" />
                                                                                 </div>
                                                                             </Link>
                                                                         </div>
