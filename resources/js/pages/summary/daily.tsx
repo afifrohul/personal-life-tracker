@@ -12,7 +12,7 @@ import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import {
     Angry,
     ArrowDownLeft,
@@ -93,11 +93,7 @@ export default function Daily({
     const [date, setDate] = useState<Date | undefined>(
         selectedDate ? new Date(selectedDate) : undefined,
     );
-    function addDays(date: Date, days: number) {
-        const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + days);
-        return newDate;
-    }
+
     const nowDate = new Date(selectedDate);
     const nextDate = addDays(nowDate, 1);
     const prevDate = addDays(nowDate, -1);
@@ -284,7 +280,7 @@ export default function Daily({
                             Flowcash Today ({expense?.length + income?.length})
                         </p>
                     </div>
-                    <Separator className='my-2'></Separator>
+                    <Separator className="my-2"></Separator>
                     <div className="mt-2 grid w-full grid-cols-2 gap-4">
                         <div className="flex flex-col gap-2">
                             <SubtleBadge
@@ -297,7 +293,7 @@ export default function Daily({
                             <div className="rounded p-2 text-xs">
                                 {expense?.length >= 1 ? (
                                     <table className="w-full table-auto">
-                                        <thead className="text-left border-b">
+                                        <thead className="border-b text-left">
                                             <tr>
                                                 <th>Description</th>
                                                 <th>Category</th>
@@ -359,7 +355,7 @@ export default function Daily({
                                 ) : (
                                     <div className="w-full">
                                         <table className="w-full table-auto">
-                                            <thead className="text-left border-b">
+                                            <thead className="border-b text-left">
                                                 <tr>
                                                     <th>Description</th>
                                                     <th>Category</th>
@@ -385,7 +381,7 @@ export default function Daily({
                             <div className="rounded p-2 text-xs">
                                 {income?.length >= 1 ? (
                                     <table className="w-full table-auto">
-                                        <thead className="text-left border-b">
+                                        <thead className="border-b text-left">
                                             <tr>
                                                 <th>Description</th>
                                                 <th>Category</th>
@@ -445,7 +441,7 @@ export default function Daily({
                                 ) : (
                                     <div className="w-full">
                                         <table className="w-full table-auto">
-                                            <thead className="text-left border-b">
+                                            <thead className="border-b text-left">
                                                 <tr>
                                                     <th>Description</th>
                                                     <th>Category</th>
@@ -476,13 +472,17 @@ export default function Daily({
                             </div>
                         ) : (
                             journal?.map((item, index) => (
-                                <div className="grid grid-cols-6 items-baseline" key={index}>
+                                <div
+                                    className="grid grid-cols-6 items-baseline"
+                                    key={index}
+                                >
                                     <div className="">
-                                        <p className="text-xs italic text-muted-foreground">
-                                            {format(item.date, 'dd MMMM yyyy')} {format(item.created_at, 'HH:mm')} 
+                                        <p className="text-xs text-muted-foreground italic">
+                                            {format(item.date, 'dd MMMM yyyy')}{' '}
+                                            {format(item.created_at, 'HH:mm')}
                                         </p>
                                     </div>
-                                    <div className="whitespace-pre-wrap col-span-5">
+                                    <div className="col-span-5 whitespace-pre-wrap">
                                         <p className="text-sm">
                                             {item.content}
                                         </p>
