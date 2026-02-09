@@ -17,7 +17,7 @@
 
 ## 💡 Overview
 
-**Personal Life Tracker** is an all-in-one self-management application designed to help track mood, habits, finances, journaling, task and reflection in a single unified system. 
+**Personal Life Tracker** is an all-in-one self-management application designed to help track mood, habits, finances, journaling, and tasks in a single unified system. 
 
 This project was built to solve a personal problem: managing different aspects of life across multiple disconnected tools. By centralizing everything in one place, the app enables better self-reflection, consistency, and long-term personal growth.
 
