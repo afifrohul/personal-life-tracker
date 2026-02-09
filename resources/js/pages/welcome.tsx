@@ -48,7 +48,7 @@ export default function Welcome() {
                                         <span className="font-medium italic">
                                             Personal Life Tracker
                                         </span>{' '}
-                                        is an all-in-one self-management application designed to help track mood, habits, finances, journaling, task and reflection in a single unified system. 
+                                        is an all-in-one self-management application designed to help track mood, habits, finances, journaling, and tasks in a single unified system. 
                                     </p>
                                     <ul className="mb-4 flex flex-col">
                                         <li className="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]">
