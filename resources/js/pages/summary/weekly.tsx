@@ -1,5 +1,8 @@
 'use client';
 
+import { ChartExpense } from '@/components/chart-expense';
+import { ChartHabit } from '@/components/chart-habit';
+import { ChartMood } from '@/components/chart-mood';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -9,10 +12,10 @@ import {
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { addWeeks, endOfWeek, format, startOfWeek } from 'date-fns';
 import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,11 +24,43 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Weekly() {
+interface WeeklyProps {
+    selectedStartDate: string;
+    selectedEndDate: string;
+    chartDataMood: [];
+    chartDataHabit: [];
+    chartDataExpense: [];
+}
+
+export default function Weekly({
+    selectedStartDate,
+    selectedEndDate,
+    chartDataMood,
+    chartDataHabit,
+    chartDataExpense,
+}: WeeklyProps) {
+    console.log('Selected Start Date:', selectedStartDate);
+    console.log('Selected End Date:', selectedEndDate);
+    console.log('Chart Data Mood:', chartDataMood);
+    console.log('Chart Data Habit:', chartDataHabit);
+    console.log('Chart Data Expense:', chartDataExpense);
+
     const [open, setOpen] = useState(false);
 
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    function parseDate(date: string) {
+        const [y, m, d] = date.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+
+    const [startDate, setStartDate] = useState<Date | null>(
+        selectedStartDate ? parseDate(selectedStartDate) : null,
+    );
+
+    const [endDate, setEndDate] = useState<Date | null>(
+        selectedEndDate ? parseDate(selectedEndDate) : null,
+    );
+
+    const [anchorDate, setAnchorDate] = useState<Date | null>(null);
 
     function getWeekRange(date: Date) {
         const start = startOfWeek(date, { weekStartsOn: 0 });
@@ -33,11 +68,19 @@ export default function Weekly() {
         return { start, end };
     }
 
-    useEffect(() => {
-        const { start, end } = getWeekRange(new Date());
-        setStartDate(start);
-        setEndDate(end);
-    }, []);
+    function updateViewParams(start: Date, end: Date) {
+        router.get(
+            '/weekly-summary',
+            {
+                start_date: format(start, 'yyyy-MM-dd'),
+                end_date: format(end, 'yyyy-MM-dd'),
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
+    }
 
     function goToPrevWeek() {
         if (!startDate) return;
@@ -45,6 +88,7 @@ export default function Weekly() {
         const { start, end } = getWeekRange(target);
         setStartDate(start);
         setEndDate(end);
+        updateViewParams(start, end);
     }
 
     function goToNextWeek() {
@@ -53,6 +97,7 @@ export default function Weekly() {
         const { start, end } = getWeekRange(target);
         setStartDate(start);
         setEndDate(end);
+        updateViewParams(start, end);
     }
 
     function jumpToWeek(date?: Date) {
@@ -61,6 +106,7 @@ export default function Weekly() {
         setStartDate(start);
         setEndDate(end);
         setOpen(false);
+        updateViewParams(start, end);
     }
 
     function renderWeekLabel() {
@@ -98,9 +144,8 @@ export default function Weekly() {
                         >
                             <Calendar
                                 mode="single"
-                                selected={startDate ?? undefined}
+                                selected={anchorDate ?? undefined}
                                 onSelect={jumpToWeek}
-                                captionLayout="dropdown"
                             />
                         </PopoverContent>
                     </Popover>
@@ -118,6 +163,13 @@ export default function Weekly() {
                         {endDate && format(endDate, 'dd MMM yyyy')})
                     </span>
                 </div>
+
+                <ChartMood chartData={chartDataMood} isActiveFilter={false} />
+                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
+                <ChartExpense
+                    chartData={chartDataExpense}
+                    isActiveFilter={false}
+                />
             </div>
         </AppLayout>
     );

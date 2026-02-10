@@ -55,9 +55,17 @@ const moodLabels: Record<number, string> = {
 
 interface ChartMoodProps {
     chartData: MoodChartData[];
+    chartName?: string;
+    chartDescription?: string;
+    isActiveFilter?: boolean;
 }
 
-export function ChartMood({ chartData }: ChartMoodProps) {
+export function ChartMood({
+    chartData,
+    chartName = 'Daily Mood',
+    chartDescription = 'Mood history over time',
+    isActiveFilter = true,
+}: ChartMoodProps) {
     const [range, setRange] = useState<'7d' | '14d' | '30d' | '90d'>('7d');
 
     const daysMap = {
@@ -67,63 +75,69 @@ export function ChartMood({ chartData }: ChartMoodProps) {
         '90d': 90,
     };
 
-    const filteredData = chartData
-        .filter((item) => {
-            const date = new Date(item.date);
-            const from = new Date();
-            from.setDate(from.getDate() - daysMap[range]);
-            return date >= from;
-        })
+    const processedData = chartData
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
         .map((item) => ({
             ...item,
             color: moodColors[item.mood_score],
         }));
 
+    const filteredData = isActiveFilter
+        ? processedData.filter((item) => {
+              const date = new Date(item.date);
+              const from = new Date();
+              from.setDate(from.getDate() - daysMap[range]);
+              return date >= from;
+          })
+        : processedData;
+
     return (
         <Card>
             <CardHeader className="flex flex-row items-center gap-4">
                 <div className="flex flex-col gap-1">
-                    <CardTitle>Daily Mood</CardTitle>
-                    <CardDescription>
-                        Mood history for the last {range}
-                    </CardDescription>
+                    <CardTitle>{chartName}</CardTitle>
+                    <CardDescription>{chartDescription}</CardDescription>
                 </div>
 
-                <Select value={range} onValueChange={(v) => setRange(v as any)}>
-                    <SelectTrigger
-                        className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
-                        aria-label="Select a value"
+                {isActiveFilter && (
+                    <Select
+                        value={range}
+                        onValueChange={(v) => setRange(v as any)}
                     >
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem
-                            value="90d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 90}
+                        <SelectTrigger
+                            className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
+                            aria-label="Select a value"
                         >
-                            Last 3 months
-                        </SelectItem>
-                        <SelectItem
-                            value="30d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 30}
-                        >
-                            Last 30 days
-                        </SelectItem>
-                        <SelectItem
-                            value="14d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 14}
-                        >
-                            Last 14 days
-                        </SelectItem>
-                        <SelectItem value="7d" className="rounded-lg">
-                            Last 7 days
-                        </SelectItem>
-                    </SelectContent>
-                </Select>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem
+                                value="90d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 90}
+                            >
+                                Last 3 months
+                            </SelectItem>
+                            <SelectItem
+                                value="30d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 30}
+                            >
+                                Last 30 days
+                            </SelectItem>
+                            <SelectItem
+                                value="14d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 14}
+                            >
+                                Last 14 days
+                            </SelectItem>
+                            <SelectItem value="7d" className="rounded-lg">
+                                Last 7 days
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                )}
             </CardHeader>
 
             <CardContent>
