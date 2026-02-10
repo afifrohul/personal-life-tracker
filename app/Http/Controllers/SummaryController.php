@@ -99,7 +99,33 @@ class SummaryController extends Controller
     public function monthly(Request $request)
     {
         try {
-            return Inertia::render('summary/monthly');
+            if ($request->input('start_date') && $request->input('end_date')) {
+                $startDate = $request->input('start_date');
+                $endDate = $request->input('end_date');
+            } else {
+                $startDate = now()->startOfMonth()->format('Y-m-d');
+                $endDate = now()->endOfMonth()->format('Y-m-d');
+            }
+
+            $chartDataMood = MoodLog::whereBetween('date', [$startDate, $endDate])->orderBy('date', 'ASC')->select('date', 'mood_score')->get();
+
+            $chartDataHabit = HabitLog::whereBetween('date', [$startDate, $endDate])->select(\DB::raw('date, count(*) as habit'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+    
+            $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+            return Inertia::render('summary/monthly', [
+                'selectedStartDate' => $startDate,
+                'selectedEndDate' => $endDate,
+                'chartDataMood' => $chartDataMood,
+                'chartDataHabit' => $chartDataHabit,
+                'chartDataExpense' => $chartDataExpense,
+            ]);
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());
             return back()->with('error', 'Failed to load data.');

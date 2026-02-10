@@ -1,5 +1,8 @@
 'use client';
 
+import { ChartExpense } from '@/components/chart-expense';
+import { ChartHabit } from '@/components/chart-habit';
+import { ChartMood } from '@/components/chart-mood';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -9,10 +12,10 @@ import {
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { addMonths, endOfMonth, format, startOfMonth } from 'date-fns';
 import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,12 +24,40 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Monthly() {
+interface MonthlyProps {
+    selectedStartDate: string;
+    selectedEndDate: string;
+    chartDataMood: [];
+    chartDataHabit: [];
+    chartDataExpense: [];
+}
+
+export default function Monthly({
+    selectedStartDate,
+    selectedEndDate,
+    chartDataMood,
+    chartDataHabit,
+    chartDataExpense,
+}: MonthlyProps) {
     const [open, setOpen] = useState(false);
 
-    const [currentMonth, setCurrentMonth] = useState<Date | null>(null);
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    function parseDate(date: string) {
+        const [y, m, d] = date.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+
+    const { start } = getMonthRange(parseDate(selectedStartDate));
+
+    const [currentMonth, setCurrentMonth] = useState<Date | null>(start);
+    const [startDate, setStartDate] = useState<Date | null>(
+        selectedStartDate ? parseDate(selectedStartDate) : null,
+    );
+
+    const [endDate, setEndDate] = useState<Date | null>(
+        selectedEndDate ? parseDate(selectedEndDate) : null,
+    );
+
+    const [anchorDate, setAnchorDate] = useState<Date | null>(null);
 
     function getMonthRange(date: Date) {
         return {
@@ -35,13 +66,19 @@ export default function Monthly() {
         };
     }
 
-    useEffect(() => {
-        const now = new Date();
-        const { start, end } = getMonthRange(now);
-        setCurrentMonth(start);
-        setStartDate(start);
-        setEndDate(end);
-    }, []);
+    function updateViewParams(start: Date, end: Date) {
+        router.get(
+            '/monthly-summary',
+            {
+                start_date: format(start, 'yyyy-MM-dd'),
+                end_date: format(end, 'yyyy-MM-dd'),
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
+    }
 
     function goToPrevMonth() {
         if (!currentMonth) return;
@@ -50,6 +87,7 @@ export default function Monthly() {
         setCurrentMonth(start);
         setStartDate(start);
         setEndDate(end);
+        updateViewParams(start, end);
     }
 
     function goToNextMonth() {
@@ -59,6 +97,7 @@ export default function Monthly() {
         setCurrentMonth(start);
         setStartDate(start);
         setEndDate(end);
+        updateViewParams(start, end);
     }
 
     function jumpToMonth(date?: Date) {
@@ -68,6 +107,7 @@ export default function Monthly() {
         setStartDate(start);
         setEndDate(end);
         setOpen(false);
+        updateViewParams(start, end);
     }
 
     function renderMonthLabel() {
@@ -79,7 +119,6 @@ export default function Monthly() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Monthly Summary" />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
-                {/* HEADER MONTH SELECTOR */}
                 <div className="flex items-center gap-2">
                     <Button variant="outline" onClick={goToPrevMonth}>
                         <ChevronLeft />
@@ -102,9 +141,8 @@ export default function Monthly() {
                         >
                             <Calendar
                                 mode="single"
-                                selected={currentMonth ?? undefined}
+                                selected={anchorDate ?? undefined}
                                 onSelect={jumpToMonth}
-                                captionLayout="dropdown"
                             />
                         </PopoverContent>
                     </Popover>
@@ -122,6 +160,12 @@ export default function Monthly() {
                         {endDate && format(endDate, 'dd MMM yyyy')})
                     </span>
                 </div>
+                <ChartMood chartData={chartDataMood} isActiveFilter={false} />
+                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
+                <ChartExpense
+                    chartData={chartDataExpense}
+                    isActiveFilter={false}
+                />
             </div>
         </AppLayout>
     );

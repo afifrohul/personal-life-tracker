@@ -39,12 +39,6 @@ export default function Weekly({
     chartDataHabit,
     chartDataExpense,
 }: WeeklyProps) {
-    console.log('Selected Start Date:', selectedStartDate);
-    console.log('Selected End Date:', selectedEndDate);
-    console.log('Chart Data Mood:', chartDataMood);
-    console.log('Chart Data Habit:', chartDataHabit);
-    console.log('Chart Data Expense:', chartDataExpense);
-
     const [open, setOpen] = useState(false);
 
     function parseDate(date: string) {
