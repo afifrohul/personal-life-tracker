@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { useState } from 'react';
+import { formatRupiahShort } from '@/lib/format-rupiah-short';
 
 export const description = 'A multiple bar chart';
 
@@ -49,6 +50,9 @@ interface ChartProps {
 }
 
 export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
+    const maxValue = Math.max(...chartData.flatMap((item) => [item.expense]));
+    const upperDomain = Math.ceil(maxValue * 1.15);
+
     const [year, setYear] = useState(String(new Date().getFullYear()));
 
     const filteredChartData = chartData.filter((data) => {
@@ -101,6 +105,15 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                             tickMargin={10}
                             axisLine={false}
                             tickFormatter={(value) => value.slice(0, 3)}
+                        />
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            width={48}
+                            domain={[0, upperDomain]}
+                            tickFormatter={(value) =>
+                                formatRupiahShort(Number(value))
+                            }
                         />
                         <ChartTooltip
                             cursor={false}

@@ -1,6 +1,6 @@
 'use client';
 
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -23,6 +23,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { formatRupiah } from '@/lib/format-rupiah';
+import { formatRupiahShort } from '@/lib/format-rupiah-short';
 import { useState } from 'react';
 
 export const description = 'An interactive line chart';
@@ -55,6 +56,9 @@ export function ChartExpense({
     isActiveFilter = true,
     uniqueYears,
 }: ChartProps) {
+    const maxValue = Math.max(...chartData.flatMap((item) => [item.expense]));
+    const upperDomain = Math.ceil(maxValue * 1.15);
+
     const [month, setMonth] = useState(String(new Date().getMonth() + 1));
     const [year, setYear] = useState(String(new Date().getFullYear()));
 
@@ -161,6 +165,16 @@ export function ChartExpense({
                                     month: 'short',
                                     day: 'numeric',
                                 })
+                            }
+                        />
+
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            width={48}
+                            domain={[0, upperDomain]}
+                            tickFormatter={(value) =>
+                                formatRupiahShort(Number(value))
                             }
                         />
 
