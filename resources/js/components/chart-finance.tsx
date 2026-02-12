@@ -117,7 +117,7 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                         />
                         <ChartTooltip
                             cursor={false}
-                            content={<ChartTooltipContent indicator="dashed" />}
+                            content={<ChartTooltipContent />}
                             formatter={(value, name, item, index) => (
                                 <div>
                                     <div className="flex items-center gap-2">

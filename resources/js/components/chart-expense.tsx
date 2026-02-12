@@ -36,6 +36,10 @@ const chartConfig = {
         label: 'Expense',
         color: '#f43f5e',
     },
+    average: {
+        label: 'Average',
+        color: '#94a3b8',
+    },
 } satisfies ChartConfig;
 
 interface ChartProps {
@@ -77,6 +81,19 @@ export function ChartExpense({
               );
           })
         : processedData;
+
+    const average =
+        finalData.length > 0
+            ? finalData.reduce((sum, item) => sum + Number(item.expense), 0) /
+              finalData.length
+            : 0;
+
+    const chartWithAverage = finalData.map((item) => ({
+        ...item,
+        average,
+    }));
+
+    console.log(chartWithAverage);
 
     return (
         <Card className="py-4">
@@ -145,7 +162,7 @@ export function ChartExpense({
                 >
                     <LineChart
                         accessibilityLayer
-                        data={finalData}
+                        data={chartWithAverage}
                         margin={{
                             top: 24,
                             left: 12,
@@ -179,34 +196,68 @@ export function ChartExpense({
                         />
 
                         <ChartTooltip
-                            content={
-                                <ChartTooltipContent
-                                    labelFormatter={(value) =>
-                                        new Date(value).toLocaleDateString(
-                                            'en-US',
-                                            {
-                                                month: 'short',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                            },
-                                        )
-                                    }
-                                    formatter={(value) =>
-                                        formatRupiah(Number(value))
-                                    }
-                                />
-                            }
+                            content={<ChartTooltipContent />}
+                            labelFormatter={(value) => {
+                                return new Date(value).toLocaleDateString(
+                                    'en-US',
+                                    {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                    },
+                                );
+                            }}
+                            formatter={(value, name, item, index) => (
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-(--color-bg)"
+                                            style={
+                                                {
+                                                    '--color-bg': `var(--color-${name})`,
+                                                } as React.CSSProperties
+                                            }
+                                        />
+                                        <div className="flex gap-6">
+                                            <p>
+                                                {chartConfig[
+                                                    name as keyof typeof chartConfig
+                                                ]?.label || name}
+                                            </p>
+                                            <div className="ml-auto flex items-baseline gap-0.5 font-medium text-foreground tabular-nums">
+                                                <p
+                                                    className="font-semibold text-(--color-bg)"
+                                                    style={
+                                                        {
+                                                            '--color-bg': `var(--color-${name})`,
+                                                        } as React.CSSProperties
+                                                    }
+                                                >
+                                                    {formatRupiah(
+                                                        Number(value),
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         />
 
                         <Line
                             dataKey="expense"
                             type="monotone"
                             stroke="var(--color-expense)"
-                            strokeWidth={2}
-                            dot={{
-                                fill: 'var(--color-expense)',
-                            }}
-                            activeDot={{ r: 6 }}
+                            strokeWidth={1.5}
+                        />
+
+                        <Line
+                            dataKey="average"
+                            type="monotone"
+                            stroke="var(--color-average)"
+                            strokeDasharray="4 4"
+                            dot={false}
+                            strokeWidth={1.5}
                         />
                     </LineChart>
                 </ChartContainer>
