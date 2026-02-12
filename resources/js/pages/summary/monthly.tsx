@@ -164,12 +164,12 @@ export default function Monthly({
                     </span>
                 </div>
                 <ChartMood chartData={chartDataMood} isActiveFilter={false} />
+                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
+                <ChartExp chartData={chartDataExp} isActiveFilter={false} />
                 <ChartExpense
                     chartData={chartDataExpense}
                     isActiveFilter={false}
                 />
-                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
-                <ChartExp chartData={chartDataExp} isActiveFilter={false} />
             </div>
         </AppLayout>
     );

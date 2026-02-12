@@ -1,6 +1,6 @@
 'use client';
 
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, Line, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -41,6 +41,10 @@ const chartConfig = {
         label: 'Habit Done',
         color: 'var(--chart-1)',
     },
+    average: {
+        label: 'Average',
+        color: '#94a3b8',
+    },
 } satisfies ChartConfig;
 
 export function ChartHabit({
@@ -74,6 +78,17 @@ export function ChartHabit({
               return date >= from;
           })
         : processedData;
+
+    const average =
+        finalData.length > 0
+            ? finalData.reduce((sum, item) => sum + Number(item.habit), 0) /
+              finalData.length
+            : 0;
+
+    const chartWithAverage = finalData.map((item) => ({
+        ...item,
+        average,
+    }));
 
     return (
         <Card className="py-4">
@@ -127,7 +142,7 @@ export function ChartHabit({
                     className="aspect-auto h-[180px] w-full"
                 >
                     <AreaChart
-                        data={finalData}
+                        data={chartWithAverage}
                         margin={{
                             top: 16,
                             left: 12,
@@ -175,7 +190,6 @@ export function ChartHabit({
                         <YAxis tickLine={false} axisLine={false} width={20} />
 
                         <ChartTooltip
-                            cursor={false}
                             content={
                                 <ChartTooltipContent
                                     labelFormatter={(value) =>
@@ -199,6 +213,14 @@ export function ChartHabit({
                             fill="url(#fillHabit)"
                             stroke="var(--chart-1)"
                             stackId="a"
+                        />
+                        <Area
+                            dataKey="average"
+                            type="natural"
+                            fill="url(#fillAverage)"
+                            stroke="var(--color-average)"
+                            strokeDasharray="4 4"
+                            stackId="b"
                         />
                     </AreaChart>
                 </ChartContainer>

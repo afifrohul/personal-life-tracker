@@ -1,6 +1,13 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import {
+    Bar,
+    CartesianGrid,
+    ComposedChart,
+    Line,
+    XAxis,
+    YAxis,
+} from 'recharts';
 
 import {
     Card,
@@ -37,12 +44,13 @@ interface ChartProps {
 }
 
 const chartConfig = {
-    views: {
-        label: 'Exp Gain',
-    },
     exp: {
         label: 'Exp Gain',
         color: 'var(--chart-1)',
+    },
+    average: {
+        label: 'Average',
+        color: '#94a3b8',
     },
 } satisfies ChartConfig;
 
@@ -77,6 +85,17 @@ export function ChartExp({
               return date >= from;
           })
         : processedData;
+
+    const average =
+        finalData.length > 0
+            ? finalData.reduce((sum, item) => sum + Number(item.exp), 0) /
+              finalData.length
+            : 0;
+
+    const chartWithAverage = finalData.map((item) => ({
+        ...item,
+        average,
+    }));
 
     return (
         <Card className="py-0">
@@ -128,9 +147,9 @@ export function ChartExp({
                     config={chartConfig}
                     className="aspect-auto h-[180px] w-full"
                 >
-                    <BarChart
+                    <ComposedChart
                         accessibilityLayer
-                        data={finalData}
+                        data={chartWithAverage}
                         margin={{
                             left: 12,
                             right: 12,
@@ -155,8 +174,7 @@ export function ChartExp({
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
-                                    className="w-[150px]"
-                                    nameKey="views"
+                                    className="min-w-[150px]"
                                     labelFormatter={(value) => {
                                         return new Date(
                                             value,
@@ -174,7 +192,15 @@ export function ChartExp({
                             fill="var(--chart-1)"
                             radius={[4, 4, 0, 0]}
                         />
-                    </BarChart>
+                        <Line
+                            dataKey="average"
+                            type="monotone"
+                            stroke="var(--color-average)"
+                            strokeDasharray="4 4"
+                            dot={false}
+                            strokeWidth={1.5}
+                        />
+                    </ComposedChart>
                 </ChartContainer>
             </CardContent>
         </Card>

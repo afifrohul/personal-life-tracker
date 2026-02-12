@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from 'recharts';
+import {
+    Bar,
+    CartesianGrid,
+    Cell,
+    ComposedChart,
+    Line,
+    XAxis,
+    YAxis,
+} from 'recharts';
 
 import {
     Card,
@@ -34,6 +42,10 @@ type MoodChartData = {
 const chartConfig = {
     mood_score: {
         label: 'Mood',
+    },
+    average: {
+        label: 'Average',
+        color: '#94a3b8',
     },
 } satisfies ChartConfig;
 
@@ -82,7 +94,7 @@ export function ChartMood({
             color: moodColors[item.mood_score],
         }));
 
-    const filteredData = isActiveFilter
+    const finalData = isActiveFilter
         ? processedData.filter((item) => {
               const date = new Date(item.date);
               const from = new Date();
@@ -90,6 +102,19 @@ export function ChartMood({
               return date >= from;
           })
         : processedData;
+
+    const average =
+        finalData.length > 0
+            ? finalData.reduce(
+                  (sum, item) => sum + Number(item.mood_score),
+                  0,
+              ) / finalData.length
+            : 0;
+
+    const chartWithAverage = finalData.map((item) => ({
+        ...item,
+        average,
+    }));
 
     return (
         <Card className="py-4">
@@ -147,7 +172,7 @@ export function ChartMood({
                     config={chartConfig}
                     className="max-h-[180px] w-full"
                 >
-                    <BarChart data={filteredData}>
+                    <ComposedChart data={chartWithAverage}>
                         <CartesianGrid vertical={false} />
 
                         <XAxis
@@ -164,44 +189,75 @@ export function ChartMood({
                         <YAxis tickLine={false} axisLine={false} width={10} />
 
                         <ChartTooltip
-                            cursor={false}
                             content={
                                 <ChartTooltipContent
-                                    labelFormatter={(value) => {
-                                        return new Date(
-                                            value,
-                                        ).toLocaleDateString('en-US', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        });
-                                    }}
+                                    labelFormatter={(value) =>
+                                        new Date(value).toLocaleDateString(
+                                            'en-US',
+                                            {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            },
+                                        )
+                                    }
                                 />
                             }
-                            formatter={(value, _name, item) => {
-                                const color = item.payload.color;
+                            formatter={(value, name, item) => {
+                                if (name === 'mood_score') {
+                                    const color = item.payload.color;
 
-                                return (
-                                    <div className="flex items-center gap-2">
-                                        <div
-                                            className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
-                                            style={{ backgroundColor: color }}
-                                        />
-                                        <p>Mood</p>
-                                        <p className="ml-auto font-medium">
-                                            {moodLabels[value as number]}
-                                        </p>
-                                    </div>
-                                );
+                                    return (
+                                        <div className="flex items-center gap-2">
+                                            <div
+                                                className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
+                                                style={{
+                                                    backgroundColor: color,
+                                                }}
+                                            />
+                                            <p>Mood</p>
+                                            <p className="ml-auto font-medium">
+                                                {moodLabels[value as number]}
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                if (name === 'average') {
+                                    return (
+                                        <div className="flex items-center gap-2">
+                                            <div
+                                                className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
+                                                style={{
+                                                    backgroundColor: '#94a3b8',
+                                                }}
+                                            />
+                                            <p>Average</p>
+                                            <p className="ml-auto font-medium">
+                                                {Number(value).toFixed(2)}
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                return null;
                             }}
                         />
 
                         <Bar dataKey="mood_score" radius={[4, 4, 0, 0]}>
-                            {filteredData.map((entry, index) => (
+                            {finalData.map((entry, index) => (
                                 <Cell key={index} fill={entry.color} />
                             ))}
                         </Bar>
-                    </BarChart>
+                        <Line
+                            dataKey="average"
+                            type="monotone"
+                            stroke="var(--color-average)"
+                            strokeDasharray="4 4"
+                            dot={false}
+                            strokeWidth={1.5}
+                        />
+                    </ComposedChart>
                 </ChartContainer>
             </CardContent>
         </Card>

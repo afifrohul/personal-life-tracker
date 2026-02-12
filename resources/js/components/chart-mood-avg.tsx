@@ -156,7 +156,6 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                         />
                         <YAxis tickLine={false} axisLine={false} width={30} />
                         <ChartTooltip
-                            cursor={false}
                             content={<MoodTooltipContent />}
                         />
 
