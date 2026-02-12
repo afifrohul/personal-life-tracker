@@ -12,8 +12,6 @@ import {
 import {
     ChartConfig,
     ChartContainer,
-    ChartLegend,
-    ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
 } from '@/components/ui/chart';
@@ -39,11 +37,8 @@ interface ChartProps {
 }
 
 const chartConfig = {
-    visitors: {
-        label: 'Visitors',
-    },
     habit: {
-        label: 'Habit',
+        label: 'Habit Done',
         color: 'var(--chart-1)',
     },
 } satisfies ChartConfig;
@@ -51,7 +46,7 @@ const chartConfig = {
 export function ChartHabit({
     chartData,
     chartName = 'Daily Amount of Habit',
-    chartDescription = 'Showing total amount habit over time',
+    chartDescription = 'Showing total amount habit done over time',
     isActiveFilter = true,
 }: ChartProps) {
     const [timeRange, setTimeRange] = useState<'7d' | '14d' | '30d' | '90d'>(
@@ -205,8 +200,6 @@ export function ChartHabit({
                             stroke="var(--chart-1)"
                             stackId="a"
                         />
-
-                        <ChartLegend content={<ChartLegendContent />} />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>

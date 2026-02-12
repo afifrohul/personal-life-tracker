@@ -1,5 +1,6 @@
 'use client';
 
+import { ChartExp } from '@/components/chart-exp';
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartHabit } from '@/components/chart-habit';
 import { ChartMood } from '@/components/chart-mood';
@@ -29,6 +30,7 @@ interface MonthlyProps {
     selectedEndDate: string;
     chartDataMood: [];
     chartDataHabit: [];
+    chartDataExp: [];
     chartDataExpense: [];
 }
 
@@ -37,6 +39,7 @@ export default function Monthly({
     selectedEndDate,
     chartDataMood,
     chartDataHabit,
+    chartDataExp,
     chartDataExpense,
 }: MonthlyProps) {
     const [open, setOpen] = useState(false);
@@ -161,11 +164,12 @@ export default function Monthly({
                     </span>
                 </div>
                 <ChartMood chartData={chartDataMood} isActiveFilter={false} />
-                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
                 <ChartExpense
                     chartData={chartDataExpense}
                     isActiveFilter={false}
                 />
+                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
+                <ChartExp chartData={chartDataExp} isActiveFilter={false} />
             </div>
         </AppLayout>
     );
