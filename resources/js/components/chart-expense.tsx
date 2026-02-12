@@ -26,8 +26,6 @@ import { formatRupiah } from '@/lib/format-rupiah';
 import { formatRupiahShort } from '@/lib/format-rupiah-short';
 import { useState } from 'react';
 
-export const description = 'An interactive line chart';
-
 const chartConfig = {
     views: {
         label: 'Expense',
@@ -93,8 +91,6 @@ export function ChartExpense({
         average,
     }));
 
-    console.log(chartWithAverage);
-
     return (
         <Card className="py-4">
             <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
@@ -155,7 +151,7 @@ export function ChartExpense({
                 </div>
             </CardHeader>
 
-            <CardContent className="px-2 sm:p-6">
+            <CardContent>
                 <ChartContainer
                     config={chartConfig}
                     className="aspect-auto h-[180px] w-full"
@@ -175,6 +171,7 @@ export function ChartExpense({
                             dataKey="date"
                             tickLine={false}
                             axisLine={false}
+                            padding={{ left: 10, right: 10 }}
                             tickMargin={8}
                             minTickGap={32}
                             tickFormatter={(value) =>

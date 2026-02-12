@@ -77,6 +77,11 @@ class SummaryController extends Controller
             ->groupBy('date')
             ->orderBy('date')
             ->get();
+
+            $chartDataExp = HabitLog::whereBetween('date', [$startDate, $endDate])->select(\DB::raw('date, sum(exp_gain) as exp'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
     
             $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
             ->groupBy('date')
@@ -88,6 +93,7 @@ class SummaryController extends Controller
                 'selectedEndDate' => $endDate,
                 'chartDataMood' => $chartDataMood,
                 'chartDataHabit' => $chartDataHabit,
+                'chartDataExp' => $chartDataExp,
                 'chartDataExpense' => $chartDataExpense,
             ]);
         } catch (\Exception $e) {
@@ -113,6 +119,11 @@ class SummaryController extends Controller
             ->groupBy('date')
             ->orderBy('date')
             ->get();
+
+            $chartDataExp = HabitLog::whereBetween('date', [$startDate, $endDate])->select(\DB::raw('date, sum(exp_gain) as exp'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
     
             $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
             ->groupBy('date')
@@ -124,6 +135,7 @@ class SummaryController extends Controller
                 'selectedEndDate' => $endDate,
                 'chartDataMood' => $chartDataMood,
                 'chartDataHabit' => $chartDataHabit,
+                'chartDataExp' => $chartDataExp,
                 'chartDataExpense' => $chartDataExpense,
             ]);
         } catch (\Exception $e) {

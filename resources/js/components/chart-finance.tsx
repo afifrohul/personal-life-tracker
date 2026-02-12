@@ -23,10 +23,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { formatRupiah } from '@/lib/format-rupiah';
-import { useState } from 'react';
 import { formatRupiahShort } from '@/lib/format-rupiah-short';
-
-export const description = 'A multiple bar chart';
+import { useState } from 'react';
 
 const chartConfig = {
     income: {

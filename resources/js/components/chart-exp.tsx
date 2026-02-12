@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -24,8 +24,6 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 
-export const description = 'An interactive bar chart';
-
 type Chart = {
     date: string;
     exp: number;
@@ -33,6 +31,9 @@ type Chart = {
 
 interface ChartProps {
     chartData: Chart[];
+    chartName?: string;
+    chartDescription?: string;
+    isActiveFilter?: boolean;
 }
 
 const chartConfig = {
@@ -45,38 +46,49 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-export function ChartExp({ chartData }: ChartProps) {
-    const [timeRange, setTimeRange] = useState('7d');
+export function ChartExp({
+    chartData,
+    chartName = 'Daily Exp Gain',
+    chartDescription = 'Showing total exp gain over time',
+    isActiveFilter = true,
+}: ChartProps) {
+    const [timeRange, setTimeRange] = useState<'7d' | '14d' | '30d' | '90d'>(
+        '7d',
+    );
 
-    const filteredData = chartData.filter((item) => {
-        const date = new Date(item.date);
-        const referenceDate = new Date();
-        let daysToSubtract = 7;
-        if (timeRange === '90d') {
-            daysToSubtract = 90;
-        } else if (timeRange === '30d') {
-            daysToSubtract = 30;
-        } else if (timeRange === '14d') {
-            daysToSubtract = 14;
-        } else if (timeRange === '7d') {
-            daysToSubtract = 7;
-        }
+    const daysMap = {
+        '7d': 7,
+        '14d': 14,
+        '30d': 30,
+        '90d': 90,
+    };
 
-        const startDate = new Date(referenceDate);
-        startDate.setDate(startDate.getDate() - daysToSubtract);
-        return date >= startDate;
-    });
+    const processedData = chartData
+        .slice()
+        .sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        );
+
+    const finalData = isActiveFilter
+        ? processedData.filter((item) => {
+              const date = new Date(item.date);
+              const from = new Date();
+              from.setDate(from.getDate() - daysMap[timeRange]);
+              return date >= from;
+          })
+        : processedData;
 
     return (
         <Card className="py-0">
             <CardHeader className="flex flex-col items-stretch border-b p-4 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1">
-                    <CardTitle>Daily Exp Gain</CardTitle>
-                    <CardDescription>
-                        Showing total exp gain for the last {timeRange}
-                    </CardDescription>
+                    <CardTitle>{chartName}</CardTitle>
+                    <CardDescription>{chartDescription}</CardDescription>
                 </div>
-                <Select value={timeRange} onValueChange={setTimeRange}>
+                <Select
+                    value={timeRange}
+                    onValueChange={(v) => setTimeRange(v as any)}
+                >
                     <SelectTrigger
                         className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
                         aria-label="Select a value"
@@ -118,7 +130,7 @@ export function ChartExp({ chartData }: ChartProps) {
                 >
                     <BarChart
                         accessibilityLayer
-                        data={filteredData}
+                        data={finalData}
                         margin={{
                             left: 12,
                             right: 12,
@@ -139,6 +151,7 @@ export function ChartExp({ chartData }: ChartProps) {
                                 });
                             }}
                         />
+                        <YAxis tickLine={false} axisLine={false} width={20} />
                         <ChartTooltip
                             content={
                                 <ChartTooltipContent
@@ -156,7 +169,11 @@ export function ChartExp({ chartData }: ChartProps) {
                                 />
                             }
                         />
-                        <Bar dataKey="exp" fill="var(--chart-1)" radius={[4, 4, 0, 0]}/>
+                        <Bar
+                            dataKey="exp"
+                            fill="var(--chart-1)"
+                            radius={[4, 4, 0, 0]}
+                        />
                     </BarChart>
                 </ChartContainer>
             </CardContent>

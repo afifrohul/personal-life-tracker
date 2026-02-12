@@ -1,5 +1,6 @@
 'use client';
 
+import { ChartExp } from '@/components/chart-exp';
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartHabit } from '@/components/chart-habit';
 import { ChartMood } from '@/components/chart-mood';
@@ -29,6 +30,7 @@ interface WeeklyProps {
     selectedEndDate: string;
     chartDataMood: [];
     chartDataHabit: [];
+    chartDataExp: [];
     chartDataExpense: [];
 }
 
@@ -37,6 +39,7 @@ export default function Weekly({
     selectedEndDate,
     chartDataMood,
     chartDataHabit,
+    chartDataExp,
     chartDataExpense,
 }: WeeklyProps) {
     const [open, setOpen] = useState(false);
@@ -158,12 +161,23 @@ export default function Weekly({
                     </span>
                 </div>
 
-                <ChartMood chartData={chartDataMood} isActiveFilter={false} />
-                <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />
-                <ChartExpense
-                    chartData={chartDataExpense}
-                    isActiveFilter={false}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                    <ChartMood
+                        chartData={chartDataMood}
+                        isActiveFilter={false}
+                    />
+                    <ChartExpense
+                        chartData={chartDataExpense}
+                        isActiveFilter={false}
+                    />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <ChartHabit
+                        chartData={chartDataHabit}
+                        isActiveFilter={false}
+                    />
+                    <ChartExp chartData={chartDataExp} isActiveFilter={false} />
+                </div>
             </div>
         </AppLayout>
     );

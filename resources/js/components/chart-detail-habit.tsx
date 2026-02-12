@@ -30,8 +30,6 @@ interface ChartProps {
     color: string;
 }
 
-export const description = 'A horizontal bar chart';
-
 const chartConfig = {
     habit: {
         label: 'Habit',
@@ -53,9 +51,7 @@ export function ChartDetailHabit({
         <Card>
             <CardHeader>
                 <div className="flex items-center">
-                    <CardTitle>
-                        Total Habit Done per Month
-                    </CardTitle>
+                    <CardTitle>Total Habit Done per Month</CardTitle>
                     <Select value={year} onValueChange={setYear}>
                         <SelectTrigger
                             className="hidden w-28 rounded-lg sm:ml-auto sm:flex"

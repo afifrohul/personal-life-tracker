@@ -1,6 +1,6 @@
 'use client';
 
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -76,20 +76,20 @@ function MoodTooltipContent({ active, payload }: any) {
     return (
         <div className="rounded-lg border bg-background px-3 py-2 shadow-sm">
             <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{data.month}</span>
+                <span className="text-xs">{data.month}</span>
             </div>
 
-            <div className="mt-1 text-sm text-muted-foreground">
+            <div className="mt-1 text-muted-foreground text-xs">
                 Avg Score:{' '}
                 <span className="font-medium text-foreground">{score}</span>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 mt-1">
                 <div
                     className="h-2.5 w-2.5 rounded-[2px]"
                     style={{ backgroundColor: color }}
                 />
-                <div className="text-sm">
+                <div className="text-xs">
                     Mood: <span className="font-semibold">{label}</span>
                 </div>
             </div>
@@ -150,9 +150,11 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                             dataKey="month"
                             tickLine={false}
                             axisLine={false}
+                            padding={{ left: 10, right: 10 }}
                             tickMargin={8}
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
+                        <YAxis tickLine={false} axisLine={false} width={30} />
                         <ChartTooltip
                             cursor={false}
                             content={<MoodTooltipContent />}
@@ -162,7 +164,7 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                             dataKey="mood_score"
                             type="natural"
                             stroke="var(--color-mood_score)"
-                            strokeWidth={2}
+                            strokeWidth={1.5}
                             dot={(props: any) => {
                                 const { cx, cy, payload } = props;
                                 const color = getMoodColor(payload.mood_score);
@@ -172,7 +174,7 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                                         key={payload.month + payload.year}
                                         cx={cx}
                                         cy={cy}
-                                        r={5}
+                                        r={4}
                                         fill={color}
                                         stroke="white"
                                         strokeWidth={0.5}
@@ -187,10 +189,9 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                                     <circle
                                         cx={cx}
                                         cy={cy}
-                                        r={7}
+                                        r={5.5}
                                         fill={color}
                                         stroke="white"
-                                        strokeWidth={2}
                                     />
                                 );
                             }}

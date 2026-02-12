@@ -27,8 +27,6 @@ import {
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export const description = 'A pie chart with a label';
-
 const chartConfig = {
     amounts: {
         label: 'Numbers',

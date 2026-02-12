@@ -1,6 +1,6 @@
 'use client';
 
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -38,8 +38,6 @@ interface ChartProps {
     isActiveFilter?: boolean;
 }
 
-export const description = 'An interactive area chart';
-
 const chartConfig = {
     visitors: {
         label: 'Visitors',
@@ -70,9 +68,7 @@ export function ChartHabit({
     const processedData = chartData
         .slice()
         .sort(
-            (a, b) =>
-                new Date(a.date).getTime() -
-                new Date(b.date).getTime(),
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
         );
 
     const finalData = isActiveFilter
@@ -85,52 +81,49 @@ export function ChartHabit({
         : processedData;
 
     return (
-        <Card className="pt-0">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-                <div className="grid flex-1 gap-1">
-                    <CardTitle>{chartName}</CardTitle>
-                    <CardDescription>{chartDescription}</CardDescription>
-                </div>
+        <Card className="py-4">
+            <CardHeader className="flex flex-col items-stretch border-b p-0! sm:flex-row">
+                <div className="flex w-full justify-between px-4 pb-4">
+                    <div className="grid flex-1 gap-1">
+                        <CardTitle>{chartName}</CardTitle>
+                        <CardDescription>{chartDescription}</CardDescription>
+                    </div>
 
-                {isActiveFilter && (
-                    <Select
-                        value={timeRange}
-                        onValueChange={(v) =>
-                            setTimeRange(v as any)
-                        }
-                    >
-                        <SelectTrigger
-                            className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
-                            aria-label="Select a value"
+                    {isActiveFilter && (
+                        <Select
+                            value={timeRange}
+                            onValueChange={(v) => setTimeRange(v as any)}
                         >
-                            <SelectValue placeholder="Last 7 days" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                            <SelectItem
-                                value="90d"
-                                disabled={chartData.length < 90}
+                            <SelectTrigger
+                                className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
+                                aria-label="Select a value"
                             >
-                                Last 3 months
-                            </SelectItem>
-                            <SelectItem
-                                value="30d"
-                                disabled={chartData.length < 30}
-                            >
-                                Last 30 days
-                            </SelectItem>
-                            <SelectItem
-                                value="14d"
-                                disabled={chartData.length < 14}
-                            >
-                                Last 14 days
-                            </SelectItem>
-                            <SelectItem value="7d">
-                                Last 7 days
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                )}
-
+                                <SelectValue placeholder="Last 7 days" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem
+                                    value="90d"
+                                    disabled={chartData.length < 90}
+                                >
+                                    Last 3 months
+                                </SelectItem>
+                                <SelectItem
+                                    value="30d"
+                                    disabled={chartData.length < 30}
+                                >
+                                    Last 30 days
+                                </SelectItem>
+                                <SelectItem
+                                    value="14d"
+                                    disabled={chartData.length < 14}
+                                >
+                                    Last 14 days
+                                </SelectItem>
+                                <SelectItem value="7d">Last 7 days</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    )}
+                </div>
             </CardHeader>
 
             <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
@@ -140,8 +133,11 @@ export function ChartHabit({
                 >
                     <AreaChart
                         data={finalData}
-                        margin={{ top: 16 }}
-                        className="mt-2"
+                        margin={{
+                            top: 16,
+                            left: 12,
+                            right: 12,
+                        }}
                     >
                         <defs>
                             <linearGradient
@@ -170,27 +166,25 @@ export function ChartHabit({
                             dataKey="date"
                             tickLine={false}
                             axisLine={false}
+                            padding={{ left: 10, right: 10 }}
                             tickMargin={8}
                             minTickGap={32}
                             tickFormatter={(value) =>
-                                new Date(value).toLocaleDateString(
-                                    'en-US',
-                                    {
-                                        month: 'short',
-                                        day: 'numeric',
-                                    },
-                                )
+                                new Date(value).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                })
                             }
                         />
+
+                        <YAxis tickLine={false} axisLine={false} width={20} />
 
                         <ChartTooltip
                             cursor={false}
                             content={
                                 <ChartTooltipContent
                                     labelFormatter={(value) =>
-                                        new Date(
-                                            value,
-                                        ).toLocaleDateString(
+                                        new Date(value).toLocaleDateString(
                                             'en-US',
                                             {
                                                 month: 'short',
@@ -212,13 +206,10 @@ export function ChartHabit({
                             stackId="a"
                         />
 
-                        <ChartLegend
-                            content={<ChartLegendContent />}
-                        />
+                        <ChartLegend content={<ChartLegendContent />} />
                     </AreaChart>
                 </ChartContainer>
             </CardContent>
         </Card>
     );
 }
-
