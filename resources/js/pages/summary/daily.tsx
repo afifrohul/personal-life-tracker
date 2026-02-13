@@ -30,7 +30,7 @@ import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Daily',
+        title: 'Daily Summary',
         href: '/daily-summary',
     },
 ];
