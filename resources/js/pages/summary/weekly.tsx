@@ -4,6 +4,7 @@ import { ChartExp } from '@/components/chart-exp';
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartHabit } from '@/components/chart-habit';
 import { ChartMood } from '@/components/chart-mood';
+import InsightCard from '@/components/insight-card';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -12,10 +13,19 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
+import { formatRupiah } from '@/lib/format-rupiah';
 import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { addWeeks, endOfWeek, format, startOfWeek } from 'date-fns';
-import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+    Award,
+    ChevronDownIcon,
+    ChevronLeft,
+    ChevronRight,
+    CircleDollarSign,
+    Sticker,
+    UserCheck,
+} from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,6 +35,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+type Insight = {
+    value: number;
+    previous: number;
+    change_percent: number;
+    trend: 'up' | 'down' | 'neutral';
+};
+
 interface WeeklyProps {
     selectedStartDate: string;
     selectedEndDate: string;
@@ -32,6 +49,12 @@ interface WeeklyProps {
     chartDataHabit: [];
     chartDataExp: [];
     chartDataExpense: [];
+    insights: {
+        mood: Insight;
+        habit: Insight;
+        exp_gain: Insight;
+        expense: Insight;
+    };
 }
 
 export default function Weekly({
@@ -41,7 +64,10 @@ export default function Weekly({
     chartDataHabit,
     chartDataExp,
     chartDataExpense,
+    insights,
 }: WeeklyProps) {
+    console.log(insights);
+
     const [open, setOpen] = useState(false);
 
     function parseDate(date: string) {
@@ -152,13 +178,35 @@ export default function Weekly({
                     </Button>
                 </div>
 
-                <div className="rounded-md border p-4 text-sm text-muted-foreground">
-                    Weekly summary content goes here…
-                    <br />
-                    <span className="text-xs">
-                        ({startDate && format(startDate, 'dd MMM yyyy')} –{' '}
-                        {endDate && format(endDate, 'dd MMM yyyy')})
-                    </span>
+                <div className="flex w-full items-center gap-4">
+                    <InsightCard
+                        title="Mood Score Average"
+                        icon={<Sticker className="h-4 w-4" />}
+                        value={insights.mood.value}
+                        change_percent={insights.mood.change_percent}
+                        trend={insights.mood.trend}
+                        />
+                    <InsightCard
+                        title="Total Habit Done"
+                        icon={<UserCheck className="h-4 w-4" />}
+                        value={insights.habit.value}
+                        change_percent={insights.habit.change_percent}
+                        trend={insights.habit.trend}
+                        />
+                    <InsightCard
+                        title="Total EXP Gain"
+                        icon={<Award className="h-4 w-4" />}
+                        value={insights.exp_gain.value}
+                        change_percent={insights.exp_gain.change_percent}
+                        trend={insights.exp_gain.trend}
+                        />
+                    <InsightCard
+                        title="Total Expense"
+                        icon={<CircleDollarSign className="h-4 w-4" />}
+                        value={formatRupiah(insights.expense.value)}
+                        change_percent={insights.expense.change_percent}
+                        trend={insights.expense.trend}
+                    />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

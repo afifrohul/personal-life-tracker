@@ -23,6 +23,28 @@ use App\Models\JournalLog;
 
 class SummaryController extends Controller
 {
+
+    private function compare($current, $previous)
+        {
+        if ($previous == 0) {
+            return [
+                'previous' => $previous,
+                'change_percent' => 0,
+                'trend' => 'neutral',
+            ];
+        }
+
+        $diff = (($current - $previous) / $previous) * 100;
+
+        return [
+            'previous' => $previous,
+            'change_percent' => round($diff, 1),
+            'trend' => $diff > 0.5
+                ? 'up'
+                : ($diff < -0.5 ? 'down' : 'neutral'),
+        ];
+    }
+
     public function daily(Request $request)
     {
         try {
@@ -71,18 +93,74 @@ class SummaryController extends Controller
                 $endDate = now()->endOfWeek()->format('Y-m-d');
             }
 
+            $start = Carbon::parse($startDate);
+            $end = Carbon::parse($endDate);
+
+            $previousStart = $start->copy()->subWeek();
+            $previousEnd = $end->copy()->subWeek();
+
+            // MOOD
+            $currentMoodAvg = MoodLog::whereBetween('date', [$startDate, $endDate])
+                ->avg('mood_score') ?? 0;
+
+            $previousMoodAvg = MoodLog::whereBetween('date', [$previousStart, $previousEnd])
+                ->avg('mood_score') ?? 0;
+
+            $moodInsight = [
+                'value' => round($currentMoodAvg, 2),
+                ...$this->compare($currentMoodAvg, $previousMoodAvg),
+            ];
+
             $chartDataMood = MoodLog::whereBetween('date', [$startDate, $endDate])->orderBy('date', 'ASC')->select('date', 'mood_score')->get();
+            
+            // HABIT
+            $currentHabitTotal = HabitLog::whereBetween('date', [$startDate, $endDate])
+                ->count();
+
+            $previousHabitTotal = HabitLog::whereBetween('date', [$previousStart, $previousEnd])
+                ->count();
+
+            $habitInsight = [
+                'value' => $currentHabitTotal,
+                ...$this->compare($currentHabitTotal, $previousHabitTotal),
+            ];
 
             $chartDataHabit = HabitLog::whereBetween('date', [$startDate, $endDate])->select(\DB::raw('date, count(*) as habit'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
+            // EXP GAIN
+            $currentExpTotal = HabitLog::whereBetween('date', [$startDate, $endDate])
+                ->sum('exp_gain');
+
+            $previousExpTotal = HabitLog::whereBetween('date', [$previousStart, $previousEnd])
+                ->sum('exp_gain');
+
+            $expInsight = [
+                'value' => $currentExpTotal,
+                ...$this->compare($currentExpTotal, $previousExpTotal),
+            ];
+
             $chartDataExp = HabitLog::whereBetween('date', [$startDate, $endDate])->select(\DB::raw('date, sum(exp_gain) as exp'))
             ->groupBy('date')
             ->orderBy('date')
             ->get();
     
+            // EXPENSE
+            $currentExpenseTotal = Flowcash::whereBetween('date', [$startDate, $endDate])
+                ->where('type', 'expense')
+                ->sum('amount');
+
+            $previousExpenseTotal = Flowcash::whereBetween('date', [$previousStart, $previousEnd])
+                ->where('type', 'expense')
+                ->sum('amount');
+
+            $expenseInsight = [
+                'value' => $currentExpenseTotal,
+                ...$this->compare($currentExpenseTotal, $previousExpenseTotal),
+            ];
+
             $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
             ->groupBy('date')
             ->orderBy('date')
@@ -95,6 +173,12 @@ class SummaryController extends Controller
                 'chartDataHabit' => $chartDataHabit,
                 'chartDataExp' => $chartDataExp,
                 'chartDataExpense' => $chartDataExpense,
+                'insights' => [
+                    'mood' => $moodInsight,
+                    'habit' => $habitInsight,
+                    'exp_gain' => $expInsight,
+                    'expense' => $expenseInsight,
+                ],
             ]);
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());
