@@ -4,6 +4,7 @@ import { ChartExp } from '@/components/chart-exp';
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartHabit } from '@/components/chart-habit';
 import { ChartMood } from '@/components/chart-mood';
+import InsightCard from '@/components/insight-card';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -12,10 +13,19 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
+import { formatRupiah } from '@/lib/format-rupiah';
 import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { addMonths, endOfMonth, format, startOfMonth } from 'date-fns';
-import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+    Award,
+    ChevronDownIcon,
+    ChevronLeft,
+    ChevronRight,
+    CircleDollarSign,
+    Sticker,
+    UserCheck,
+} from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,6 +35,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+type Insight = {
+    value: number;
+    previous: number;
+    change_percent: number;
+    trend: 'up' | 'down' | 'neutral';
+};
+
 interface MonthlyProps {
     selectedStartDate: string;
     selectedEndDate: string;
@@ -32,6 +49,12 @@ interface MonthlyProps {
     chartDataHabit: [];
     chartDataExp: [];
     chartDataExpense: [];
+    insights: {
+        mood: Insight;
+        habit: Insight;
+        exp_gain: Insight;
+        expense: Insight;
+    };
 }
 
 export default function Monthly({
@@ -41,6 +64,7 @@ export default function Monthly({
     chartDataHabit,
     chartDataExp,
     chartDataExpense,
+    insights,
 }: MonthlyProps) {
     const [open, setOpen] = useState(false);
 
@@ -155,13 +179,47 @@ export default function Monthly({
                     </Button>
                 </div>
 
-                <div className="rounded-md border p-4 text-sm text-muted-foreground">
-                    Monthly summary content goes here…
-                    <br />
-                    <span className="text-xs">
-                        ({startDate && format(startDate, 'dd MMM yyyy')} –{' '}
-                        {endDate && format(endDate, 'dd MMM yyyy')})
-                    </span>
+                <div className="flex w-full items-center gap-4">
+                    <InsightCard
+                        type="month"
+                        title="Mood Score Average"
+                        icon={
+                            <Sticker className="h-4 w-4 text-muted-foreground" />
+                        }
+                        value={insights.mood.value}
+                        change_percent={insights.mood.change_percent}
+                        trend={insights.mood.trend}
+                    />
+                    <InsightCard
+                        type="month"
+                        title="Total Habit Done"
+                        icon={
+                            <UserCheck className="h-4 w-4 text-muted-foreground" />
+                        }
+                        value={insights.habit.value}
+                        change_percent={insights.habit.change_percent}
+                        trend={insights.habit.trend}
+                    />
+                    <InsightCard
+                        type="month"
+                        title="Total EXP Gain"
+                        icon={
+                            <Award className="h-4 w-4 text-muted-foreground" />
+                        }
+                        value={insights.exp_gain.value}
+                        change_percent={insights.exp_gain.change_percent}
+                        trend={insights.exp_gain.trend}
+                    />
+                    <InsightCard
+                        type="month"
+                        title="Total Expense"
+                        icon={
+                            <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
+                        }
+                        value={formatRupiah(insights.expense.value)}
+                        change_percent={insights.expense.change_percent}
+                        trend={insights.expense.trend}
+                    />
                 </div>
                 <ChartMood chartData={chartDataMood} isActiveFilter={false} />
                 <ChartHabit chartData={chartDataHabit} isActiveFilter={false} />

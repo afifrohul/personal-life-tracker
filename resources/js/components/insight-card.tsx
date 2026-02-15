@@ -1,6 +1,7 @@
 import { MoveRight, TrendingDown, TrendingUp } from 'lucide-react';
 
 interface Insight {
+    type: 'week' | 'month';
     title: string;
     icon: React.ReactElement;
     value: number | string;
@@ -10,6 +11,7 @@ interface Insight {
 }
 
 export default function InsightCard({
+    type,
     title,
     icon,
     value,
@@ -44,12 +46,13 @@ export default function InsightCard({
                     className={`rounded border px-1 py-0.5 text-xs font-medium ${trend === 'up' ? 'border-teal-400/20 bg-teal-400/10 text-teal-600' : trend === 'down' ? 'border-rose-400/20 bg-rose-400/10 text-rose-600' : 'border-gray-400/20 bg-gray-400/10 text-gray-600'}`}
                 >
                     <p className="italic">
-                        {trend === 'up' ? '+' : null}{change_percent}%
+                        {trend === 'up' ? '+' : null}
+                        {change_percent}%
                     </p>
                 </div>
                 <div className="flex items-center">
                     <p className="text-sm text-muted-foreground">
-                        from last week
+                        from last {type}
                     </p>
                 </div>
             </div>

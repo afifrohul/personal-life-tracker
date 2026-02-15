@@ -180,29 +180,41 @@ export default function Weekly({
 
                 <div className="flex w-full items-center gap-4">
                     <InsightCard
+                        type="week"
                         title="Mood Score Average"
-                        icon={<Sticker className="h-4 w-4 text-muted-foreground" />}
+                        icon={
+                            <Sticker className="h-4 w-4 text-muted-foreground" />
+                        }
                         value={insights.mood.value}
                         change_percent={insights.mood.change_percent}
                         trend={insights.mood.trend}
-                        />
+                    />
                     <InsightCard
+                        type="week"
                         title="Total Habit Done"
-                        icon={<UserCheck className="h-4 w-4 text-muted-foreground" />}
+                        icon={
+                            <UserCheck className="h-4 w-4 text-muted-foreground" />
+                        }
                         value={insights.habit.value}
                         change_percent={insights.habit.change_percent}
                         trend={insights.habit.trend}
-                        />
+                    />
                     <InsightCard
+                        type="week"
                         title="Total EXP Gain"
-                        icon={<Award className="h-4 w-4 text-muted-foreground" />}
+                        icon={
+                            <Award className="h-4 w-4 text-muted-foreground" />
+                        }
                         value={insights.exp_gain.value}
                         change_percent={insights.exp_gain.change_percent}
                         trend={insights.exp_gain.trend}
-                        />
+                    />
                     <InsightCard
+                        type="week"
                         title="Total Expense"
-                        icon={<CircleDollarSign className="h-4 w-4 text-muted-foreground" />}
+                        icon={
+                            <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
+                        }
                         value={formatRupiah(insights.expense.value)}
                         change_percent={insights.expense.change_percent}
                         trend={insights.expense.trend}
