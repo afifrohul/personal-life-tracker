@@ -104,43 +104,45 @@ export function ChartExp({
                     <CardTitle>{chartName}</CardTitle>
                     <CardDescription>{chartDescription}</CardDescription>
                 </div>
-                <Select
-                    value={timeRange}
-                    onValueChange={(v) => setTimeRange(v as any)}
-                >
-                    <SelectTrigger
-                        className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
-                        aria-label="Select a value"
+                {isActiveFilter && (
+                    <Select
+                        value={timeRange}
+                        onValueChange={(v) => setTimeRange(v as any)}
                     >
-                        <SelectValue placeholder="Last 3 months" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl">
-                        <SelectItem
-                            value="90d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 90}
+                        <SelectTrigger
+                            className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
+                            aria-label="Select a value"
                         >
-                            Last 3 months
-                        </SelectItem>
-                        <SelectItem
-                            value="30d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 30}
-                        >
-                            Last 30 days
-                        </SelectItem>
-                        <SelectItem
-                            value="14d"
-                            className="rounded-lg"
-                            disabled={chartData.length < 14}
-                        >
-                            Last 14 days
-                        </SelectItem>
-                        <SelectItem value="7d" className="rounded-lg">
-                            Last 7 days
-                        </SelectItem>
-                    </SelectContent>
-                </Select>
+                            <SelectValue placeholder="Last 3 months" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem
+                                value="90d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 90}
+                            >
+                                Last 3 months
+                            </SelectItem>
+                            <SelectItem
+                                value="30d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 30}
+                            >
+                                Last 30 days
+                            </SelectItem>
+                            <SelectItem
+                                value="14d"
+                                className="rounded-lg"
+                                disabled={chartData.length < 14}
+                            >
+                                Last 14 days
+                            </SelectItem>
+                            <SelectItem value="7d" className="rounded-lg">
+                                Last 7 days
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                )}
             </CardHeader>
             <CardContent className="px-2 sm:p-6">
                 <ChartContainer
