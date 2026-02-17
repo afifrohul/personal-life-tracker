@@ -41,7 +41,7 @@ class SummaryController extends Controller
             'change_percent' => round($diff, 1),
             'trend' => $diff > 0.5
                 ? 'up'
-                : ($diff < -0.5 ? 'down' : 'neutral'),
+                : ($diff < -0.1 ? 'down' : 'neutral'),
         ];
     }
 
