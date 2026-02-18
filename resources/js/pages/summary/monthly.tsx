@@ -181,7 +181,8 @@ export default function Monthly({
 
                 <div className="flex w-full items-center gap-4">
                     <InsightCard
-                        type="month"
+                        type="mood"
+                        range="month"
                         title="Mood Score Average"
                         icon={
                             <Sticker className="h-4 w-4 text-muted-foreground" />
@@ -191,7 +192,8 @@ export default function Monthly({
                         trend={insights.mood.trend}
                     />
                     <InsightCard
-                        type="month"
+                        type="habit_done"
+                        range="month"
                         title="Total Habit Done"
                         icon={
                             <UserCheck className="h-4 w-4 text-muted-foreground" />
@@ -201,7 +203,8 @@ export default function Monthly({
                         trend={insights.habit.trend}
                     />
                     <InsightCard
-                        type="month"
+                        type="exp_gain"
+                        range="month"
                         title="Total EXP Gain"
                         icon={
                             <Award className="h-4 w-4 text-muted-foreground" />
@@ -211,7 +214,8 @@ export default function Monthly({
                         trend={insights.exp_gain.trend}
                     />
                     <InsightCard
-                        type="month"
+                        type="expense"
+                        range="month"
                         title="Total Expense"
                         icon={
                             <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
