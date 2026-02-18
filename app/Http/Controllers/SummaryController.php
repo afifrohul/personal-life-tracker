@@ -89,8 +89,8 @@ class SummaryController extends Controller
                 $startDate = $request->input('start_date');
                 $endDate = $request->input('end_date');
             } else {
-                $startDate = now()->startOfWeek()->format('Y-m-d');
-                $endDate = now()->endOfWeek()->format('Y-m-d');
+                $startDate = now()->startOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+                $endDate = now()->endOfWeek(Carbon::SATURDAY)->format('Y-m-d');
             }
 
             $start = Carbon::parse($startDate);

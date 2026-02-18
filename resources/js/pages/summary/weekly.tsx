@@ -66,8 +66,6 @@ export default function Weekly({
     chartDataExpense,
     insights,
 }: WeeklyProps) {
-    console.log(insights);
-
     const [open, setOpen] = useState(false);
 
     function parseDate(date: string) {
