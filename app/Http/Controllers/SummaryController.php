@@ -25,7 +25,7 @@ class SummaryController extends Controller
 {
 
     private function compare($current, $previous)
-        {
+    {
         if ($previous == 0) {
             return [
                 'previous' => $previous,
@@ -39,7 +39,7 @@ class SummaryController extends Controller
         return [
             'previous' => $previous,
             'change_percent' => round($diff, 1),
-            'trend' => $diff > 0.5
+            'trend' => $diff > 0.1
                 ? 'up'
                 : ($diff < -0.1 ? 'down' : 'neutral'),
         ];
