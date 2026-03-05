@@ -58,9 +58,6 @@ export function ChartExpense({
     isActiveFilter = true,
     uniqueYears,
 }: ChartProps) {
-    const maxValue = Math.max(...chartData.flatMap((item) => [item.expense]));
-    const upperDomain = Math.ceil(maxValue * 1.15);
-
     const [month, setMonth] = useState(String(new Date().getMonth() + 1));
     const [year, setYear] = useState(String(new Date().getFullYear()));
 
@@ -79,6 +76,9 @@ export function ChartExpense({
               );
           })
         : processedData;
+
+    const maxValue = Math.max(...finalData.flatMap((item) => [item.expense]));
+    const upperDomain = Math.ceil(maxValue * 1.15);
 
     const average =
         finalData.length > 0

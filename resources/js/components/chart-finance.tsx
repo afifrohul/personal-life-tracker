@@ -48,14 +48,16 @@ interface ChartProps {
 }
 
 export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
-    const maxValue = Math.max(...chartData.flatMap((item) => [item.expense]));
-    const upperDomain = Math.ceil(maxValue * 1.15);
-
     const [year, setYear] = useState(String(new Date().getFullYear()));
 
     const filteredChartData = chartData.filter((data) => {
         return data.year === Number(year);
     });
+
+    const maxValue = Math.max(
+        ...filteredChartData.flatMap((item) => [item.expense]),
+    );
+    const upperDomain = Math.ceil(maxValue * 1.15);
 
     return (
         <Card>
