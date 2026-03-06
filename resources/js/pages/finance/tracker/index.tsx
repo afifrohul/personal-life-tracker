@@ -36,22 +36,20 @@ export default function Index({
                     <ChartFinance
                         chartData={chartDataFinance}
                         uniqueYears={uniqueYears}
-                    ></ChartFinance>
+                    />
                 </div>
                 <div>
                     <ChartExpense
                         chartData={chartDataExpense}
                         uniqueYears={uniqueYears}
-                    ></ChartExpense>
+                    />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <ChartFinanceYear
-                        chartData={chartDataFinanceYear}
-                    ></ChartFinanceYear>
+                    <ChartFinanceYear chartData={chartDataFinanceYear} />
                     <ChartExpenseByCategory
                         data={expenseByCategory}
                         uniqueYears={uniqueYears}
-                    ></ChartExpenseByCategory>
+                    />
                 </div>
             </div>
         </AppLayout>

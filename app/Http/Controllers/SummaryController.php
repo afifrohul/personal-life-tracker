@@ -161,10 +161,35 @@ class SummaryController extends Controller
                 ...$this->compare($currentExpenseTotal, $previousExpenseTotal),
             ];
 
-            $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+            $rawDataExpense = Flowcash::selectRaw('
+                    DATE(date) as date,
+                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
+                ')
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get()
+                ->keyBy('date');
+
+            $chartDataExpense = collect();
+
+            $now = now();
+            $start = Carbon::parse($startDate);
+            $end = Carbon::parse($endDate);
+
+            $loopEndDate = $now->between($start, $end) ? $now : $end;
+
+            $chartDataExpense = collect();
+
+            for ($date = $start->copy(); $date->lte($loopEndDate); $date->addDay()) {
+                $key = $date->format('Y-m-d');
+
+                $existing = $rawDataExpense->get($key);
+
+                $chartDataExpense->push([
+                    'date' => $key,
+                    'expense' => $existing ? (int) $existing->expense : 0,
+                ]);
+            }
 
             return Inertia::render('summary/weekly', [
                 'selectedStartDate' => $startDate,
@@ -265,10 +290,35 @@ class SummaryController extends Controller
                 ...$this->compare($currentExpenseTotal, $previousExpenseTotal),
             ];
 
-            $chartDataExpense = Flowcash::whereBetween('date', [$startDate, $endDate])->where('type', 'expense')->select(\DB::raw('date, sum(amount) as expense'))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+            $rawDataExpense = Flowcash::selectRaw('
+                    DATE(date) as date,
+                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
+                ')
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get()
+                ->keyBy('date');
+
+            $chartDataExpense = collect();
+
+            $now = now();
+            $start = Carbon::parse($startDate);
+            $end = Carbon::parse($endDate);
+
+            $loopEndDate = $now->between($start, $end) ? $now : $end;
+
+            $chartDataExpense = collect();
+
+            for ($date = $start->copy(); $date->lte($loopEndDate); $date->addDay()) {
+                $key = $date->format('Y-m-d');
+
+                $existing = $rawDataExpense->get($key);
+
+                $chartDataExpense->push([
+                    'date' => $key,
+                    'expense' => $existing ? (int) $existing->expense : 0,
+                ]);
+            }
 
             return Inertia::render('summary/monthly', [
                 'selectedStartDate' => $startDate,
