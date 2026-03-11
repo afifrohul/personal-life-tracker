@@ -275,7 +275,7 @@ export function FlowcashForm({
                     type="button"
                     variant="outline"
                     disabled={isSubmitting}
-                    onClick={() => router.get('/habits')}
+                    onClick={() => router.get('/flowcashes')}
                 >
                     Cancel
                 </Button>
