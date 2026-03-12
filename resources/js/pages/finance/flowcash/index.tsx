@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
@@ -51,11 +52,18 @@ type Flowcash = {
 };
 
 interface FlowcashIndexProps {
-    flowcashes: Flowcash[];
+    allFlowcashes: Flowcash[];
     categories: Category[];
+    totalIncome: number;
+    totalExpense: number;
 }
 
-export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
+export default function Index({
+    allFlowcashes,
+    categories,
+    totalIncome,
+    totalExpense,
+}: FlowcashIndexProps) {
     const [category, setCategory] = useState('0');
     const [type, setType] = useState('all');
     const [open, setOpen] = useState(false);
@@ -266,7 +274,7 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
                         <DataTable<Flowcash>
                             showIndexColumn
                             columns={columns}
-                            data={flowcashes}
+                            data={allFlowcashes}
                             createButton={
                                 <Button
                                     variant="outline"
@@ -279,6 +287,36 @@ export default function Index({ flowcashes, categories }: FlowcashIndexProps) {
                                 </Button>
                             }
                         />
+                    </div>
+                    <Separator className="my-4" />
+                    <div className="mt-4 rounded-md border bg-muted/30 p-4">
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm font-medium">Summary</p>
+
+                            <p className="text-xs italic text-indigo-500">
+                                *Totals are based on the filtered flowcashes
+                            </p>
+                        </div>
+
+                        <div className="mt-3 grid grid-cols-2 gap-4">
+                            <div className="rounded-md border p-3">
+                                <p className="text-xs text-muted-foreground">
+                                    Total Income
+                                </p>
+                                <p className="text-lg font-semibold text-teal-600">
+                                    {formatRupiah(totalIncome)}
+                                </p>
+                            </div>
+
+                            <div className="rounded-md border p-3">
+                                <p className="text-xs text-muted-foreground">
+                                    Total Expense
+                                </p>
+                                <p className="text-lg font-semibold text-rose-600">
+                                    {formatRupiah(totalExpense)}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,12 +37,20 @@ class FlowcashController extends Controller
             if ($type != 'all') {
                 $flowcashes->where('type', $type);
             }
-            
-            $flowcashes = $flowcashes->get();
+
+            $allFlowcashes = (clone $flowcashes)->get();
+
+            $totalIncome = (int) (clone $flowcashes)
+                ->where('type', 'income')
+                ->sum('amount');
+
+            $totalExpense = (int) (clone $flowcashes)
+                ->where('type', 'expense')
+                ->sum('amount');
 
             $categories = FlowcashCategory::get();
 
-            return Inertia::render('finance/flowcash/index', compact('flowcashes', 'categories'));
+            return Inertia::render('finance/flowcash/index', compact('allFlowcashes', 'categories', 'totalIncome', 'totalExpense'));
         } catch (\Exception $e) {
             Log::error('Error loading flowcashes: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load flowcashes.');
