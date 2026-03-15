@@ -298,7 +298,7 @@ export default function Index({
                             </p>
                         </div>
 
-                        <div className="mt-3 grid grid-cols-2 gap-4">
+                        <div className="mt-3 grid grid-cols-3 gap-4">
                             <div className="rounded-md border p-3">
                                 <p className="text-xs text-muted-foreground">
                                     Total Income
@@ -314,6 +314,15 @@ export default function Index({
                                 </p>
                                 <p className="text-lg font-semibold text-rose-600">
                                     {formatRupiah(totalExpense)}
+                                </p>
+                            </div>
+
+                            <div className="rounded-md border p-3">
+                                <p className="text-xs text-muted-foreground">
+                                    Balance
+                                </p>
+                                <p className="text-lg font-semibold text-yellow-600">
+                                    {formatRupiah(totalIncome - totalExpense)}
                                 </p>
                             </div>
                         </div>
