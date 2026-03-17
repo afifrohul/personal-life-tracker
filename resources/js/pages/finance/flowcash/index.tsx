@@ -24,7 +24,12 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowDownLeft, ArrowUpRight, CalendarDays } from 'lucide-react';
+import {
+    ArrowDownLeft,
+    ArrowUpRight,
+    CalendarDays,
+    CircleDollarSign,
+} from 'lucide-react';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { FaPlusCircle } from 'react-icons/fa';
@@ -293,34 +298,43 @@ export default function Index({
                         <div className="flex items-center justify-between">
                             <p className="text-sm font-medium">Summary</p>
 
-                            <p className="text-xs italic text-indigo-500">
+                            <p className="text-xs text-indigo-500 italic">
                                 *Totals are based on the filtered flowcashes
                             </p>
                         </div>
 
                         <div className="mt-3 grid grid-cols-3 gap-4">
                             <div className="rounded-md border p-3">
-                                <p className="text-xs text-muted-foreground">
-                                    Total Income
-                                </p>
+                                <div className="flex items-center gap-1">
+                                    <ArrowDownLeft className="h-3.5 w-3.5 text-teal-600" />
+                                    <p className="text-xs text-muted-foreground">
+                                        Total Income
+                                    </p>
+                                </div>
                                 <p className="text-lg font-semibold text-teal-600">
                                     {formatRupiah(totalIncome)}
                                 </p>
                             </div>
 
                             <div className="rounded-md border p-3">
-                                <p className="text-xs text-muted-foreground">
-                                    Total Expense
-                                </p>
+                                <div className="flex items-center gap-1">
+                                    <ArrowUpRight className="h-3.5 w-3.5 text-rose-600" />
+                                    <p className="text-xs text-muted-foreground">
+                                        Total Expense
+                                    </p>
+                                </div>
                                 <p className="text-lg font-semibold text-rose-600">
                                     {formatRupiah(totalExpense)}
                                 </p>
                             </div>
 
                             <div className="rounded-md border p-3">
-                                <p className="text-xs text-muted-foreground">
-                                    Balance
-                                </p>
+                                <div className="flex items-center gap-1">
+                                    <CircleDollarSign className="h-3.5 w-3.5 text-yellow-600" />
+                                    <p className="text-xs text-muted-foreground">
+                                        Total Expense
+                                    </p>
+                                </div>
                                 <p className="text-lg font-semibold text-yellow-600">
                                     {formatRupiah(totalIncome - totalExpense)}
                                 </p>
