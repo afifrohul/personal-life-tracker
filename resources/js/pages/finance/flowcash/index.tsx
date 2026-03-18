@@ -332,7 +332,7 @@ export default function Index({
                                 <div className="flex items-center gap-1">
                                     <CircleDollarSign className="h-3.5 w-3.5 text-yellow-600" />
                                     <p className="text-xs text-muted-foreground">
-                                        Balance
+                                        Available Balance
                                     </p>
                                 </div>
                                 <p className="text-lg font-semibold text-yellow-600">
