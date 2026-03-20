@@ -14,7 +14,6 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     ArrowLeftRight,
-    Bike,
     Blocks,
     Calendar1,
     CalendarCheck,
@@ -27,6 +26,7 @@ import {
     LayoutGrid,
     NotebookPen,
     ScrollText,
+    SquareActivity,
     SquareLibrary,
     Sticker,
     UserRoundCheck,
@@ -81,7 +81,7 @@ const Habits: NavItem[] = [
     {
         title: 'Habit',
         href: '/habits',
-        icon: Bike,
+        icon: SquareActivity,
     },
     {
         title: 'Habit Log',

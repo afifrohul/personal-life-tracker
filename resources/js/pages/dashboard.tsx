@@ -11,7 +11,6 @@ import {
     LuAngry,
     LuArrowDownLeft,
     LuArrowUpRight,
-    LuBike,
     LuCheck,
     LuCircleStop,
     LuFolderGit2,
@@ -24,6 +23,7 @@ import {
     LuScrollText,
     LuSmile,
     LuSmilePlus,
+    LuSquareActivity,
     LuSquareLibrary,
     LuSticker,
     LuUserCheck,
@@ -249,7 +249,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="indigo"
                             icon={
-                                <LuBike className="text-xl text-indigo-500" />
+                                <LuSquareActivity className="text-xl text-indigo-500" />
                             }
                             data={habitCount}
                             desc="Total Habit(s)"
