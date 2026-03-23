@@ -22,7 +22,7 @@ import {
     ChevronLeft,
     ChevronRight,
     List,
-    PencilLine,
+    SquarePen,
     Trash,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -261,7 +261,7 @@ export default function Index({
                                                         <EditButton
                                                             url={`/journal-logs/${item.id}/edit`}
                                                             label={
-                                                                <PencilLine />
+                                                                <SquarePen />
                                                             }
                                                         />
                                                         <DeleteButton
@@ -288,7 +288,8 @@ export default function Index({
                         <div className="space-y-4 rounded-md border p-4 text-xs">
                             <p className="text-muted-foreground italic">
                                 *tips: use the following calendar view to easily
-                                see all journal logs. use list view to create, edit, and delete journal logs.
+                                see all journal logs. use list view to create,
+                                edit, and delete journal logs.
                             </p>
 
                             <FullCalendar
@@ -317,7 +318,9 @@ export default function Index({
                                                     Journal Log —{' '}
                                                     {format(
                                                         new Date(
-                                                            selectedLog.extendedProps.date,
+                                                            selectedLog
+                                                                .extendedProps
+                                                                .date,
                                                         ),
                                                         'dd MMMM yyyy',
                                                     )}
@@ -329,7 +332,10 @@ export default function Index({
                                     <div>
                                         <div className="whitespace-pre-wrap">
                                             <p className="text-sm">
-                                                {selectedLog?.extendedProps.desc}
+                                                {
+                                                    selectedLog?.extendedProps
+                                                        .desc
+                                                }
                                             </p>
                                         </div>
                                     </div>

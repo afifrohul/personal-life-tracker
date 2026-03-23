@@ -155,7 +155,7 @@ export default function Index({
                             filteredMood(row.original.id);
                         }}
                     >
-                        Edit
+                        <SquarePen />
                     </Button>
                     <DeleteButton
                         url={`/mood-logs/${row.original.id}`}

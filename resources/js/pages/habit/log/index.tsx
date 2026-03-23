@@ -30,7 +30,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ChevronDownIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDownIcon, ChevronLeft, ChevronRight, SquarePen } from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -156,7 +156,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                             filteredHabitLog(row.original.id);
                         }}
                     >
-                        Edit
+                        <SquarePen />
                     </Button>
                     <DeleteButton
                         url={`/habit-logs/${row.original.id}`}
@@ -232,7 +232,6 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                     },
                 },
             );
-
         }
     };
 
@@ -352,7 +351,17 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[425px]">
-                                        <form onSubmit={mode == 'create' ? handleSubmit : (e) => handleSubmit(e, idEdit)}>
+                                        <form
+                                            onSubmit={
+                                                mode == 'create'
+                                                    ? handleSubmit
+                                                    : (e) =>
+                                                          handleSubmit(
+                                                              e,
+                                                              idEdit,
+                                                          )
+                                            }
+                                        >
                                             <DialogHeader className="mb-4">
                                                 <DialogTitle>
                                                     {mode === 'create'
