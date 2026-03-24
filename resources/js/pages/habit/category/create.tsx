@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/react';
 import { CategoryForm } from './partials/formCategory';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Category - Create', href: '/categories/create' },
+    { title: 'Habit Category - Create', href: '/categories/create' },
 ];
 
 export default function Create() {

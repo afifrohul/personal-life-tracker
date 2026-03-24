@@ -23,16 +23,16 @@ interface EditProps {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Habit - Edit', href: '/habits/edit' },
+    { title: 'Flowcash - Edit', href: '/flowcashes/edit' },
 ];
 
 export default function Edit({ flowcash, categories }: EditProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Habit" />
+            <Head title="Edit Flowcash" />
             <div className="container mx-auto p-4">
                 <div className="rounded-md border p-4">
-                    <h1 className="mb-4 text-xl font-bold">Edit Habit</h1>
+                    <h1 className="mb-4 text-xl font-bold">Edit Flowcash</h1>
                     <Separator className="my-4" />
                     <FlowcashForm
                         initialData={flowcash}

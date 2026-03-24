@@ -9,7 +9,7 @@ interface EditProps {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Category - Edit', href: '/categories/edit' },
+    { title: 'Habit Category - Edit', href: '/categories/edit' },
 ];
 
 export default function Edit({ category }: EditProps) {
