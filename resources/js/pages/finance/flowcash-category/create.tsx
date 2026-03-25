@@ -15,8 +15,8 @@ export default function Create() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Category" />
-            <div className="container mx-auto p-4">
-                <div className="rounded-md border p-4">
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
+                <div className="rounded-xl border p-4">
                     <h1 className="mb-4 text-xl font-bold">
                         Create Flowcash Category
                     </h1>

@@ -241,7 +241,7 @@ export default function Index({
                                     ) : (
                                         logs?.map((item, index) => (
                                             <div
-                                                className="rounded-md border p-4"
+                                                className="rounded-xl border p-4"
                                                 key={index}
                                             >
                                                 <div className="flex items-center justify-between">

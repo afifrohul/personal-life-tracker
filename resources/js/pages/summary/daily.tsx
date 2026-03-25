@@ -185,7 +185,7 @@ export default function Daily({
                     </div>
                 </div>
                 <div className="flex w-full gap-4">
-                    <div className="rounded-md border p-4">
+                    <div className="rounded-xl border p-4">
                         <div>
                             <p className="text-sm font-semibold italic">
                                 Mood Today
@@ -274,7 +274,7 @@ export default function Daily({
                         </div>
                     </div>
                 </div>
-                <div className="rounded-md border p-4">
+                <div className="rounded-xl border p-4">
                     <div>
                         <p className="text-sm font-semibold italic">
                             Flowcash Today ({expense?.length + income?.length})
@@ -458,7 +458,7 @@ export default function Daily({
                         </div>
                     </div>
                 </div>
-                <div className="rounded-md border p-4">
+                <div className="rounded-xl border p-4">
                     <div>
                         <p className="text-sm font-semibold italic">
                             Journal Log Today ({journal?.length})
