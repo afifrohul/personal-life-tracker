@@ -138,7 +138,7 @@ export default function Index({
             accessorKey: 'date',
             header: 'Date',
             cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMM yyyy'),
+                format(new Date(info.getValue() as string), 'dd MMMM yyyy'),
         },
         {
             id: 'actions',
