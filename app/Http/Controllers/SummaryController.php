@@ -93,6 +93,7 @@ class SummaryController extends Controller
                 $endDate = now()->endOfWeek(Carbon::SATURDAY)->format('Y-m-d');
             }
 
+            $now = now();
             $start = Carbon::parse($startDate);
             $end = Carbon::parse($endDate);
 
@@ -171,10 +172,6 @@ class SummaryController extends Controller
                 ->keyBy('date');
 
             $chartDataExpense = collect();
-
-            $now = now();
-            $start = Carbon::parse($startDate);
-            $end = Carbon::parse($endDate);
 
             $loopEndDate = $now->between($start, $end) ? $now : $end;
 
@@ -222,11 +219,12 @@ class SummaryController extends Controller
                 $endDate = now()->endOfMonth()->format('Y-m-d');
             }
 
+            $now = now();
             $start = Carbon::parse($startDate);
             $end = Carbon::parse($endDate);
 
-            $previousStart = $start->copy()->subWeek();
-            $previousEnd = $end->copy()->subWeek();
+            $previousStart = $start->copy()->subMonth();
+            $previousEnd = $end->copy()->subMonth();
 
             // MOOD
             $currentMoodAvg = MoodLog::whereBetween('date', [$startDate, $endDate])
@@ -300,10 +298,6 @@ class SummaryController extends Controller
                 ->keyBy('date');
 
             $chartDataExpense = collect();
-
-            $now = now();
-            $start = Carbon::parse($startDate);
-            $end = Carbon::parse($endDate);
 
             $loopEndDate = $now->between($start, $end) ? $now : $end;
 
