@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         /* Visit https://aka.ms/tsconfig to read more about this file */
+        "ignoreDeprecations": "6.0",
 
         /* Projects */
         // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
@@ -113,5 +114,9 @@
         },
         "jsx": "react-jsx"
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.tsx"]
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.d.ts",
+        "resources/js/**/*.tsx"
+    ]
 }
