@@ -34,7 +34,7 @@ class JournalLogController extends Controller
 
                 $logs = [];
                 $date = null;
-                $all_logs = JournalLog::get()
+                $all_logs = JournalLog::orderBy('created_at', 'ASC')->get()
                     ->map(fn($log) => [
                         'id' => $log->id,
                         'title' => substr($log->content, 0, 20) . '...',
@@ -43,6 +43,7 @@ class JournalLogController extends Controller
                         'extendedProps' => [
                             'desc' => $log->content,
                             'date' => $log->date,
+                            'created_at' => $log->created_at
                         ],
                     ]);
 

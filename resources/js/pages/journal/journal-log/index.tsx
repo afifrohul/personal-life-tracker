@@ -160,7 +160,7 @@ export default function Index({
                                                 {date
                                                     ? format(
                                                           new Date(date),
-                                                          'dd MMMM yyyy',
+                                                          'dd MMMM yyyy ',
                                                       )
                                                     : 'Select date'}
                                                 <ChevronDownIcon />
@@ -251,6 +251,10 @@ export default function Index({
                                                             item.date,
                                                             'dd MMMM yyyy',
                                                         )}{' '}
+                                                        {format(
+                                                            item.created_at,
+                                                            'HH:mm',
+                                                        )}{' '}
                                                         {item.created_at !=
                                                         item.updated_at
                                                             ? '(Edited)'
@@ -323,6 +327,14 @@ export default function Index({
                                                                 .date,
                                                         ),
                                                         'dd MMMM yyyy',
+                                                    )}{' '}
+                                                    {format(
+                                                        new Date(
+                                                            selectedLog
+                                                                .extendedProps
+                                                                .created_at,
+                                                        ),
+                                                        'HH:mm',
                                                     )}
                                                 </p>
                                             )}
