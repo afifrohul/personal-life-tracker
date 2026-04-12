@@ -299,7 +299,7 @@ export default function Index({
                             <p className="text-sm font-medium">Summary</p>
 
                             <p className="text-xs text-indigo-500 italic">
-                                *Totals are based on the filtered flowcashes
+                                *Totals are based on the filtered flowcashes except search feature
                             </p>
                         </div>
 
