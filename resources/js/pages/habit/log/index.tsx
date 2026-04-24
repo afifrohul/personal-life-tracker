@@ -30,7 +30,12 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ChevronDownIcon, ChevronLeft, ChevronRight, SquarePen } from 'lucide-react';
+import {
+    ChevronDownIcon,
+    ChevronLeft,
+    ChevronRight,
+    SquarePen,
+} from 'lucide-react';
 import { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -140,7 +145,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             accessorKey: 'date',
             header: 'Date',
             cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMM yyyy'),
+                format(new Date(info.getValue() as string), 'dd MMMM yyyy'),
         },
         {
             id: 'actions',
