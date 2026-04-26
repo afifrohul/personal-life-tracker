@@ -76,7 +76,7 @@ export default function Index({ projects }: IndexProps) {
             accessorKey: 'created_at',
             header: 'Created At',
             cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMM yyyy'),
+                format(new Date(info.getValue() as string), 'dd MMMM yyyy'),
         },
         {
             id: 'actions',
