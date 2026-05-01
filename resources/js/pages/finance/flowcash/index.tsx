@@ -195,7 +195,7 @@ export default function Index({
                                 className="w-full justify-between font-normal"
                             >
                                 {dateRange?.from && dateRange?.to
-                                    ? `${format(dateRange.from, 'dd MMM yyyy')} - ${format(dateRange.to, 'dd MMM yyyy')}`
+                                    ? `${format(dateRange.from, 'dd MMMM yyyy')} - ${format(dateRange.to, 'dd MMMM yyyy')}`
                                     : 'Select date range'}
                                 <CalendarDays />
                             </Button>
