@@ -131,7 +131,7 @@ export default function Show({ project }: ShowProps) {
                 if (row.original.due_date != null) {
                     return format(
                         new Date(row.original.due_date as string),
-                        'dd MMM yyyy',
+                        'dd MMMM yyyy',
                     );
                 } else {
                     return '-';

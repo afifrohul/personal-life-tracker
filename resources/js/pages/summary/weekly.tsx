@@ -133,9 +133,9 @@ export default function Weekly({
     function renderWeekLabel() {
         if (!startDate || !endDate) return 'Select Week';
 
-        return `${format(startDate, 'dd MMM')} – ${format(
+        return `${format(startDate, 'dd MMMM')} – ${format(
             endDate,
-            'dd MMM yyyy',
+            'dd MMMM yyyy',
         )}`;
     }
 
