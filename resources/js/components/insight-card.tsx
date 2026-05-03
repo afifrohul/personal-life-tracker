@@ -54,7 +54,7 @@ export default function InsightCard({
                         </p>
                     </div>
                     <div className="flex items-center">
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground italic">
                             from last {range}
                         </p>
                     </div>
@@ -81,7 +81,7 @@ export default function InsightCard({
                         </p>
                     </div>
                     <div className="flex items-center">
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground italic">
                             from last {range}
                         </p>
                     </div>
