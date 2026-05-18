@@ -162,14 +162,18 @@ class SummaryController extends Controller
                 ...$this->compare($currentExpenseTotal, $previousExpenseTotal),
             ];
 
-            $rawDataExpense = Flowcash::selectRaw('
+            $rawDataExpense = Flowcash::selectRaw("
                     DATE(date) as date,
-                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
-                ')
+                    SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense
+                ")
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get()
-                ->keyBy('date');
+                ->mapWithKeys(function ($item) {
+                    return [
+                        Carbon::parse($item->date)->format('Y-m-d') => $item,
+                    ];
+                });
 
             $chartDataExpense = collect();
 
@@ -288,14 +292,18 @@ class SummaryController extends Controller
                 ...$this->compare($currentExpenseTotal, $previousExpenseTotal),
             ];
 
-            $rawDataExpense = Flowcash::selectRaw('
+            $rawDataExpense = Flowcash::selectRaw("
                     DATE(date) as date,
-                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
-                ')
+                    SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense
+                ")
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get()
-                ->keyBy('date');
+                ->mapWithKeys(function ($item) {
+                    return [
+                        Carbon::parse($item->date)->format('Y-m-d') => $item,
+                    ];
+                });
 
             $chartDataExpense = collect();
 

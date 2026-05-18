@@ -12,6 +12,10 @@ class Flowcash extends Model
 
     protected $fillable = ['flowcash_category_id', 'date', 'amount', 'description', 'type'];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function flowcashCategory()
     {
         return $this->belongsTo(FlowcashCategory::class);

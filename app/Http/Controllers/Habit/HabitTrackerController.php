@@ -78,7 +78,7 @@ class HabitTrackerController extends Controller
                 ->whereNull('habit_logs.deleted_at')
                 ->select(
                     'habit_categories.name as category',
-                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
+                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS INTEGER) as exp_gain')
                 )
                 ->groupBy('habit_categories.name')
                 ->get();
@@ -89,7 +89,7 @@ class HabitTrackerController extends Controller
                 ->whereNull('habit_logs.deleted_at')
                 ->select(
                     'habits.name as habit',
-                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS UNSIGNED) as exp_gain')
+                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS INTEGER) as exp_gain')
                 )
                 ->groupBy('habits.name')
                 ->get();

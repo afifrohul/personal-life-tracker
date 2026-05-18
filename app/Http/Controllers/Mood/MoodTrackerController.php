@@ -59,7 +59,13 @@ class MoodTrackerController extends Controller
                 ->values();
 
 
-            $uniqueYears = MoodLog::selectRaw('YEAR(date) as year')->distinct()->pluck('year');
+            $uniqueYears = MoodLog::query()
+                ->select('date')
+                ->get()
+                ->pluck('date')
+                ->map(fn ($date) => \Carbon\Carbon::parse($date)->year)
+                ->unique()
+                ->values();
 
             return Inertia::render('mood/mood-tracker/index', compact('chartData', 'moodDistribution', 'moodAvg', 'uniqueYears'));
 

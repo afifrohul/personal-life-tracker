@@ -15,19 +15,35 @@ class FinanceTrackerController extends Controller
     public function index(Request $request)
     {
         try {
-            $rawDataFinance = Flowcash::selectRaw('
-                    YEAR(date) as year,
-                    MONTH(date) as month_number,
-                    MONTHNAME(date) as month,
-                    SUM(CASE WHEN type = "income" THEN amount ELSE 0 END) as income,
-                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
-                ')
-                ->groupBy('year', 'month_number', 'month')
-                ->orderBy('year')
-                ->orderBy('month_number')
+            $rawDataFinance = Flowcash::query()
+                ->select('date', 'type', 'amount')
                 ->get()
-                ->groupBy('year');
-            
+                ->groupBy(function ($item) {
+                    return $item->date->format('Y');
+                })
+                ->map(function ($yearItems) {
+                    return $yearItems
+                        ->groupBy(function ($item) {
+                            return $item->date->format('m');
+                        })
+                        ->map(function ($monthItems) {
+                            return [
+                                'year' => $monthItems->first()->date->format('Y'),
+                                'month_number' => $monthItems->first()->date->format('m'),
+                                'month' => $monthItems->first()->date->format('F'),
+
+                                'income' => $monthItems
+                                    ->where('type', 'income')
+                                    ->sum('amount'),
+
+                                'expense' => $monthItems
+                                    ->where('type', 'expense')
+                                    ->sum('amount'),
+                            ];
+                        })
+                        ->values();
+                });
+
             $chartDataFinance = collect();
 
             foreach ($rawDataFinance as $year => $rows) {
@@ -39,20 +55,24 @@ class FinanceTrackerController extends Controller
                     $chartDataFinance->push([
                         'year' => (int) $year,
                         'month' => $date->format('F'),
-                        'income' => $existing ? (int) $existing->income : 0,
-                        'expense' => $existing ? (int) $existing->expense : 0,
+                        'income' => $existing ? (int) $existing['income'] : 0,
+                        'expense' => $existing ? (int) $existing['expense'] : 0,
                     ]);
                 }
             }
 
-            $rawDataExpense = Flowcash::selectRaw('
-                    DATE(date) as date,
-                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
-                ')
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get()
-                ->keyBy('date');
+            $rawDataExpense = Flowcash::selectRaw("
+                DATE(date) as date,
+                SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense
+            ")
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [
+                    Carbon::parse($item->date)->format('Y-m-d') => $item,
+                ];
+            });
 
             $firstDate = Carbon::parse($rawDataExpense->keys()->first());
             $lastDate  = Carbon::parse($rawDataExpense->keys()->last());
@@ -73,14 +93,26 @@ class FinanceTrackerController extends Controller
                 ]);
             }
 
-            $chartDataFinanceYear = Flowcash::selectRaw('
-                    YEAR(date) as year,
-                    SUM(CASE WHEN type = "income" THEN amount ELSE 0 END) as income,
-                    SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expense
-                ')
-                ->groupBy('year')
-                ->orderBy('year')
-                ->get();
+            $chartDataFinanceYear = Flowcash::query()
+                ->select('date', 'type', 'amount')
+                ->get()
+                ->groupBy(function ($item) {
+                    return $item->date->format('Y');
+                })
+                ->map(function ($items, $year) {
+                    return [
+                        'year' => (int) $year,
+
+                        'income' => $items
+                            ->where('type', 'income')
+                            ->sum('amount'),
+
+                        'expense' => $items
+                            ->where('type', 'expense')
+                            ->sum('amount'),
+                    ];
+                })
+                ->values();
 
             $expenseByCategoryYear = $request->input('expenseByCategoryYear', now()->year);
             $expenseByCategoryMonth = $request->input('expenseByCategoryMonth', now()->month);
@@ -92,7 +124,7 @@ class FinanceTrackerController extends Controller
                 ->whereMonth('date', $expenseByCategoryMonth)
                 ->select(
                     'flowcash_categories.name as category',
-                    \DB::raw('CAST(SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) AS UNSIGNED) as expense')
+                    \DB::raw("CAST(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS INTEGER) as expense")
                 )->groupBy('flowcash_categories.name')
                 ->get();
 
