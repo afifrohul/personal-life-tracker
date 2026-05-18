@@ -24,7 +24,7 @@ class HabitSeeder extends Seeder
             ],
             [ 
                 'habit_category_id' => 1, 
-                'name' => '200+ Hand Grip', 
+                'name' => 'Hand Grip', 
                 'color' => '#0369a1',
                 'difficulty' => 'medium',
                 'icon' => 'BicepsFlexed', 
