@@ -91,6 +91,8 @@ export default function Index({
     mood_logs_column,
     view,
 }: MoodLogIndexProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const columns: ColumnDef<MoodLog>[] = [
         {
             accessorKey: 'mood_score',
@@ -213,6 +215,7 @@ export default function Index({
 
     const handleSubmit = (e: any, id?: number) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         if (mode == 'create') {
             router.post(
@@ -223,11 +226,10 @@ export default function Index({
                     onSuccess: () => {
                         setOpenForm(false);
                         resetForm();
+                        setIsSubmitting(false);
                     },
                     onError: () => {
-                        toast.error(
-                            'You already logged your mood for this date.',
-                        );
+                        toast.error('An error occurred.');
                     },
                 },
             );
@@ -240,11 +242,10 @@ export default function Index({
                     onSuccess: () => {
                         setOpenForm(false);
                         resetForm();
+                        setIsSubmitting(false);
                     },
                     onError: () => {
-                        toast.error(
-                            'You already logged your mood for this date.',
-                        );
+                        toast.error('An error occurred.');
                     },
                 },
             );
@@ -421,7 +422,14 @@ export default function Index({
                                                     Cancel
                                                 </Button>
                                             </DialogClose>
-                                            <Button type="submit">Save</Button>
+                                            <Button
+                                                type="submit"
+                                                disabled={isSubmitting}
+                                            >
+                                                {isSubmitting
+                                                    ? 'Saving...'
+                                                    : 'Save'}
+                                            </Button>
                                         </DialogFooter>
                                     </form>
                                 </DialogContent>

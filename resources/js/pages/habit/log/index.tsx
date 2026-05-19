@@ -75,6 +75,8 @@ interface LogIndexProps {
 }
 
 export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const columns: ColumnDef<Log>[] = [
         {
             accessorKey: 'category',
@@ -212,6 +214,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
 
     const handleSubmit = (e: any, id?: number) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         if (mode == 'create') {
             router.post(
@@ -222,6 +225,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                     onSuccess: () => {
                         setOpenForm(false);
                         resetForm();
+                        setIsSubmitting(false);
                     },
                 },
             );
@@ -234,6 +238,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                     onSuccess: () => {
                         setOpenForm(false);
                         resetForm();
+                        setIsSubmitting(false);
                     },
                 },
             );
@@ -423,8 +428,13 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                                                         Cancel
                                                     </Button>
                                                 </DialogClose>
-                                                <Button type="submit">
-                                                    Save
+                                                <Button
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                >
+                                                    {isSubmitting
+                                                        ? 'Saving...'
+                                                        : 'Save'}
                                                 </Button>
                                             </DialogFooter>
                                         </form>
