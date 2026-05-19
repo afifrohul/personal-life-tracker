@@ -1,18 +1,17 @@
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import { router } from '@inertiajs/react';
 import { Trash } from 'lucide-react';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 
 type DeleteButtonProps = React.ComponentProps<typeof Button> & {
     url: string;
@@ -26,34 +25,46 @@ export default function DeleteButton({
     label,
     ...props
 }: DeleteButtonProps) {
+    const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const displayLabel = label ?? <Trash />;
     const handleDelete = () => {
-        router.delete(url);
+        setIsSubmitting(true);
+        router.delete(url, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setOpen(false);
+                setIsSubmitting(false);
+            },
+        });
     };
 
     return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
+        <Dialog
+            open={open}
+            onOpenChange={(isOpen) => {
+                setOpen(isOpen);
+            }}
+        >
+            <DialogTrigger asChild>
                 <Button size="sm" variant="default" {...props}>
                     {displayLabel}
                 </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>
-                        Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                        {confirmMessage}
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>
-                        Continue
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogDescription>{confirmMessage}</DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button disabled={isSubmitting} onClick={handleDelete}>
+                        {isSubmitting ? 'Loading...' : 'Continue'}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }
