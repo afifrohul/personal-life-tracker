@@ -124,9 +124,12 @@ class FinanceTrackerController extends Controller
                 ->whereMonth('date', $expenseByCategoryMonth)
                 ->select(
                     'flowcash_categories.name as category',
-                    \DB::raw("CAST(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS INTEGER) as expense")
+                    \DB::raw("SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense")
                 )->groupBy('flowcash_categories.name')
-                ->get();
+                ->get()
+                ->each(function ($item) {
+                    $item->expense = (int) $item->expense;
+                });
 
             $uniqueYears = collect($chartDataFinance)
                 ->pluck('year')

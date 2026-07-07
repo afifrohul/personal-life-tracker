@@ -78,21 +78,26 @@ class HabitTrackerController extends Controller
                 ->whereNull('habit_logs.deleted_at')
                 ->select(
                     'habit_categories.name as category',
-                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS INTEGER) as exp_gain')
+                    \DB::raw('SUM(habit_logs.exp_gain) as exp_gain')
                 )
                 ->groupBy('habit_categories.name')
-                ->get();
-
+                ->get()
+                ->each(function ($item) {
+                    $item->exp_gain = (int) $item->exp_gain;
+                });
 
             $expGainByHabit = HabitLog::query()
                 ->join('habits', 'habit_logs.habit_id', '=', 'habits.id')
                 ->whereNull('habit_logs.deleted_at')
                 ->select(
                     'habits.name as habit',
-                    \DB::raw('CAST(SUM(habit_logs.exp_gain) AS INTEGER) as exp_gain')
+                    \DB::raw('SUM(habit_logs.exp_gain) as exp_gain')
                 )
                 ->groupBy('habits.name')
-                ->get();
+                ->get()
+                ->each(function ($item) {
+                    $item->exp_gain = (int) $item->exp_gain;
+                });
 
 
             return Inertia::render('habit/tracker/index', compact(
