@@ -52,7 +52,6 @@ import {
     MdKeyboardDoubleArrowLeft,
     MdKeyboardDoubleArrowRight,
 } from 'react-icons/md';
-import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -229,7 +228,7 @@ export default function Index({
                         setIsSubmitting(false);
                     },
                     onError: () => {
-                        toast.error('An error occurred.');
+                        setIsSubmitting(false);
                     },
                 },
             );
@@ -245,7 +244,7 @@ export default function Index({
                         setIsSubmitting(false);
                     },
                     onError: () => {
-                        toast.error('An error occurred.');
+                        setIsSubmitting(false);
                     },
                 },
             );
