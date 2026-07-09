@@ -43,7 +43,6 @@ import {
     SquarePen,
 } from 'lucide-react';
 import { useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -308,8 +307,7 @@ export default function Index({
                             >
                                 <DialogTrigger asChild>
                                     <Button variant="outline">
-                                        <FaPlusCircle className="mr-2" /> Create
-                                        New Mood Log
+                                        Create New Mood Log
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">

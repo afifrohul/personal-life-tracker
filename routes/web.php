@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/habit-logs', [HabitLogController::class, 'index'])->name('habit-logs.index');
     Route::post('/habit-logs', [HabitLogController::class, 'store'])->name('habit-logs.store');
+    Route::post('/habit-logs-generate', [HabitLogController::class, 'generate'])->name('habit-logs.generate');
     Route::put('/habit-logs/{id}', [HabitLogController::class, 'update'])->name('habit-logs.update');
     Route::delete('/habit-logs/{id}', [HabitLogController::class, 'destroy'])->name('habit-logs.destroy');    
 

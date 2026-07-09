@@ -9,7 +9,7 @@ import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { Eye } from 'lucide-react';
-import { FaCheckCircle, FaPlusCircle, FaStopCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaStopCircle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -119,8 +119,7 @@ export default function Index({ projects }: IndexProps) {
                                         router.get('/projects/create')
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Project
+                                    Create New Project
                                 </Button>
                             }
                         />

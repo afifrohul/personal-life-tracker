@@ -7,7 +7,6 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -92,8 +91,7 @@ export default function Index({ categories }: FlowcashCategoryIndexProps) {
                                         )
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Flowcash Category
+                                    Create New Flowcash Category
                                 </Button>
                             }
                         />

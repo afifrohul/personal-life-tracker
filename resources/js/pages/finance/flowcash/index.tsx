@@ -32,7 +32,6 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -287,8 +286,7 @@ export default function Index({
                                         router.get('/flowcashes/create')
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Flowcash
+                                    Create New Flowcash
                                 </Button>
                             }
                         />
@@ -299,7 +297,8 @@ export default function Index({
                             <p className="text-sm font-medium">Summary</p>
 
                             <p className="text-xs text-indigo-500 italic">
-                                *Totals are based on the filtered flowcashes except search feature
+                                *Totals are based on the filtered flowcashes
+                                except search feature
                             </p>
                         </div>
 

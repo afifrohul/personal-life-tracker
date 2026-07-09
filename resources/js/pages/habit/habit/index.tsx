@@ -8,8 +8,7 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { FaCheckCircle, FaCircle, FaPlusCircle, FaStopCircle } from 'react-icons/fa';
-import { FiLoader } from 'react-icons/fi';
+import { FaCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -30,7 +29,7 @@ type Habit = {
     color: string;
     exp: number;
     icon: string;
-    difficulty: string
+    difficulty: string;
     habit_category: Category;
 };
 
@@ -66,15 +65,15 @@ export default function Index({ habits }: HabitIndexProps) {
                         color="teal"
                         label={row.original.difficulty}
                         icon={<FaCircle className="h-1.5 w-1.5" />}
-                        />
-                    ) : row.original.difficulty === 'medium' ? (
-                        <SubtleBadge
+                    />
+                ) : row.original.difficulty === 'medium' ? (
+                    <SubtleBadge
                         color="yellow"
                         label={row.original.difficulty}
                         icon={<FaCircle className="h-1.5 w-1.5" />}
-                        />
-                    ) : (
-                        <SubtleBadge
+                    />
+                ) : (
+                    <SubtleBadge
                         color="rose"
                         label={row.original.difficulty}
                         icon={<FaCircle className="h-1.5 w-1.5" />}
@@ -157,8 +156,7 @@ export default function Index({ habits }: HabitIndexProps) {
                                     variant="outline"
                                     onClick={() => router.get('/habits/create')}
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Habit
+                                    Create New Habit
                                 </Button>
                             }
                         />

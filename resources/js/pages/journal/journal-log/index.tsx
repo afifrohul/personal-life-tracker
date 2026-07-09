@@ -26,7 +26,6 @@ import {
     Trash,
 } from 'lucide-react';
 import { useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -228,8 +227,7 @@ export default function Index({
                                         )
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Journal Log
+                                    Create New Journal Log
                                 </Button>
                             </div>
                             <div className="">

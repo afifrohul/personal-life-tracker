@@ -1,5 +1,6 @@
 import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
+import GenerateHabitLogButton from '@/components/generate-habit-log-button';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -37,7 +38,6 @@ import {
     SquarePen,
 } from 'lucide-react';
 import { useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -346,100 +346,110 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                             columns={columns}
                             data={logs}
                             createButton={
-                                <Dialog
-                                    open={openForm}
-                                    onOpenChange={(isOpen) => {
-                                        setMode('create');
-                                        setOpenForm(isOpen);
-                                        if (isOpen) resetForm();
-                                    }}
-                                >
-                                    <DialogTrigger asChild>
-                                        <Button variant="outline">
-                                            <FaPlusCircle className="mr-2" />{' '}
-                                            Create New Log
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className="sm:max-w-[425px]">
-                                        <form
-                                            onSubmit={
-                                                mode == 'create'
-                                                    ? handleSubmit
-                                                    : (e) =>
-                                                          handleSubmit(
-                                                              e,
-                                                              idEdit,
-                                                          )
-                                            }
-                                        >
-                                            <DialogHeader className="mb-4">
-                                                <DialogTitle>
-                                                    {mode === 'create'
-                                                        ? `Create Habit Log on ${format(new Date(selectedDate), 'dd MMMM yyyy')}`
-                                                        : 'Edit Habit Log'}
-                                                </DialogTitle>
-                                            </DialogHeader>
-                                            <div className="grid gap-4">
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="name-1">
-                                                        Habit
-                                                    </Label>
-                                                    <Select
-                                                        value={form.habit_id}
-                                                        onValueChange={(
-                                                            value,
-                                                        ) =>
-                                                            handleChange(
-                                                                'habit_id',
+                                <div className="flex items-center gap-2">
+                                    <Dialog
+                                        open={openForm}
+                                        onOpenChange={(isOpen) => {
+                                            setMode('create');
+                                            setOpenForm(isOpen);
+                                            if (isOpen) resetForm();
+                                        }}
+                                    >
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                className=""
+                                            >
+                                                Create New Habit Log
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-[425px]">
+                                            <form
+                                                onSubmit={
+                                                    mode == 'create'
+                                                        ? handleSubmit
+                                                        : (e) =>
+                                                              handleSubmit(
+                                                                  e,
+                                                                  idEdit,
+                                                              )
+                                                }
+                                            >
+                                                <DialogHeader className="mb-4">
+                                                    <DialogTitle>
+                                                        {mode === 'create'
+                                                            ? `Create Habit Log on ${format(new Date(selectedDate), 'dd MMMM yyyy')}`
+                                                            : 'Edit Habit Log'}
+                                                    </DialogTitle>
+                                                </DialogHeader>
+                                                <div className="grid gap-4">
+                                                    <div className="grid gap-3">
+                                                        <Label htmlFor="name-1">
+                                                            Habit
+                                                        </Label>
+                                                        <Select
+                                                            value={
+                                                                form.habit_id
+                                                            }
+                                                            onValueChange={(
                                                                 value,
-                                                            )
-                                                        }
-                                                    >
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select habit" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {habits?.map(
-                                                                (
-                                                                    item,
-                                                                    index,
-                                                                ) => (
-                                                                    <SelectItem
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        value={String(
-                                                                            item.id,
-                                                                        )}
-                                                                    >
-                                                                        {
-                                                                            item.name
-                                                                        }
-                                                                    </SelectItem>
-                                                                ),
-                                                            )}
-                                                        </SelectContent>
-                                                    </Select>
+                                                            ) =>
+                                                                handleChange(
+                                                                    'habit_id',
+                                                                    value,
+                                                                )
+                                                            }
+                                                        >
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Select habit" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                {habits?.map(
+                                                                    (
+                                                                        item,
+                                                                        index,
+                                                                    ) => (
+                                                                        <SelectItem
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            value={String(
+                                                                                item.id,
+                                                                            )}
+                                                                        >
+                                                                            {
+                                                                                item.name
+                                                                            }
+                                                                        </SelectItem>
+                                                                    ),
+                                                                )}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <DialogFooter className="mt-4">
-                                                <DialogClose asChild>
-                                                    <Button variant="outline">
-                                                        Cancel
+                                                <DialogFooter className="mt-4">
+                                                    <DialogClose asChild>
+                                                        <Button variant="outline">
+                                                            Cancel
+                                                        </Button>
+                                                    </DialogClose>
+                                                    <Button
+                                                        type="submit"
+                                                        disabled={isSubmitting}
+                                                    >
+                                                        {isSubmitting
+                                                            ? 'Saving...'
+                                                            : 'Save'}
                                                     </Button>
-                                                </DialogClose>
-                                                <Button
-                                                    type="submit"
-                                                    disabled={isSubmitting}
-                                                >
-                                                    {isSubmitting
-                                                        ? 'Saving...'
-                                                        : 'Save'}
-                                                </Button>
-                                            </DialogFooter>
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
+                                                </DialogFooter>
+                                            </form>
+                                        </DialogContent>
+                                    </Dialog>
+                                    <GenerateHabitLogButton
+                                        label="Generate All Habit Logs"
+                                        data={{ date: form.date }}
+                                    />
+                                </div>
                             }
                         />
                     </div>

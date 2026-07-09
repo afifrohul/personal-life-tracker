@@ -7,7 +7,6 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { FaPlusCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,7 +48,7 @@ export default function Index({ categories }: CategoryIndexProps) {
                 }
 
                 return (
-                    <div className='flex items-center gap-1'>
+                    <div className="flex items-center gap-1">
                         <IconComponent className="h-4 w-4" />
                         <p>{row.original.icon}</p>
                     </div>
@@ -90,8 +89,7 @@ export default function Index({ categories }: CategoryIndexProps) {
                                         router.get('/habit-categories/create')
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Habit Category
+                                    Create New Habit Category
                                 </Button>
                             }
                         />

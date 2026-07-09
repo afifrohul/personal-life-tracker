@@ -52,6 +52,34 @@ class HabitLogController extends Controller
         return redirect()->back()->with('success', 'Habit log created.');
     }
 
+    public function generate(Request $request, CompleteHabitService $completeHabitService) 
+    {
+        $validated = $request->validate([
+            'date' => 'required|date',
+        ]);
+
+        $habitLogs = HabitLog::where('date', $validated['date'])->count();
+
+        if ($habitLogs !=0) {
+            return redirect()->back()->with('error', "Today's habit log isn't empty.");
+        }
+
+        $habits = Habit::pluck('id')->toArray();
+
+        foreach ($habits as $habitId) {
+
+            $habit = Habit::findOrFail($habitId);
+
+            $completeHabitService->execute(
+                $request->user(),
+                $habit,
+                $validated['date']
+            );
+        }
+
+        return redirect()->back()->with('success', 'Habit log created.');
+    }
+
     public function update(Request $request, UpdateHabitLogService $updateHabitLogService, $id)
     {
         $validated = $request->validate([

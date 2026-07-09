@@ -17,12 +17,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { CalendarDays, Eye } from 'lucide-react';
 import { useState } from 'react';
-import {
-    FaCheckCircle,
-    FaCircle,
-    FaPlusCircle,
-    FaStopCircle,
-} from 'react-icons/fa';
+import { FaCheckCircle, FaCircle, FaStopCircle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -172,8 +167,7 @@ export default function Index({ personalTasks }: IndexProps) {
                                         router.get('/personal-tasks/create')
                                     }
                                 >
-                                    <FaPlusCircle className="mr-2" /> Create New
-                                    Personal Task
+                                    Create New Personal Task
                                 </Button>
                             }
                         />
