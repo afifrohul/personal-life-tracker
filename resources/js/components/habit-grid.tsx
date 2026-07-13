@@ -17,7 +17,7 @@ import { useState } from 'react';
 
 type Chart = {
     id: number;
-    year: number;
+    year: string;
     date: string;
 };
 

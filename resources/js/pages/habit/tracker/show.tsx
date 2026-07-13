@@ -2,9 +2,11 @@ import { ChartDetailHabit } from '@/components/chart-detail-habit';
 import HabitGrid from '@/components/habit-grid';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
+import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import { FlameIcon, ZapIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,7 +41,11 @@ type Habit = {
 interface ShowProps {
     habit: Habit;
     chartData: [];
-    gridData: [];
+    gridData: {
+        id: number;
+        year: string;
+        date: string;
+    }[];
     uniqueYears: number[];
 }
 
@@ -49,6 +55,10 @@ export default function Show({
     gridData,
     uniqueYears,
 }: ShowProps) {
+    const dateString = gridData.map((d) => new Date(d.date));
+
+    const { currentStreak, longestStreak } = calculateStreaks(dateString);
+
     const iconCategoryName = habit.habit_category.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
         iconCategoryName
@@ -92,6 +102,12 @@ export default function Show({
                                             <th className="px-4 py-2">
                                                 Total Exp Gain
                                             </th>
+                                            <th className="px-4 py-2">
+                                                Longest Streak
+                                            </th>
+                                            <th className="px-4 py-2">
+                                                Current Streak
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -130,6 +146,22 @@ export default function Show({
                                                 >
                                                     +{total_exp} Exp
                                                 </p>
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex items-center gap-1">
+                                                    <FlameIcon className="h-3.5 w-3.5 fill-orange-400 text-orange-600" />
+                                                    <p className="font-semibold text-orange-600">
+                                                        {longestStreak} Streak
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex items-center gap-1">
+                                                    <ZapIcon className="h-3.5 w-3.5 fill-yellow-400 text-yellow-600" />
+                                                    <p className="font-semibold text-yellow-600">
+                                                        {currentStreak} Streak
+                                                    </p>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
