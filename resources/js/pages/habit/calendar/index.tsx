@@ -95,7 +95,7 @@ export default function Index({ logs, habits, validHabitIds }: LogIndexProps) {
                             headerToolbar={{
                                 left: 'prev,next today',
                                 center: 'title',
-                                right: 'dayGridYear,dayGridMonth,dayGridWeek,dayGridDay',
+                                right: 'dayGridYear,dayGridMonth,dayGridWeek',
                             }}
                             events={events}
                             eventContent={renderEventContent}
