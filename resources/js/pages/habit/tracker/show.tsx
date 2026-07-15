@@ -149,16 +149,20 @@ export default function Show({
                                             </td>
                                             <td className="px-4 py-2">
                                                 <div className="flex items-center gap-1">
-                                                    <FlameIcon className="h-3.5 w-3.5 fill-orange-400 text-orange-600" />
-                                                    <p className="font-semibold text-orange-600">
+                                                    <ZapIcon className="h-3.5 w-3.5 fill-yellow-400 text-yellow-600" />
+                                                    <p className="font-semibold text-yellow-600">
                                                         {longestStreak} Streak
                                                     </p>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-2">
                                                 <div className="flex items-center gap-1">
-                                                    <ZapIcon className="h-3.5 w-3.5 fill-yellow-400 text-yellow-600" />
-                                                    <p className="font-semibold text-yellow-600">
+                                                    <FlameIcon
+                                                        className={`text-orange-600" h-3.5 w-3.5 ${currentStreak > 1 ? 'fill-orange-400' : null} `}
+                                                    />
+                                                    <p
+                                                        className={`font-semibold ${currentStreak > 1 ? 'text-orange-600' : null} `}
+                                                    >
                                                         {currentStreak} Streak
                                                     </p>
                                                 </div>
