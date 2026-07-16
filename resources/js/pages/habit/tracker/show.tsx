@@ -59,6 +59,8 @@ export default function Show({
 
     const { currentStreak, longestStreak } = calculateStreaks(dateString);
 
+    const todayStreak = dateString.some(date => date.toDateString() === new Date().toDateString());
+
     const iconCategoryName = habit.habit_category.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
         iconCategoryName
@@ -158,10 +160,10 @@ export default function Show({
                                             <td className="px-4 py-2">
                                                 <div className="flex items-center gap-1">
                                                     <FlameIcon
-                                                        className={`text-orange-600" h-3.5 w-3.5 ${currentStreak > 1 ? 'fill-orange-400' : null} `}
+                                                        className={`h-3.5 w-3.5 ${todayStreak ? 'fill-orange-400 text-orange-600' : 'text-muted-foreground'} `}
                                                     />
                                                     <p
-                                                        className={`font-semibold ${currentStreak > 1 ? 'text-orange-600' : null} `}
+                                                        className={`font-semibold ${todayStreak ? 'text-orange-600' : 'text-muted-foreground'} `}
                                                     >
                                                         {currentStreak} Streak
                                                     </p>
