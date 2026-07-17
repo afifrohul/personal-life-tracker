@@ -109,7 +109,7 @@ export default function Index({
                                     <div>
                                         <Avatar className="h-12 w-12 overflow-hidden rounded-full">
                                             <AvatarImage
-                                                src={user.avatar}
+                                                src={`https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=f2d3b1&seed=happy`}
                                                 alt={user.name}
                                             />
                                             <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
