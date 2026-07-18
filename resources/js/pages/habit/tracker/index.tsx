@@ -101,7 +101,7 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Tracker" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-2 gap-4">
                     <Card className="flex justify-center border">
                         <CardContent>
                             <div className="flex items-center justify-between">
@@ -197,7 +197,7 @@ export default function Index({
                             </div>
                         </CardContent>
                     </Card>
-                </div>
+                </div> */}
                 <Card className="p-0">
                     <CardContent>
                         <Accordion
