@@ -2,32 +2,19 @@ import { ChartExp } from '@/components/chart-exp';
 import ChartExpGainByCategory from '@/components/chart-exp-gain-by-category';
 import ChartExpGainByHabit from '@/components/chart-exp-gain-by-habit';
 import { ChartHabit } from '@/components/chart-habit';
-import SubtleBadge from '@/components/subtle-badge';
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import {
-    ArrowBigRightDash,
-    Award,
-    BadgeCheckIcon,
-    ChartNoAxesCombined,
-    ChevronsRight,
-    Square,
-    SquareCheck,
-    SquarePlus,
-    TrendingUp,
-} from 'lucide-react';
+import { ChevronsRight, Square, SquareCheck } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -101,103 +88,6 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Tracker" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {/* <div className="grid grid-cols-2 gap-4">
-                    <Card className="flex justify-center border">
-                        <CardContent>
-                            <div className="flex items-center justify-between">
-                                <div className="flex gap-4">
-                                    <div>
-                                        <Avatar className="h-12 w-12 overflow-hidden rounded-full">
-                                            <AvatarImage
-                                                src={`https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=f2d3b1&seed=happy`}
-                                                alt={user.name}
-                                            />
-                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                {getInitials(user.name)}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                    </div>
-                                    <div className="flex flex-col justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <p className="font-semibold">
-                                                {user.name}
-                                            </p>
-                                            <SubtleBadge
-                                                color="blue"
-                                                label="Verified"
-                                                icon={
-                                                    <BadgeCheckIcon className="h-3.5 w-3.5" />
-                                                }
-                                            />
-                                        </div>
-                                        <p className="text-sm font-light italic">
-                                            {user.email}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-4">
-                                    <div className="flex items-center gap-2">
-                                        <ChartNoAxesCombined className="h-3.5 w-3.5 text-primary" />
-                                        <p className="text-xs">
-                                            LEVEL {user.profile_stat?.level}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Award className="h-3.5 w-3.5 text-primary"></Award>
-                                        <p className="text-xs">
-                                            {user.profile_stat?.total_exp} EXP
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    <Card className="flex justify-center border">
-                        <CardContent>
-                            <div className="flex flex-col gap-3">
-                                <div className="flex flex-col gap-1">
-                                    <div className="flex items-center gap-2">
-                                        <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
-                                        <p className="text-xs">
-                                            NEXT LEVEL:{' '}
-                                            {user.profile_stat?.level + 1}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <SquarePlus className="h-3.5 w-3.5 text-primary" />
-                                        <p className="text-xs">
-                                            {user.profile_stat?.remaining_exp}{' '}
-                                            MORE EXP TO GO
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="flex items-center gap-2">
-                                        <TrendingUp className="h-3.5 w-3.5" />
-                                        <p className="text-xs font-semibold">
-                                            {user.profile_stat?.level_exp} /{' '}
-                                            {
-                                                user.profile_stat
-                                                    ?.exp_to_next_level
-                                            }
-                                        </p>
-                                    </div>
-                                    <Progress
-                                        value={progress}
-                                        className="w-full flex-1"
-                                    />
-                                    <div>
-                                        <div className="full flex h-5 w-5 items-center justify-center rounded-full bg-primary/20">
-                                            <p className="text-xs font-semibold">
-                                                {user.profile_stat?.level + 1}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div> */}
                 <Card className="p-0">
                     <CardContent>
                         <Accordion
