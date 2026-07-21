@@ -7,7 +7,12 @@ import { formatRupiah } from '@/lib/format-rupiah';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { BadgeCheck, TrendingUp } from 'lucide-react';
+import {
+    ArrowBigRightDash,
+    BadgeCheck,
+    SquarePlus,
+    TrendingUp,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { GrTransaction } from 'react-icons/gr';
 import {
@@ -16,6 +21,7 @@ import {
     LuCircleStop,
     LuFolderGit2,
     LuFrown,
+    LuGitMerge,
     LuLoader,
     LuMeh,
     LuNotebook,
@@ -181,8 +187,8 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 px-4">
-                    <div className="col-span-2 flex items-center gap-3 rounded-lg border p-4">
+                <div className="grid grid-cols-2 gap-4 px-4">
+                    <div className="flex items-center gap-3 rounded-lg border p-4">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10">
                             <MdOutlineWavingHand className="" />
                         </div>
@@ -196,32 +202,52 @@ export default function Dashboard({
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2 rounded-lg border p-4">
-                        <div className="flex justify-between">
+                    <div className="grid grid-cols-3 gap-2 rounded-lg border p-4">
+                        <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
-                                <TrendingUp className="h-3.5 w-3.5 text-teal-500" />
+                                <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
                                 <p className="text-xs">
-                                    <span className="font-semibold">
-                                        {user.profile_stat?.level_exp}
-                                    </span>
-                                    <span> / </span>
-                                    <span className="font-medium">
-                                        {user.profile_stat?.exp_to_next_level}{' '}
-                                        XP
-                                    </span>
+                                    NEXT LEVEL: {user.profile_stat?.level + 1}
                                 </p>
                             </div>
                             <div className="flex items-center gap-2">
-                                <p className="text-xs font-medium">
-                                    Level {user.profile_stat?.level}
+                                <SquarePlus className="h-3.5 w-3.5 text-primary" />
+                                <p className="text-xs">
+                                    {user.profile_stat?.remaining_exp} MORE EXP
+                                    TO GO
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center">
-                            <Progress
-                                value={progress}
-                                className="w-full flex-1"
-                            />
+                        <div className="flex flex-col gap-2 col-span-2">
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-2">
+                                    <TrendingUp className="h-3.5 w-3.5 text-teal-500" />
+                                    <p className="text-xs">
+                                        <span className="font-semibold">
+                                            {user.profile_stat?.level_exp}
+                                        </span>
+                                        <span> / </span>
+                                        <span className="font-medium">
+                                            {
+                                                user.profile_stat
+                                                    ?.exp_to_next_level
+                                            }{' '}
+                                            XP
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-xs font-medium">
+                                        Level {user.profile_stat?.level}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center">
+                                <Progress
+                                    value={progress}
+                                    className="w-full flex-1"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -408,7 +434,9 @@ export default function Dashboard({
                                 data={`${completedProjectCount} Project(s)`}
                             />
                             <DashboardInfo
-                                icon={<LuUserCheck className="text-teal-500" />}
+                                icon={
+                                    <LuGitMerge className="text-purple-500" />
+                                }
                                 desc="Total Project Task(s)"
                                 data={`${projectTaskCount} Task(s)`}
                             />
