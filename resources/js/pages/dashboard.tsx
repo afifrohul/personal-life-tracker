@@ -1,37 +1,23 @@
-import DashboardCardInfo from '@/components/dashboard-card-info';
+import DashboardFinanceData from '@/components/dashboard-finance-data';
+import DashboardHabitData from '@/components/dashboard-habit-data';
+import DashboardJournalData from '@/components/dashboard-journal-data';
+import DashboardMoodData from '@/components/dashboard-mood-data';
+import DashboardTaskData from '@/components/dashboard-task-data';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
+import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
-import { formatRupiah } from '@/lib/format-rupiah';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { CalendarDays, Clock } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { GrTransaction } from 'react-icons/gr';
 import {
-    LuAngry,
-    LuArrowDownLeft,
-    LuArrowUpRight,
-    LuCheck,
-    LuCircleStop,
-    LuFolderGit2,
-    LuFrown,
-    LuGitMerge,
-    LuLoader,
-    LuMeh,
-    LuNotebook,
-    LuNotebookPen,
-    LuScrollText,
-    LuSmile,
-    LuSmilePlus,
-    LuSquareActivity,
-    LuSquareLibrary,
-    LuSticker,
-    LuUserCheck,
-    LuWallet,
-} from 'react-icons/lu';
-import { MdOutlineCategory, MdOutlineWavingHand } from 'react-icons/md';
-import { PiMoneyWavyBold } from 'react-icons/pi';
-import { RiCoinsLine, RiHandCoinLine } from 'react-icons/ri';
+    ArrowBigRightDash,
+    BadgeCheck,
+    SquarePlus,
+    TrendingUp,
+} from 'lucide-react';
+import { useState } from 'react';
+import { MdOutlineWavingHand } from 'react-icons/md';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -121,364 +107,159 @@ export default function Dashboard({
     journalLogCount,
     jounalLogThisMonthCount,
 }: DashboardProps) {
-    const [now, setNow] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setNow(new Date());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
-    const date = now.toLocaleDateString('en-EN', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    });
-
-    const time = now.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
+    const getInitials = useInitials();
+    const [progress, setProgress] = useState(
+        (user.profile_stat.level_exp / user.profile_stat.exp_to_next_level) *
+            100,
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
-                <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-3 flex-1 space-y-2 rounded-md border bg-card p-4">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/20 bg-cyan-400/10">
-                                <MdOutlineWavingHand className="text-cyan-500" />
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium">
-                                    Welcome to dashboard, {user.name}!
-                                </p>
-                                <p className="text-sm text-muted-foreground">
-                                    Hava a good day. Let’s keep your life on
-                                    track today.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-span-2 flex items-center justify-center rounded-md border bg-card px-8">
-                        <div className="flex items-center justify-center gap-8 italic">
-                            <div className="flex items-center gap-2 text-sm">
-                                <CalendarDays className="h-3.5 w-3.5"></CalendarDays>
-                                {date}
-                            </div>
-                            <div className="flex items-center gap-2 text-sm">
-                                <Clock className="h-3.5 w-3.5"></Clock>
-                                {time}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                    <div className="flex w-full items-center gap-3">
-                        <p className="text-xs text-muted-foreground">Mood</p>
-                        <div className="h-px w-full rounded border-b"></div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <DashboardCardInfo
-                            color="purple"
-                            icon={
-                                <LuSticker className="text-xl text-purple-500" />
-                            }
-                            data={moodLogCount}
-                            desc="Total Mood Log(s)"
-                        />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={<LuAngry className="text-xl text-rose-500" />}
-                            data={badMoodCount}
-                            desc="Total Bad Mood(s)"
-                        />
-                        <DashboardCardInfo
-                            color="amber"
-                            icon={
-                                <LuFrown className="text-xl text-amber-500" />
-                            }
-                            data={notGoodMoodCount}
-                            desc="Total Not Good Mood(s)"
-                        />
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <DashboardCardInfo
-                            color="yellow"
-                            icon={<LuMeh className="text-xl text-yellow-500" />}
-                            data={okayMoodCount}
-                            desc="Total Okay Mood Log(s)"
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <LuSmile className="text-xl text-green-500" />
-                            }
-                            data={goodMoodCount}
-                            desc="Total Good Mood(s)"
-                        />
-                        <DashboardCardInfo
-                            color="teal"
-                            icon={
-                                <LuSmilePlus className="text-xl text-teal-500" />
-                            }
-                            data={greatMoodCount}
-                            desc="Total Great Mood(s)"
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                    <div className="flex w-full items-center gap-3">
-                        <p className="text-xs text-muted-foreground">Habit</p>
-                        <div className="h-px w-full rounded border-b"></div>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <DashboardCardInfo
-                            color="teal"
-                            icon={
-                                <LuSquareLibrary className="text-xl text-teal-500" />
-                            }
-                            data={habitCategoryCount}
-                            desc="Total Habit Category(s)"
-                        />
-                        <DashboardCardInfo
-                            color="indigo"
-                            icon={
-                                <LuSquareActivity className="text-xl text-indigo-500" />
-                            }
-                            data={habitCount}
-                            desc="Total Habit(s)"
-                        />
-                        <DashboardCardInfo
-                            color="blue"
-                            icon={
-                                <LuScrollText className="text-xl text-blue-500" />
-                            }
-                            data={habitLogCount}
-                            desc="Total Habit Log(s)"
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                    <div className="flex w-full items-center gap-3">
-                        <p className="text-xs text-muted-foreground">Finance</p>
-                        <div className="h-px w-full rounded border-b"></div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <DashboardCardInfo
-                            color="indigo"
-                            icon={
-                                <MdOutlineCategory className="text-xl text-indigo-500" />
-                            }
-                            data={flowcashCategoryCount}
-                            desc="Total Flowcash Category(s)"
-                        />
-                        <DashboardCardInfo
-                            color="sky"
-                            icon={
-                                <GrTransaction className="text-xl text-sky-500" />
-                            }
-                            data={flowcashCount}
-                            desc="Total Flowcash(s)"
-                        />
-                    </div>
-                    <div className="flex gap-4">
-                        <DashboardCardInfo
-                            color="teal"
-                            icon={
-                                <LuWallet className="text-xl text-teal-500" />
-                            }
-                            data={formatRupiah(totalBalance)}
-                            desc="Available Balance"
-                            className={'flex-1'}
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <PiMoneyWavyBold className="text-xl text-green-500" />
-                            }
-                            data={formatRupiah(totalIncome)}
-                            desc="Total Income"
-                            className={'flex-1'}
-                        />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={
-                                <RiHandCoinLine className="text-xl text-rose-500" />
-                            }
-                            data={formatRupiah(totalExpense)}
-                            desc="Total Expense"
-                            className={'flex-1'}
-                        />
-                    </div>
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto pb-4">
+                <div className="relative w-full bg-background">
+                    <div className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1.5px),linear-gradient(to_bottom,#80808012_1.5px,transparent_1.5px)] bg-size-[32px_32px] dark:bg-[linear-gradient(to_right,#ffffff10_1.5px,transparent_1.5px),linear-gradient(to_bottom,#ffffff10_1.5px,transparent_1.5px)]">
+                        <div className="flex flex-col items-center justify-center gap-1.5 py-12">
+                            <Avatar className="h-20 w-20 overflow-hidden rounded-full">
+                                <AvatarImage
+                                    src={`https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=f2d3b1&seed=happy`}
+                                    alt={user.name}
+                                />
+                                <AvatarFallback>
+                                    {getInitials(user.name)}
+                                </AvatarFallback>
+                            </Avatar>
 
-                    <div className="grid grid-cols-3 gap-4">
-                        <DashboardCardInfo
-                            color="teal"
-                            icon={
-                                <RiCoinsLine className="text-xl text-teal-500" />
-                            }
-                            data={formatRupiah(monthlyDifference)}
-                            desc="Available Balance This Month"
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <LuArrowDownLeft className="text-xl text-green-500" />
-                            }
-                            data={formatRupiah(monthlyIncome)}
-                            desc="Total Income This Month"
-                        />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={
-                                <LuArrowUpRight className="text-xl text-rose-500" />
-                            }
-                            data={formatRupiah(monthlyExpense)}
-                            desc="Total Expense This Month"
-                        />
+                            <div className="flex items-center gap-1">
+                                <p className="text-xl font-semibold">
+                                    {user.name}
+                                </p>
+                                <BadgeCheck className="h-6 w-6 fill-blue-500 text-secondary" />
+                            </div>
+
+                            <p className="text-xs text-muted-foreground">
+                                {user.email}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
-                    <div className="flex w-full items-center gap-3">
-                        <p className="text-xs text-muted-foreground">Journal</p>
-                        <div className="h-px w-full rounded border-b"></div>
+
+                <div className="grid grid-cols-2 gap-4 px-4">
+                    <div className="flex items-center gap-3 rounded-lg border p-4">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10">
+                            <MdOutlineWavingHand className="" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium">
+                                Welcome to dashboard, {user.name}!
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                                Hava a good day. Let’s keep your life on track
+                                today.
+                            </p>
+                        </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <DashboardCardInfo
-                            color="indigo"
-                            icon={
-                                <LuNotebook className="text-xl text-indigo-500" />
-                            }
-                            data={journalLogCount}
-                            desc="Total Journal Log(s)"
-                        />
-                        <DashboardCardInfo
-                            color="fuchsia"
-                            icon={
-                                <LuNotebookPen className="text-xl text-fuchsia-500" />
-                            }
-                            data={jounalLogThisMonthCount}
-                            desc="Total Journal Log(s) This Month"
-                        />
+                    <div className="grid grid-cols-3 gap-2 rounded-lg border p-4">
+                        <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                                <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
+                                <p className="text-xs">
+                                    NEXT LEVEL: {user.profile_stat?.level + 1}
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <SquarePlus className="h-3.5 w-3.5 text-primary" />
+                                <p className="text-xs">
+                                    {user.profile_stat?.remaining_exp} MORE EXP
+                                    TO GO
+                                </p>
+                            </div>
+                        </div>
+                        <div className="col-span-2 flex flex-col gap-2">
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-2">
+                                    <TrendingUp className="h-3.5 w-3.5 text-teal-500" />
+                                    <p className="text-xs">
+                                        <span className="font-semibold">
+                                            {user.profile_stat?.level_exp}
+                                        </span>
+                                        <span> / </span>
+                                        <span className="font-medium">
+                                            {
+                                                user.profile_stat
+                                                    ?.exp_to_next_level
+                                            }{' '}
+                                            XP
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-xs font-medium">
+                                        Level {user.profile_stat?.level}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center">
+                                <Progress
+                                    value={progress}
+                                    className="w-full flex-1"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
-                    <div className="flex w-full items-center gap-3">
-                        <p className="text-xs text-muted-foreground">Task</p>
-                        <div className="h-px w-full rounded border-b"></div>
-                    </div>
-                    <div className="flex gap-4">
-                        <DashboardCardInfo
-                            color="purple"
-                            icon={
-                                <LuUserCheck className="text-xl text-purple-500" />
-                            }
-                            data={personalTaskCount}
-                            desc="Total Personal Task(s)"
+                <div className="grid grid-cols-2 gap-4 px-4">
+                    <div className="flex flex-col gap-4">
+                        <DashboardMoodData
+                            moodLogCount={moodLogCount}
+                            badMoodCount={badMoodCount}
+                            notGoodMoodCount={notGoodMoodCount}
+                            okayMoodCount={okayMoodCount}
+                            goodMoodCount={goodMoodCount}
+                            greatMoodCount={greatMoodCount}
                         />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
+                        <DashboardTaskData
+                            personalTaskCount={personalTaskCount}
+                            pendingPersonalTaskCount={pendingPersonalTaskCount}
+                            inProgressPersonalTaskCount={
+                                inProgressPersonalTaskCount
                             }
-                            data={pendingPersonalTaskCount}
-                            desc="Total Pending Personal Task(s)"
-                        />
-                        <DashboardCardInfo
-                            color="yellow"
-                            icon={
-                                <LuLoader className="text-xl text-yellow-500" />
+                            completedPersonalTaskCount={
+                                completedPersonalTaskCount
                             }
-                            data={inProgressPersonalTaskCount}
-                            desc="Total In Progress Personal Task(s)"
-                            className={'flex-1'}
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <LuCheck className="text-xl text-green-500" />
+                            projectCount={projectCount}
+                            pendingProjectCount={pendingProjectCount}
+                            inProgressProjectCount={inProgressProjectCount}
+                            completedProjectCount={completedProjectCount}
+                            projectTaskCount={projectTaskCount}
+                            pendingProjectTaskCount={pendingProjectTaskCount}
+                            inProgressProjectTaskCount={
+                                inProgressProjectTaskCount
                             }
-                            data={completedPersonalTaskCount}
-                            desc="Total Completed Personal Task(s)"
-                            className={'flex-1'}
+                            completedProjectTaskCount={
+                                completedProjectTaskCount
+                            }
                         />
                     </div>
-                    <div className="flex gap-4">
-                        <DashboardCardInfo
-                            color="purple"
-                            icon={
-                                <LuFolderGit2 className="text-xl text-purple-500" />
-                            }
-                            data={projectCount}
-                            desc="Total Project(s)"
+                    <div className="flex flex-col gap-4">
+                        <DashboardHabitData
+                            habitCategoryCount={habitCategoryCount}
+                            habitCount={habitCount}
+                            habitLogCount={habitLogCount}
                         />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
-                            }
-                            data={pendingProjectCount}
-                            desc="Total Pending Project(s)"
+                        <DashboardFinanceData
+                            flowcashCategoryCount={flowcashCategoryCount}
+                            flowcashCount={flowcashCount}
+                            totalIncome={totalIncome}
+                            totalExpense={totalExpense}
+                            totalBalance={totalBalance}
+                            monthlyIncome={monthlyIncome}
+                            monthlyExpense={monthlyExpense}
+                            monthlyDifference={monthlyDifference}
                         />
-                        <DashboardCardInfo
-                            color="yellow"
-                            icon={
-                                <LuLoader className="text-xl text-yellow-500" />
-                            }
-                            data={inProgressProjectCount}
-                            desc="Total In Progress Project(s)"
-                            className={'flex-1'}
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <LuCheck className="text-xl text-green-500" />
-                            }
-                            data={completedProjectCount}
-                            desc="Total Completed Project(s)"
-                            className={'flex-1'}
-                        />
-                    </div>
-                    <div className="flex gap-4">
-                        <DashboardCardInfo
-                            color="purple"
-                            icon={
-                                <LuGitMerge className="text-xl text-purple-500" />
-                            }
-                            data={projectTaskCount}
-                            desc="Total Project Task(s)"
-                        />
-                        <DashboardCardInfo
-                            color="rose"
-                            icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
-                            }
-                            data={pendingProjectTaskCount}
-                            desc="Total Pending Project Task(s)"
-                        />
-                        <DashboardCardInfo
-                            color="yellow"
-                            icon={
-                                <LuLoader className="text-xl text-yellow-500" />
-                            }
-                            data={inProgressProjectTaskCount}
-                            desc="Total In Progress Project Task(s)"
-                            className={'flex-1'}
-                        />
-                        <DashboardCardInfo
-                            color="green"
-                            icon={
-                                <LuCheck className="text-xl text-green-500" />
-                            }
-                            data={completedProjectTaskCount}
-                            desc="Total Completed Project Task(s)"
-                            className={'flex-1'}
+                        <DashboardJournalData
+                            jounalLogThisMonthCount={jounalLogThisMonthCount}
+                            journalLogCount={journalLogCount}
                         />
                     </div>
                 </div>

@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $journalLogCount = JournalLog::count();
         $jounalLogThisMonthCount = JournalLog::whereMonth('date', $currentMonth)->count();
 
-        return Inertia::render('dashboard-new', compact(
+        return Inertia::render('dashboard', compact(
             'user',
 
             'moodLogCount',
