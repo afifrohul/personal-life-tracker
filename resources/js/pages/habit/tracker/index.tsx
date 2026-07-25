@@ -2,33 +2,18 @@ import { ChartExp } from '@/components/chart-exp';
 import ChartExpGainByCategory from '@/components/chart-exp-gain-by-category';
 import ChartExpGainByHabit from '@/components/chart-exp-gain-by-habit';
 import { ChartHabit } from '@/components/chart-habit';
-import SubtleBadge from '@/components/subtle-badge';
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import {
-    ArrowBigRightDash,
-    Award,
-    BadgeCheckIcon,
-    ChartNoAxesCombined,
-    ChevronsRight,
-    Square,
-    SquareCheck,
-    SquarePlus,
-    TrendingUp,
-} from 'lucide-react';
-import { useState } from 'react';
+import { ChevronsRight, Square, SquareCheck } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -91,12 +76,6 @@ export default function Index({
     expGainByCategory,
     expGainByHabit,
 }: LogIndexProps) {
-    const getInitials = useInitials();
-    const [progress, setProgress] = useState(
-        (user.profile_stat.level_exp / user.profile_stat.exp_to_next_level) *
-            100,
-    );
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Tracker" />

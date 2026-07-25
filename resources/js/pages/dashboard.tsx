@@ -9,12 +9,13 @@ import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import {
     ArrowBigRightDash,
     BadgeCheck,
     SquarePlus,
     TrendingUp,
+    UserPen,
 } from 'lucide-react';
 import { useState } from 'react';
 import { MdOutlineWavingHand } from 'react-icons/md';
@@ -122,7 +123,7 @@ export default function Dashboard({
                         <div className="flex flex-col items-center justify-center gap-1.5 py-12">
                             <Avatar className="h-20 w-20 overflow-hidden rounded-full">
                                 <AvatarImage
-                                    src={`https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=f2d3b1&seed=happy`}
+                                    src={`/storage/${user.avatar}`}
                                     alt={user.name}
                                 />
                                 <AvatarFallback>
@@ -137,9 +138,16 @@ export default function Dashboard({
                                 <BadgeCheck className="h-6 w-6 fill-blue-500 text-secondary" />
                             </div>
 
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-sm text-muted-foreground italic">
                                 {user.email}
                             </p>
+
+                            <Link href={`/settings/profile`}>
+                                <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
+                                    Edit profile
+                                    <UserPen className="h-3 w-3" />
+                                </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
