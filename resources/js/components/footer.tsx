@@ -1,6 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { FaGlobe } from "react-icons/fa";
-import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaEnvelope, FaGithub, FaGlobe, FaLinkedin } from 'react-icons/fa';
 import { RiInstagramFill } from 'react-icons/ri';
 
 export default function Footer() {
@@ -10,8 +9,8 @@ export default function Footer() {
             <div className="flex flex-col items-center justify-between gap-4 p-4 lg:flex-row">
                 <div className="flex items-center justify-center gap-2 lg:justify-start">
                     <p className="text-xs italic">
-                        Built by Afif Rohul · &copy; {new Date().getFullYear()}{' '}
-                        All rights reserved.
+                        Developed by Afif Rohul · &copy;{' '}
+                        {new Date().getFullYear()} All rights reserved.
                     </p>
                 </div>
                 <div className="flex flex-col gap-4">
