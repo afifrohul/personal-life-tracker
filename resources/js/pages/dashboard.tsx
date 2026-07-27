@@ -12,7 +12,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowBigRightDash,
-    BadgeCheck,
+    ShieldCheck,
     SquarePlus,
     TrendingUp,
     UserPen,
@@ -135,7 +135,7 @@ export default function Dashboard({
                                 <p className="text-xl font-semibold">
                                     {user.name}
                                 </p>
-                                <BadgeCheck className="h-6 w-6 fill-blue-500 text-secondary" />
+                                <ShieldCheck className="h-6 w-6 fill-blue-500 text-secondary" />
                             </div>
 
                             <p className="text-sm text-muted-foreground italic">
