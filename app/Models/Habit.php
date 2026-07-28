@@ -17,4 +17,9 @@ class Habit extends Model
     {
         return $this->hasMany(HabitLog::class);
     }
+
+    public function achivements()
+    {
+        return $this->hasMany(Achievement::class);
+    }
 }
