@@ -21,7 +21,8 @@ class DemoSeeder extends Seeder
             FlowcashSeeder::class,
             JournalLogSeeder::class,
             PersonalTaskSeeder::class,
-            ProjectSeeder::class
+            ProjectSeeder::class,
+            AchievementTypeSeeder::class
         ]);
     }
 }

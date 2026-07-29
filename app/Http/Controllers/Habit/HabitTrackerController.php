@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\HabitLog;
 use App\Models\Habit;
+use App\Models\AchievementType;
 use Carbon\Carbon;
 
 class HabitTrackerController extends Controller
@@ -124,7 +125,9 @@ class HabitTrackerController extends Controller
     {
         try {
 
-            $habit = Habit::with(['habitCategory', 'habitLogs'])->findOrFail($id);
+            $achievementType = AchievementType::get();
+
+            $habit = Habit::with(['habitCategory', 'habitLogs', 'achievements'])->findOrFail($id);
 
             $data = HabitLog::where('habit_id', $id)->get();
 
@@ -156,6 +159,7 @@ class HabitTrackerController extends Controller
             ->values();
 
             return Inertia::render('habit/tracker/show', compact(
+                'achievementType',
                 'habit',
                 'chartData',
                 'uniqueYears',

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('desc');
             $table->string('color_code');
+            $table->enum('trigger', ['reps', 'streak']);
+            $table->integer('criteria');
             $table->timestamps();
         });
     }

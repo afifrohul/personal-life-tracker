@@ -1,11 +1,13 @@
 import { ChartDetailHabit } from '@/components/chart-detail-habit';
 import HabitGrid from '@/components/habit-grid';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import { format } from 'date-fns';
 import { FlameIcon, ZapIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -28,6 +30,13 @@ type Category = {
     icon: string;
 };
 
+type Achievement = {
+    id: number;
+    habit_id: number;
+    achievement_type_id: number;
+    created_at: string;
+};
+
 type Habit = {
     id: number;
     name: string;
@@ -36,9 +45,20 @@ type Habit = {
     icon: string;
     habit_category: Category;
     habit_logs: Log[];
+    achievements: Achievement[];
+};
+
+type AchievementType = {
+    id: number;
+    name: string;
+    desc: string;
+    color_code: string;
+    type: string;
+    criteria: number;
 };
 
 interface ShowProps {
+    achievementType: AchievementType[];
     habit: Habit;
     chartData: [];
     gridData: {
@@ -50,6 +70,7 @@ interface ShowProps {
 }
 
 export default function Show({
+    achievementType,
     habit,
     chartData,
     gridData,
@@ -59,7 +80,9 @@ export default function Show({
 
     const { currentStreak, longestStreak } = calculateStreaks(dateString);
 
-    const todayStreak = dateString.some(date => date.toDateString() === new Date().toDateString());
+    const todayStreak = dateString.some(
+        (date) => date.toDateString() === new Date().toDateString(),
+    );
 
     const iconCategoryName = habit.habit_category.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
@@ -172,6 +195,85 @@ export default function Show({
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Achievements — {habit.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 gap-2">
+                                {achievementType.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex w-full items-center justify-between rounded border p-2"
+                                    >
+                                        <div className="item flex gap-2">
+                                            <div
+                                                className="w-fit rounded border p-2"
+                                                style={{
+                                                    backgroundColor:
+                                                        item.color_code,
+                                                }}
+                                            >
+                                                <IconHabitComponent className="h-5 w-5" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium">
+                                                    {item.name}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {item.desc}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {habit.achievements.find(
+                                            (acv) =>
+                                                acv.achievement_type_id ===
+                                                item.id,
+                                        ) ? (
+                                            <div className="text-xs italic">
+                                                Earned{' '}
+                                                {format(
+                                                    new Date(
+                                                        habit.achievements.find(
+                                                            (acv) =>
+                                                                acv.achievement_type_id ===
+                                                                item.id,
+                                                        )?.created_at as string,
+                                                    ),
+                                                    'dd MMMM yyyy',
+                                                )}
+                                            </div>
+                                        ) : habit.habit_logs.length >=
+                                          item.criteria ? (
+                                            <Button
+                                                className="text-xs italic"
+                                                size={'sm'}
+                                                onClick={() =>
+                                                    console.log({
+                                                        message:
+                                                            'Achievement claimed!',
+                                                        habit_id: habit.id,
+                                                        achievement_id: item.id,
+                                                    })
+                                                }
+                                            >
+                                                Claim
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                className="text-xs italic"
+                                                size={'sm'}
+                                                variant={'secondary'}
+                                                disabled
+                                            >
+                                                Claim
+                                            </Button>
+                                        )}
+                                    </div>
+                                ))}
                             </div>
                         </CardContent>
                     </Card>

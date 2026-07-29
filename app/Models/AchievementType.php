@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AchievementType extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    protected $fillable = ['name', 'desc', 'color_code'];
+    protected $fillable = ['name', 'desc', 'color_code', 'trigger', 'criteria'];
 
-    public function achivements()
+    public function achievements()
     {
         return $this->hasMany(Achievement::class);
     }
