@@ -22,20 +22,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type User = {
-    name: string;
-    email: string;
-    avatar: string;
-    created_at: string;
-    profile_stat: {
-        level: number;
-        level_exp: number;
-        remaining_exp: number;
-        total_exp: number;
-        exp_to_next_level: number;
-    };
-};
-
 type Habit = {
     id: number;
     name: string;
@@ -51,7 +37,6 @@ type Category = {
 };
 
 interface LogIndexProps {
-    user: User;
     habits: Habit[];
     categories: Category[];
     weeklyLog: Record<string, any[]>;
@@ -66,7 +51,6 @@ interface LogIndexProps {
 }
 
 export default function Index({
-    user,
     habits,
     categories,
     weeklyLog,

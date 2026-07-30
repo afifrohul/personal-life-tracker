@@ -17,9 +17,6 @@ class HabitTrackerController extends Controller
     public function index(Request $request)
     {
         try {
-
-            $user = auth()->user()->load('profileStat');
-
             $userHabits = Habit::pluck('id')->toArray();
 
             $filterHabits = $request->input('habits', $userHabits);
@@ -102,7 +99,6 @@ class HabitTrackerController extends Controller
 
 
             return Inertia::render('habit/tracker/index', compact(
-                'user',
                 'logs',
                 'habits', 
                 'validHabitIds',
@@ -127,7 +123,7 @@ class HabitTrackerController extends Controller
 
             $achievementType = AchievementType::get();
 
-            $habit = Habit::with(['habitCategory', 'habitLogs', 'achievements'])->findOrFail($id);
+            $habit = Habit::with(['habitCategory', 'habitLogs', 'achievements.achievementType'])->findOrFail($id);
 
             $data = HabitLog::where('habit_id', $id)->get();
 

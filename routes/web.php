@@ -11,6 +11,7 @@ use App\Http\Controllers\Mood\MoodTrackerController;
 use App\Http\Controllers\Mood\MoodLogController;
 
 use App\Http\Controllers\Habit\HabitTrackerController;
+use App\Http\Controllers\Habit\AchievementController;
 use App\Http\Controllers\Habit\HabitCalendarController;
 use App\Http\Controllers\Habit\HabitCategoryController;
 use App\Http\Controllers\Habit\HabitController;
@@ -55,8 +56,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
     Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
+
+    Route::get('/habit-tracker/{id}/achievement', [AchievementController::class, 'index'])->name('habit-achievement.indec');
+    Route::post('/habit-tracker/{id}/achievement', [AchievementController::class, 'store'])->name('habit-achievement.create');
+
     Route::get('/habit-calendar', [HabitCalendarController::class, 'index'])->name('habit-calendar.index');
-    Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
+
     Route::get('/habits', [HabitController::class, 'index'])->name('habits.index');
     Route::get('/habits/create', [HabitController::class, 'create'])->name('habits.create');
     Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');

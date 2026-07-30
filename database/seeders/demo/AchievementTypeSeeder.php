@@ -58,6 +58,33 @@ class AchievementTypeSeeder extends Seeder
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
+            [
+                'name' => 'The Spark', 
+                'desc' => 'Complete the habit 7 times in a row', 
+                'color_code' => '#fcd34d',
+                'trigger' => 'streak',
+                'criteria' => 7,
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'The Bonfire', 
+                'desc' => 'Complete the habit 30 times in a row', 
+                'color_code' => '#fbbf24',
+                'trigger' => 'streak',
+                'criteria' => 30,
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'The Sprinter', 
+                'desc' => 'Complete the habit 365 times in a row', 
+                'color_code' => '#f59e0b',
+                'trigger' => 'streak',
+                'criteria' => 365,
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
         ];
 
         foreach ($achievementType as $item) {

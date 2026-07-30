@@ -1,18 +1,17 @@
-import { ChartDetailHabit } from '@/components/chart-detail-habit';
-import HabitGrid from '@/components/habit-grid';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { format } from 'date-fns';
-import { ChevronsRight, FlameIcon, ZapIcon } from 'lucide-react';
+import { FlameIcon, ZapIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Habit Tracker',
-        href: '/tracker',
+        title: 'Habit Achievement',
+        href: '/achievement',
     },
 ];
 
@@ -29,19 +28,9 @@ type Category = {
     icon: string;
 };
 
-type AchievementType = {
-    id: number;
-    name: string;
-    desc: string;
-    color_code: string;
-    type: string;
-    criteria: number;
-    trigger: string;
-};
-
 type Achievement = {
     id: number;
-    achievement_type: AchievementType;
+    habit_id: number;
     achievement_type_id: number;
     created_at: string;
 };
@@ -57,25 +46,31 @@ type Habit = {
     achievements: Achievement[];
 };
 
-interface ShowProps {
+type AchievementType = {
+    id: number;
+    name: string;
+    desc: string;
+    color_code: string;
+    type: string;
+    criteria: number;
+    trigger: string;
+};
+
+interface IndexProps {
+    achievementType: AchievementType[];
     habit: Habit;
-    chartData: [];
     gridData: {
         id: number;
         year: string;
         date: string;
     }[];
-    uniqueYears: number[];
 }
 
-export default function Show({
+export default function Index({
+    achievementType,
     habit,
-    chartData,
     gridData,
-    uniqueYears,
-}: ShowProps) {
-    console.log(habit);
-
+}: IndexProps) {
     const dateString = gridData.map((d) => new Date(d.date));
 
     const { currentStreak, longestStreak } = calculateStreaks(dateString);
@@ -97,7 +92,6 @@ export default function Show({
     const total_exp = habit.habit_logs.reduce((accumulator, current_value) => {
         return accumulator + current_value.exp_gain;
     }, 0);
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={habit.name} />
@@ -105,9 +99,7 @@ export default function Show({
                 <div className="flex flex-col gap-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>
-                                Detail Habit Tracker — {habit.name}
-                            </CardTitle>
+                            <CardTitle>Detail Habit — {habit.name}</CardTitle>
                         </CardHeader>
 
                         <CardContent>
@@ -200,23 +192,13 @@ export default function Show({
                     </Card>
                     <Card>
                         <CardHeader>
-                            <div className="flex items-center justify-between">
-                                <CardTitle>
-                                    Latest Achievements — {habit.name}
-                                </CardTitle>
-                                <Link
-                                    href={`/habit-tracker/${habit.id}/achievement`}
-                                >
-                                    <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs italic duration-200 hover:bg-muted hover:text-muted-foreground">
-                                        See all
-                                        <ChevronsRight className="h-3 w-3" />
-                                    </div>
-                                </Link>
-                            </div>
+                            <CardTitle>
+                                List Achievements — {habit.name}
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-2 gap-2">
-                                {habit.achievements.map((item, index) => (
+                                {achievementType.map((item, index) => (
                                     <div
                                         key={index}
                                         className="flex w-full items-center justify-between rounded border p-2"
@@ -226,51 +208,87 @@ export default function Show({
                                                 className="w-fit rounded border p-2"
                                                 style={{
                                                     backgroundColor:
-                                                        item.achievement_type
-                                                            .color_code,
+                                                        item.color_code,
                                                 }}
                                             >
                                                 <IconHabitComponent className="h-5 w-5" />
                                             </div>
                                             <div>
                                                 <p className="text-sm font-medium">
-                                                    {item.achievement_type.name}
+                                                    {item.name}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    {item.achievement_type.desc}
+                                                    {item.desc}
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="text-xs italic">
-                                            Claimed{' '}
-                                            {format(
-                                                new Date(
-                                                    habit.achievements.find(
-                                                        (acv) =>
-                                                            acv.achievement_type_id ===
-                                                            item.id,
-                                                    )?.created_at as string,
-                                                ),
-                                                'dd MMMM yyyy',
-                                            )}
-                                        </div>
+                                        {habit.achievements.find(
+                                            (acv) =>
+                                                acv.achievement_type_id ===
+                                                item.id,
+                                        ) ? (
+                                            <div className="text-xs italic">
+                                                Earned{' '}
+                                                {format(
+                                                    new Date(
+                                                        habit.achievements.find(
+                                                            (acv) =>
+                                                                acv.achievement_type_id ===
+                                                                item.id,
+                                                        )?.created_at as string,
+                                                    ),
+                                                    'dd MMMM yyyy',
+                                                )}
+                                            </div>
+                                        ) : (item.trigger === 'reps' &&
+                                              habit.habit_logs.length >=
+                                                  item.criteria) ||
+                                          (item.trigger === 'streak' &&
+                                              longestStreak >=
+                                                  item.criteria) ? (
+                                            <Button
+                                                className="text-xs italic"
+                                                size={'sm'}
+                                                onClick={() =>
+                                                    console.log({
+                                                        message:
+                                                            'Achievement claimed!',
+                                                        habit_id: habit.id,
+                                                        achievement_id: item.id,
+                                                    })
+                                                }
+                                            >
+                                                Claim
+                                            </Button>
+                                        ) : item.trigger === 'reps' ? (
+                                            <div>
+                                                <p className='text-xs italic text-muted-foreground'>
+                                                    {habit.habit_logs.length} /{' '}
+                                                    {item.criteria}
+                                                </p>
+                                            </div>
+                                        ) : item.trigger === 'streak' ? (
+                                            <div>
+                                                <p className='text-xs italic text-muted-foreground'>
+                                                    {longestStreak} /{' '}
+                                                    {item.criteria}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <Button
+                                                className="text-xs italic"
+                                                size={'sm'}
+                                                variant={'secondary'}
+                                                disabled
+                                            >
+                                                Claim
+                                            </Button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         </CardContent>
                     </Card>
-                    <ChartDetailHabit
-                        chartData={chartData}
-                        uniqueYears={uniqueYears}
-                        color={habit.color}
-                    />
-                    <div>
-                        <HabitGrid
-                            gridData={gridData}
-                            uniqueYears={uniqueYears}
-                            color={habit.color}
-                        ></HabitGrid>
-                    </div>
                 </div>
             </div>
         </AppLayout>
