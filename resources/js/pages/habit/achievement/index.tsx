@@ -4,9 +4,10 @@ import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { FlameIcon, ZapIcon } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -92,6 +93,23 @@ export default function Index({
     const total_exp = habit.habit_logs.reduce((accumulator, current_value) => {
         return accumulator + current_value.exp_gain;
     }, 0);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const claimAchievement = (achievement_type_id: number) => {
+        console.log(achievement_type_id);
+        router.post(
+            `/habit-tracker/${habit.id}/achievement`,
+            {
+                achievement_type_id: achievement_type_id,
+            },
+            {
+                onSuccess: () => setIsSubmitting(false),
+                onError: () => setIsSubmitting(false),
+            },
+        );
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={habit.name} />
@@ -250,26 +268,24 @@ export default function Index({
                                                 className="text-xs italic"
                                                 size={'sm'}
                                                 onClick={() =>
-                                                    console.log({
-                                                        message:
-                                                            'Achievement claimed!',
-                                                        habit_id: habit.id,
-                                                        achievement_id: item.id,
-                                                    })
+                                                    claimAchievement(item.id)
                                                 }
+                                                disabled={isSubmitting}
                                             >
-                                                Claim
+                                                {isSubmitting
+                                                    ? 'Claiming...'
+                                                    : 'Claim'}
                                             </Button>
                                         ) : item.trigger === 'reps' ? (
                                             <div>
-                                                <p className='text-xs italic text-muted-foreground'>
+                                                <p className="text-xs text-muted-foreground italic">
                                                     {habit.habit_logs.length} /{' '}
                                                     {item.criteria}
                                                 </p>
                                             </div>
                                         ) : item.trigger === 'streak' ? (
                                             <div>
-                                                <p className='text-xs italic text-muted-foreground'>
+                                                <p className="text-xs text-muted-foreground italic">
                                                     {longestStreak} /{' '}
                                                     {item.criteria}
                                                 </p>

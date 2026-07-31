@@ -244,13 +244,7 @@ export default function Show({
                                         <div className="text-xs italic">
                                             Claimed{' '}
                                             {format(
-                                                new Date(
-                                                    habit.achievements.find(
-                                                        (acv) =>
-                                                            acv.achievement_type_id ===
-                                                            item.id,
-                                                    )?.created_at as string,
-                                                ),
+                                                new Date(item.created_at),
                                                 'dd MMMM yyyy',
                                             )}
                                         </div>
