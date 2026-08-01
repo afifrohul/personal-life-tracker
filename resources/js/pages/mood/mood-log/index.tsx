@@ -436,108 +436,119 @@ export default function Index({
                     <TabsContent value="column">
                         <div className="rounded-xl border p-4">
                             <div className="mx-auto flex w-full flex-col gap-4">
-                                <div className="grid grid-cols-3 gap-4">
-                                    {mood_logs_column.data?.map(
-                                        (item, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex items-center justify-between gap-8 rounded-xl border px-3 py-2"
-                                            >
-                                                <div className="flex w-full items-center gap-4">
-                                                    <div className="flex flex-1 items-center justify-between">
-                                                        <div className="flex flex-col gap-2">
-                                                            <p className="text-sm font-semibold">
-                                                                {Number(
-                                                                    item.mood_score,
-                                                                ) === 1
-                                                                    ? 'Bad'
-                                                                    : Number(
-                                                                            item.mood_score,
-                                                                        ) === 2
-                                                                      ? 'Not Good'
-                                                                      : Number(
-                                                                              item.mood_score,
-                                                                          ) ===
-                                                                          3
-                                                                        ? 'Okay'
+                                {mood_logs_column.data.length > 1 ? (
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {mood_logs_column.data?.map(
+                                            (item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex items-center justify-between gap-8 rounded-xl border px-3 py-2"
+                                                >
+                                                    <div className="flex w-full items-center gap-4">
+                                                        <div className="flex flex-1 items-center justify-between">
+                                                            <div className="flex flex-col gap-2">
+                                                                <p className="text-sm font-semibold">
+                                                                    {Number(
+                                                                        item.mood_score,
+                                                                    ) === 1
+                                                                        ? 'Bad'
                                                                         : Number(
                                                                                 item.mood_score,
                                                                             ) ===
-                                                                            4
-                                                                          ? 'Good'
-                                                                          : 'Great'}
-                                                            </p>
-                                                            <div className="flex items-center gap-4 text-xs">
-                                                                <div className="flex items-center gap-1.5">
-                                                                    <CalendarDays className="h-4 w-4" />
-                                                                    <p className="italic">
-                                                                        {format(
-                                                                            item.date,
-                                                                            'dd MMMM yyyy',
-                                                                        )}
-                                                                    </p>
-                                                                </div>
-                                                                <div className="flex items-center gap-1.5">
-                                                                    <Clock className="h-4 w-4" />
-                                                                    <p className="italic">
-                                                                        {format(
-                                                                            item.created_at,
-                                                                            'HH:ii:ss',
-                                                                        )}
-                                                                    </p>
+                                                                            2
+                                                                          ? 'Not Good'
+                                                                          : Number(
+                                                                                  item.mood_score,
+                                                                              ) ===
+                                                                              3
+                                                                            ? 'Okay'
+                                                                            : Number(
+                                                                                    item.mood_score,
+                                                                                ) ===
+                                                                                4
+                                                                              ? 'Good'
+                                                                              : 'Great'}
+                                                                </p>
+                                                                <div className="flex items-center gap-4 text-xs">
+                                                                    <div className="flex items-center gap-1.5">
+                                                                        <CalendarDays className="h-4 w-4" />
+                                                                        <p className="italic">
+                                                                            {format(
+                                                                                item.date,
+                                                                                'dd MMMM yyyy',
+                                                                            )}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="flex items-center gap-1.5">
+                                                                        <Clock className="h-4 w-4" />
+                                                                        <p className="italic">
+                                                                            {format(
+                                                                                item.created_at,
+                                                                                'HH:ii:ss',
+                                                                            )}
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <div>
+                                                                {Number(
+                                                                    item.mood_score,
+                                                                ) === 1 ? (
+                                                                    <Angry className="h-9 w-9 fill-rose-500" />
+                                                                ) : Number(
+                                                                      item.mood_score,
+                                                                  ) === 2 ? (
+                                                                    <Frown className="h-9 w-9 fill-amber-500" />
+                                                                ) : Number(
+                                                                      item.mood_score,
+                                                                  ) === 3 ? (
+                                                                    <Meh className="h-9 w-9 fill-yellow-500" />
+                                                                ) : Number(
+                                                                      item.mood_score,
+                                                                  ) === 4 ? (
+                                                                    <Smile className="h-9 w-9 fill-green-500" />
+                                                                ) : (
+                                                                    <SmilePlus className="h-9 w-9 fill-teal-500" />
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            {Number(
-                                                                item.mood_score,
-                                                            ) === 1 ? (
-                                                                <Angry className="h-9 w-9 fill-rose-500" />
-                                                            ) : Number(
-                                                                  item.mood_score,
-                                                              ) === 2 ? (
-                                                                <Frown className="h-9 w-9 fill-amber-500" />
-                                                            ) : Number(
-                                                                  item.mood_score,
-                                                              ) === 3 ? (
-                                                                <Meh className="h-9 w-9 fill-yellow-500" />
-                                                            ) : Number(
-                                                                  item.mood_score,
-                                                              ) === 4 ? (
-                                                                <Smile className="h-9 w-9 fill-green-500" />
-                                                            ) : (
-                                                                <SmilePlus className="h-9 w-9 fill-teal-500" />
-                                                            )}
+                                                        <div className="flex flex-col">
+                                                            <Button
+                                                                className="scale-65"
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    setMode(
+                                                                        'edit',
+                                                                    );
+                                                                    setOpenForm(
+                                                                        true,
+                                                                    );
+                                                                    filteredMoodColumn(
+                                                                        item.id,
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <SquarePen className="" />
+                                                            </Button>
+                                                            <DeleteButton
+                                                                variant="outline"
+                                                                className="scale-65"
+                                                                url={`/mood-logs/${item.id}`}
+                                                                confirmMessage="Are you sure to delete this log?"
+                                                            />
                                                         </div>
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <Button
-                                                            className="scale-65"
-                                                            variant="outline"
-                                                            onClick={() => {
-                                                                setMode('edit');
-                                                                setOpenForm(
-                                                                    true,
-                                                                );
-                                                                filteredMoodColumn(
-                                                                    item.id,
-                                                                );
-                                                            }}
-                                                        >
-                                                            <SquarePen className="" />
-                                                        </Button>
-                                                        <DeleteButton
-                                                            variant="outline"
-                                                            className="scale-65"
-                                                            url={`/mood-logs/${item.id}`}
-                                                            confirmMessage="Are you sure to delete this log?"
-                                                        />
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ),
-                                    )}
-                                </div>
+                                            ),
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className='flex justify-center'>
+                                        <p className="text-xs">
+                                            No data found.
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="mt-4 flex items-center justify-between">

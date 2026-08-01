@@ -215,42 +215,57 @@ export default function Show({
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-2 gap-2">
-                                {habit.achievements.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex w-full items-center justify-between rounded border p-2"
-                                    >
-                                        <div className="item flex gap-2">
-                                            <div
-                                                className="w-fit rounded border p-2"
-                                                style={{
-                                                    backgroundColor:
-                                                        item.achievement_type
-                                                            .color_code,
-                                                }}
-                                            >
-                                                <IconHabitComponent className="h-5 w-5" />
+                            {habit.achievements.length > 1 ? (
+                                <div className="grid grid-cols-2 gap-2">
+                                    {habit.achievements.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex w-full items-center justify-between rounded border p-2"
+                                        >
+                                            <div className="item flex gap-2">
+                                                <div
+                                                    className="w-fit rounded border p-2"
+                                                    style={{
+                                                        backgroundColor:
+                                                            item
+                                                                .achievement_type
+                                                                .color_code,
+                                                    }}
+                                                >
+                                                    <IconHabitComponent className="h-5 w-5" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium">
+                                                        {
+                                                            item
+                                                                .achievement_type
+                                                                .name
+                                                        }
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {
+                                                            item
+                                                                .achievement_type
+                                                                .desc
+                                                        }
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-sm font-medium">
-                                                    {item.achievement_type.name}
-                                                </p>
-                                                <p className="text-xs text-muted-foreground">
-                                                    {item.achievement_type.desc}
-                                                </p>
+                                            <div className="text-xs italic">
+                                                Claimed{' '}
+                                                {format(
+                                                    new Date(item.created_at),
+                                                    'dd MMMM yyyy',
+                                                )}
                                             </div>
                                         </div>
-                                        <div className="text-xs italic">
-                                            Claimed{' '}
-                                            {format(
-                                                new Date(item.created_at),
-                                                'dd MMMM yyyy',
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="flex justify-center">
+                                    <p className="text-xs">No data found.</p>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                     <ChartDetailHabit
