@@ -74,8 +74,6 @@ export default function Show({
     gridData,
     uniqueYears,
 }: ShowProps) {
-    console.log(habit);
-
     const dateString = gridData.map((d) => new Date(d.date));
 
     const { currentStreak, longestStreak } = calculateStreaks(dateString);
@@ -215,7 +213,7 @@ export default function Show({
                             </div>
                         </CardHeader>
                         <CardContent>
-                            {habit.achievements.length > 1 ? (
+                            {habit.achievements.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-2">
                                     {habit.achievements.map((item, index) => (
                                         <div

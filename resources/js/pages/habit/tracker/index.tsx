@@ -75,7 +75,7 @@ export default function Index({
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>Habit List</AccordionTrigger>
                                 <AccordionContent className="flex flex-col gap-4 text-balance">
-                                    {habits.length > 1 ? (
+                                    {habits.length > 0 ? (
                                         <div className="grid w-full grid-cols-3 gap-4">
                                             {categories?.map((item, index) => {
                                                 const iconCategoryName =
@@ -175,7 +175,7 @@ export default function Index({
                 </Card>
                 <Card className="p-1.5">
                     <div className="overflow-x-auto rounded">
-                        {habits.length > 1 ? (
+                        {habits.length > 0 ? (
                             <table className="min-w-full text-xs">
                                 <thead>
                                     <tr className="border-b">
