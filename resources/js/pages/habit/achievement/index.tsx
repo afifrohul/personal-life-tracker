@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button';
+import AllAchievementBadge from '@/components/all-achievement-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { format } from 'date-fns';
 import { FlameIcon, ZapIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -97,7 +96,6 @@ export default function Index({
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const claimAchievement = (achievement_type_id: number) => {
-        console.log(achievement_type_id);
         router.post(
             `/habit-tracker/${habit.id}/achievement`,
             {
@@ -217,90 +215,12 @@ export default function Index({
                         <CardContent>
                             <div className="grid grid-cols-2 gap-2">
                                 {achievementType.map((item, index) => (
-                                    <div
+                                    <AllAchievementBadge
                                         key={index}
-                                        className="flex w-full items-center justify-between rounded border p-2"
-                                    >
-                                        <div className="item flex gap-2">
-                                            <div
-                                                className="w-fit rounded border p-2"
-                                                style={{
-                                                    backgroundColor:
-                                                        item.color_code,
-                                                }}
-                                            >
-                                                <IconHabitComponent className="h-5 w-5" />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium">
-                                                    {item.name}
-                                                </p>
-                                                <p className="text-xs text-muted-foreground">
-                                                    {item.desc}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        {habit.achievements.find(
-                                            (acv) =>
-                                                acv.achievement_type_id ===
-                                                item.id,
-                                        ) ? (
-                                            <div className="text-xs italic">
-                                                Earned{' '}
-                                                {format(
-                                                    new Date(
-                                                        habit.achievements.find(
-                                                            (acv) =>
-                                                                acv.achievement_type_id ===
-                                                                item.id,
-                                                        )?.created_at as string,
-                                                    ),
-                                                    'dd MMMM yyyy',
-                                                )}
-                                            </div>
-                                        ) : (item.trigger === 'reps' &&
-                                              habit.habit_logs.length >=
-                                                  item.criteria) ||
-                                          (item.trigger === 'streak' &&
-                                              longestStreak >=
-                                                  item.criteria) ? (
-                                            <Button
-                                                className="text-xs italic"
-                                                size={'sm'}
-                                                onClick={() =>
-                                                    claimAchievement(item.id)
-                                                }
-                                                disabled={isSubmitting}
-                                            >
-                                                {isSubmitting
-                                                    ? 'Claiming...'
-                                                    : 'Claim'}
-                                            </Button>
-                                        ) : item.trigger === 'reps' ? (
-                                            <div>
-                                                <p className="text-xs text-muted-foreground italic">
-                                                    {habit.habit_logs.length} /{' '}
-                                                    {item.criteria}
-                                                </p>
-                                            </div>
-                                        ) : item.trigger === 'streak' ? (
-                                            <div>
-                                                <p className="text-xs text-muted-foreground italic">
-                                                    {longestStreak} /{' '}
-                                                    {item.criteria}
-                                                </p>
-                                            </div>
-                                        ) : (
-                                            <Button
-                                                className="text-xs italic"
-                                                size={'sm'}
-                                                variant={'secondary'}
-                                                disabled
-                                            >
-                                                Claim
-                                            </Button>
-                                        )}
-                                    </div>
+                                        habit={habit}
+                                        achievementType={item}
+                                        longestStreak={longestStreak}
+                                    />
                                 ))}
                             </div>
                         </CardContent>

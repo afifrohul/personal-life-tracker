@@ -1,12 +1,12 @@
 import { ChartDetailHabit } from '@/components/chart-detail-habit';
 import HabitGrid from '@/components/habit-grid';
+import LatestAchievementBadge from '@/components/latest-achievement-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { format } from 'date-fns';
 import { ChevronsRight, FlameIcon, ZapIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -216,47 +216,10 @@ export default function Show({
                             {habit.achievements.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-2">
                                     {habit.achievements.map((item, index) => (
-                                        <div
+                                        <LatestAchievementBadge
                                             key={index}
-                                            className="flex w-full items-center justify-between rounded border p-2"
-                                        >
-                                            <div className="item flex gap-2">
-                                                <div
-                                                    className="w-fit rounded border p-2"
-                                                    style={{
-                                                        backgroundColor:
-                                                            item
-                                                                .achievement_type
-                                                                .color_code,
-                                                    }}
-                                                >
-                                                    <IconHabitComponent className="h-5 w-5" />
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-medium">
-                                                        {
-                                                            item
-                                                                .achievement_type
-                                                                .name
-                                                        }
-                                                    </p>
-                                                    <p className="text-xs text-muted-foreground">
-                                                        {
-                                                            item
-                                                                .achievement_type
-                                                                .desc
-                                                        }
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="text-xs italic">
-                                                Claimed{' '}
-                                                {format(
-                                                    new Date(item.created_at),
-                                                    'dd MMMM yyyy',
-                                                )}
-                                            </div>
-                                        </div>
+                                            data={item}
+                                        />
                                     ))}
                                 </div>
                             ) : (
