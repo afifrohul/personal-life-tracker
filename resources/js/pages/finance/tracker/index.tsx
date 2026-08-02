@@ -28,8 +28,6 @@ export default function Index({
     expenseByCategory,
     uniqueYears,
 }: IndexProps) {
-    console.log(chartDataExpense);
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Finance Tracker" />

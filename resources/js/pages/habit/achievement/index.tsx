@@ -5,7 +5,6 @@ import calculateStreaks from '@/lib/calculate-streak';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { FlameIcon, ZapIcon } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -115,102 +114,12 @@ export default function Index({
                 <div className="flex flex-col gap-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Detail Habit — {habit.name}</CardTitle>
-                        </CardHeader>
-
-                        <CardContent>
+                            <CardTitle>List Habit Achievements</CardTitle>
                             <div>
-                                <table className="min-w-full text-xs">
-                                    <thead>
-                                        <tr className="border-b text-left">
-                                            <th className="px-4 py-2">
-                                                Habit Name
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Category Habit
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Total Habit Done
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Total Exp Gain
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Longest Streak
-                                            </th>
-                                            <th className="px-4 py-2">
-                                                Current Streak
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-4 py-2">
-                                                <div className="flex items-center gap-2">
-                                                    <IconHabitComponent
-                                                        className="h-3.5 w-3.5"
-                                                        style={{
-                                                            color: habit.color,
-                                                        }}
-                                                    />
-                                                    <p>{habit.name}</p>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-2">
-                                                <div className="flex items-center gap-2">
-                                                    <IconCategoryComponent className="h-3.5 w-3.5" />
-                                                    <p>
-                                                        {
-                                                            habit.habit_category
-                                                                .name
-                                                        }
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-2">
-                                                {habit.habit_logs.length} Reps
-                                            </td>
-                                            <td className="px-4 py-2">
-                                                <p
-                                                    style={{
-                                                        color: habit.color,
-                                                    }}
-                                                    className="font-semibold"
-                                                >
-                                                    +{total_exp} Exp
-                                                </p>
-                                            </td>
-                                            <td className="px-4 py-2">
-                                                <div className="flex items-center gap-1">
-                                                    <ZapIcon className="h-3.5 w-3.5 fill-yellow-400 text-yellow-600" />
-                                                    <p className="font-semibold text-yellow-600">
-                                                        {longestStreak} Streak
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-2">
-                                                <div className="flex items-center gap-1">
-                                                    <FlameIcon
-                                                        className={`h-3.5 w-3.5 ${todayStreak ? 'fill-orange-400 text-orange-600' : 'text-muted-foreground'} `}
-                                                    />
-                                                    <p
-                                                        className={`font-semibold ${todayStreak ? 'text-orange-600' : 'text-muted-foreground'} `}
-                                                    >
-                                                        {currentStreak} Streak
-                                                    </p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <p className="text-sm text-muted-foreground">
+                                    {habit.habit_category.name} — {habit.name}
+                                </p>
                             </div>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>
-                                List Achievements — {habit.name}
-                            </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-2 gap-2">
