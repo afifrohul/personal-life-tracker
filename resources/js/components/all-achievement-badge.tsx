@@ -72,24 +72,20 @@ export default function AllAchievementBadge({
     };
 
     return (
-        <div className="flex w-full items-center justify-between rounded border p-2">
-            <div className="item flex gap-2">
-                <div
-                    className="w-fit rounded border p-2"
-                    style={{
-                        backgroundColor: achievementType.color_code,
-                    }}
-                >
-                    <Award className="h-5 w-5" />
-                </div>
-                <div>
-                    <p className="text-sm font-medium">
-                        {achievementType.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                        {achievementType.desc}
-                    </p>
-                </div>
+        <div className="flex flex-col items-center justify-center gap-2 rounded border p-4">
+            <div
+                className="w-fit rounded border p-2"
+                style={{
+                    backgroundColor: achievementType.color_code,
+                }}
+            >
+                <Award className="h-8 w-8" />
+            </div>
+            <div>
+                <p className="text-center text-base font-medium">
+                    {achievementType.name}
+                </p>
+                <p className="text-center text-sm">{achievementType.desc}</p>
             </div>
             {habit.achievements.find(
                 (acv) => acv.achievement_type_id === achievementType.id,

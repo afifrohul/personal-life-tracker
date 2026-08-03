@@ -122,7 +122,7 @@ export default function Index({
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-3 gap-2">
                                 {achievementType.map((item, index) => (
                                     <AllAchievementBadge
                                         key={index}
