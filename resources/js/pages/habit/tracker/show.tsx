@@ -1,13 +1,16 @@
 import { ChartDetailHabit } from '@/components/chart-detail-habit';
 import HabitGrid from '@/components/habit-grid';
 import LatestAchievementBadge from '@/components/latest-achievement-badge';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
+import calculateUnclaimedFullfilledAchievement from '@/lib/calculate-unclaimed-fulfilled-achievement';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ChevronsRight, FlameIcon, ZapIcon } from 'lucide-react';
+import { FlameIcon, ListCheck, ZapIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -58,6 +61,7 @@ type Habit = {
 };
 
 interface ShowProps {
+    achievementType: AchievementType[];
     habit: Habit;
     chartData: [];
     gridData: {
@@ -69,6 +73,7 @@ interface ShowProps {
 }
 
 export default function Show({
+    achievementType,
     habit,
     chartData,
     gridData,
@@ -81,6 +86,13 @@ export default function Show({
     const todayStreak = dateString.some(
         (date) => date.toDateString() === new Date().toDateString(),
     );
+
+    const unclaimedFulfilledAchievement =
+        calculateUnclaimedFullfilledAchievement({
+            habit,
+            achievementType,
+            longestStreak,
+        });
 
     const iconCategoryName = habit.habit_category.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
@@ -205,10 +217,20 @@ export default function Show({
                                 <Link
                                     href={`/habit-tracker/${habit.id}/achievement`}
                                 >
-                                    <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs italic duration-200 hover:bg-muted hover:text-muted-foreground">
-                                        See all
-                                        <ChevronsRight className="h-3 w-3" />
-                                    </div>
+                                    <Button
+                                        className="relative"
+                                        size="sm"
+                                        variant="outline"
+                                    >
+                                        <ListCheck />
+                                        See All
+                                        <Badge
+                                            className="absolute -top-1 -right-2 z-10 h-5 min-w-5 rounded-full px-1 text-xs"
+                                            variant="destructive"
+                                        >
+                                            {unclaimedFulfilledAchievement}
+                                        </Badge>
+                                    </Button>
                                 </Link>
                             </div>
                         </CardHeader>
