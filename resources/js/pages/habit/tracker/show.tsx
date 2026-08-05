@@ -224,12 +224,14 @@ export default function Show({
                                     >
                                         <ListCheck />
                                         See All
-                                        <Badge
-                                            className="absolute -top-1 -right-2 z-10 h-5 min-w-5 rounded-full px-1 text-xs"
-                                            variant="destructive"
-                                        >
-                                            {unclaimedFulfilledAchievement}
-                                        </Badge>
+                                        {unclaimedFulfilledAchievement > 0 ? (
+                                            <Badge
+                                                className="absolute -top-1 -right-2 z-10 h-5 min-w-5 rounded-full px-1 text-xs"
+                                                variant="destructive"
+                                            >
+                                                {unclaimedFulfilledAchievement}
+                                            </Badge>
+                                        ) : null}
                                     </Button>
                                 </Link>
                             </div>
