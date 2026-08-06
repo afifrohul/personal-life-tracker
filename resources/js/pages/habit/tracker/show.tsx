@@ -212,7 +212,7 @@ export default function Show({
                         <CardHeader>
                             <div className="flex items-center justify-between">
                                 <CardTitle>
-                                    Latest Achievements — {habit.name}
+                                    Latest Habit Achievements — {habit.name}
                                 </CardTitle>
                                 <Link
                                     href={`/habit-tracker/${habit.id}/achievement`}
