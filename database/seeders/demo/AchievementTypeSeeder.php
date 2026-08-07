@@ -16,7 +16,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'Consistency I', 
                 'desc' => 'Complete the habit 10 times', 
-                'color_code' => '#cbd5e1',
+                'image' => '/v0/C1.png',
                 'trigger' => 'reps',
                 'criteria' => 10,
                 'created_at' => now(), 
@@ -25,7 +25,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'Consistency II', 
                 'desc' => 'Complete the habit 50 times', 
-                'color_code' => '#22c55e',
+                'image' => '/v0/C2.png',
                 'trigger' => 'reps',
                 'criteria' => 50,
                 'created_at' => now(), 
@@ -34,7 +34,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'Consistency III', 
                 'desc' => 'Complete the habit 100 times', 
-                'color_code' => '#3b82f6',
+                'image' => '/v0/C3.png',
                 'trigger' => 'reps',
                 'criteria' => 100,
                 'created_at' => now(), 
@@ -43,7 +43,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'Consistency IV', 
                 'desc' => 'Complete the habit 500 times', 
-                'color_code' => '#a855f7',
+                'image' => '/v0/C4.png',
                 'trigger' => 'reps',
                 'criteria' => 500,
                 'created_at' => now(), 
@@ -52,7 +52,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'Consistency V', 
                 'desc' => 'Complete the habit 1000 times', 
-                'color_code' => '#ef4444',
+                'image' => '/v0/C5.png',
                 'trigger' => 'reps',
                 'criteria' => 1000,
                 'created_at' => now(), 
@@ -61,7 +61,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'The Spark', 
                 'desc' => 'Complete the habit 7 times in a row', 
-                'color_code' => '#fcd34d',
+                'image' => '/v0/spark.png',
                 'trigger' => 'streak',
                 'criteria' => 7,
                 'created_at' => now(), 
@@ -70,7 +70,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'The Bonfire', 
                 'desc' => 'Complete the habit 30 times in a row', 
-                'color_code' => '#fbbf24',
+                'image' => '/v0/bonfire.png',
                 'trigger' => 'streak',
                 'criteria' => 30,
                 'created_at' => now(), 
@@ -79,7 +79,7 @@ class AchievementTypeSeeder extends Seeder
             [
                 'name' => 'The Sprinter', 
                 'desc' => 'Complete the habit 365 times in a row', 
-                'color_code' => '#f59e0b',
+                'image' => '/v0/sprinter.png',
                 'trigger' => 'streak',
                 'criteria' => 365,
                 'created_at' => now(), 

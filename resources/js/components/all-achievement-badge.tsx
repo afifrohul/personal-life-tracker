@@ -39,7 +39,7 @@ type AchievementType = {
     id: number;
     name: string;
     desc: string;
-    color_code: string;
+    image: string;
     type: string;
     criteria: number;
     trigger: string;
@@ -73,14 +73,7 @@ export default function AllAchievementBadge({
 
     return (
         <div className="flex flex-col items-center justify-center gap-2 rounded border p-4">
-            <div
-                className="w-fit rounded border p-2"
-                style={{
-                    backgroundColor: achievementType.color_code,
-                }}
-            >
-                <Award className="h-8 w-8" />
-            </div>
+            <img src={`/badge/${achievementType.image}`} alt={achievementType.image} className='w-24'/>
             <div>
                 <p className="text-center text-base font-medium">
                     {achievementType.name}

@@ -123,7 +123,14 @@ class HabitTrackerController extends Controller
 
             $achievementType = AchievementType::get();
 
-            $habit = Habit::with(['habitCategory', 'habitLogs', 'achievements.achievementType'])->findOrFail($id);
+            $habit = Habit::with([
+                'habitCategory',
+                'habitLogs',
+                'achievements' => function ($query) {
+                    $query->latest();
+                },
+                'achievements.achievementType',
+            ])->findOrFail($id);
 
             $data = HabitLog::where('habit_id', $id)->get();
 

@@ -49,7 +49,7 @@ type AchievementType = {
     id: number;
     name: string;
     desc: string;
-    color_code: string;
+    image: string;
     type: string;
     criteria: number;
     trigger: string;

@@ -36,7 +36,7 @@ type AchievementType = {
     id: number;
     name: string;
     desc: string;
-    color_code: string;
+    image: string;
     type: string;
     criteria: number;
     trigger: string;
@@ -239,12 +239,14 @@ export default function Show({
                         <CardContent>
                             {habit.achievements.length > 0 ? (
                                 <div className="grid grid-cols-3 gap-2">
-                                    {habit.achievements.map((item, index) => (
-                                        <LatestAchievementBadge
-                                            key={index}
-                                            data={item}
-                                        />
-                                    ))}
+                                    {habit.achievements
+                                        .slice(0, 3)
+                                        .map((item, index) => (
+                                            <LatestAchievementBadge
+                                                key={index}
+                                                data={item}
+                                            />
+                                        ))}
                                 </div>
                             ) : (
                                 <div className="flex justify-center">

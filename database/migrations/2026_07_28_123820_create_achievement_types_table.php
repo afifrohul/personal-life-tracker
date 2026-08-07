@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('desc');
-            $table->string('color_code');
+            $table->string('image');
             $table->enum('trigger', ['reps', 'streak']);
             $table->integer('criteria');
             $table->timestamps();

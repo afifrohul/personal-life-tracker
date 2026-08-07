@@ -9,7 +9,7 @@ class AchievementType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'desc', 'color_code', 'trigger', 'criteria'];
+    protected $fillable = ['name', 'desc', 'image', 'trigger', 'criteria'];
 
     public function achievements()
     {
