@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 use App\Models\MoodLog;
 
+use App\Models\Achievement;
 use App\Models\Habit;
 use App\Models\HabitCategory;
 use App\Models\HabitLog;
@@ -42,6 +43,7 @@ class DashboardController extends Controller
         $habitLogCount = HabitLog::count();
         $expTotal = UserProfileStat::select('total_exp')
             ->first()->total_exp;
+        $habitAchievementCount = Achievement::count();
 
         $flowcashCategoryCount = FlowcashCategory::count();
         $flowcashCount = Flowcash::count();
@@ -98,6 +100,7 @@ class DashboardController extends Controller
             'habitCount',
             'habitLogCount',
             'expTotal',
+            'habitAchievementCount',
 
             'flowcashCategoryCount',
             'flowcashCount',

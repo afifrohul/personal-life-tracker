@@ -1,16 +1,23 @@
-import DashboardInfo from "@/components/dashboard-info";
-import { LuScrollText, LuSquareActivity, LuSquareLibrary } from "react-icons/lu";
+import DashboardInfo from '@/components/dashboard-info';
+import {
+    LuAward,
+    LuScrollText,
+    LuSquareActivity,
+    LuSquareLibrary,
+} from 'react-icons/lu';
 
 interface DashboardHabitDataProps {
     habitCategoryCount: number;
     habitCount: number;
     habitLogCount: number;
+    habitAchievementCount: number;
 }
 
 export default function DashboardHabitData({
     habitCategoryCount,
     habitCount,
     habitLogCount,
+    habitAchievementCount,
 }: DashboardHabitDataProps) {
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -31,6 +38,11 @@ export default function DashboardHabitData({
                 icon={<LuScrollText className="text-blue-500" />}
                 desc="Total Habit Log(s):"
                 data={`${habitLogCount} Log(s)`}
+            />
+            <DashboardInfo
+                icon={<LuAward className="text-amber-500" />}
+                desc="Total Habit Achievements(s):"
+                data={`${habitAchievementCount} Badge(s)`}
             />
         </div>
     );

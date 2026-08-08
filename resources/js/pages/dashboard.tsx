@@ -44,6 +44,7 @@ interface DashboardProps {
     habitCategoryCount: number;
     habitCount: number;
     habitLogCount: number;
+    habitAchievementCount: number;
     flowcashCategoryCount: number;
     flowcashCount: number;
     totalIncome: number;
@@ -79,6 +80,7 @@ export default function Dashboard({
     habitCategoryCount,
     habitCount,
     habitLogCount,
+    habitAchievementCount,
     flowcashCategoryCount,
     flowcashCount,
     totalIncome,
@@ -254,6 +256,7 @@ export default function Dashboard({
                             habitCategoryCount={habitCategoryCount}
                             habitCount={habitCount}
                             habitLogCount={habitLogCount}
+                            habitAchievementCount={habitAchievementCount}
                         />
                         <DashboardFinanceData
                             flowcashCategoryCount={flowcashCategoryCount}
