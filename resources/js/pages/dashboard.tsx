@@ -122,16 +122,18 @@ export default function Dashboard({
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto pb-4">
                 <div className="relative w-full bg-background">
                     <div className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1.5px),linear-gradient(to_bottom,#80808012_1.5px,transparent_1.5px)] bg-size-[32px_32px] dark:bg-[linear-gradient(to_right,#ffffff10_1.5px,transparent_1.5px),linear-gradient(to_bottom,#ffffff10_1.5px,transparent_1.5px)]">
-                        <div className="flex flex-col items-center justify-center gap-1.5 py-12">
-                            <Avatar className="h-20 w-20 overflow-hidden rounded-full">
-                                <AvatarImage
-                                    src={`/storage/${user.avatar}`}
-                                    alt={user.name}
-                                />
-                                <AvatarFallback>
-                                    {getInitials(user.name)}
-                                </AvatarFallback>
-                            </Avatar>
+                        <div className="flex flex-col items-center justify-center gap-1.5 py-12 ">
+                            <div className='border-2 border-slate-500 rounded-full p-0.5'>
+                                <Avatar className="h-20 w-20 overflow-hidden rounded-full">
+                                    <AvatarImage
+                                        src={`/storage/${user.avatar}`}
+                                        alt={user.name}
+                                    />
+                                    <AvatarFallback>
+                                        {getInitials(user.name)}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </div>
 
                             <div className="flex items-center gap-1">
                                 <p className="text-xl font-semibold">
@@ -199,7 +201,7 @@ export default function Dashboard({
                                                 user.profile_stat
                                                     ?.exp_to_next_level
                                             }{' '}
-                                            XP
+                                            EXP
                                         </span>
                                     </p>
                                 </div>
