@@ -1,6 +1,6 @@
 import DashboardInfo from '@/components/dashboard-info';
 import {
-    LuAward,
+    LuMedal,
     LuScrollText,
     LuSquareActivity,
     LuSquareLibrary,
@@ -40,7 +40,7 @@ export default function DashboardHabitData({
                 data={`${habitLogCount} Log(s)`}
             />
             <DashboardInfo
-                icon={<LuAward className="text-amber-500" />}
+                icon={<LuMedal className="text-amber-500" />}
                 desc="Total Habit Achievements(s):"
                 data={`${habitAchievementCount} Badge(s)`}
             />

@@ -3,6 +3,7 @@ import DashboardHabitData from '@/components/dashboard-habit-data';
 import DashboardJournalData from '@/components/dashboard-journal-data';
 import DashboardMoodData from '@/components/dashboard-mood-data';
 import DashboardTaskData from '@/components/dashboard-task-data';
+import ProfileBadge from '@/components/profile-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { useInitials } from '@/hooks/use-initials';
@@ -12,7 +13,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowBigRightDash,
-    ShieldCheck,
+    Award,
     SquarePlus,
     TrendingUp,
     UserPen,
@@ -122,8 +123,8 @@ export default function Dashboard({
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto pb-4">
                 <div className="relative w-full bg-background">
                     <div className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1.5px),linear-gradient(to_bottom,#80808012_1.5px,transparent_1.5px)] bg-size-[32px_32px] dark:bg-[linear-gradient(to_right,#ffffff10_1.5px,transparent_1.5px),linear-gradient(to_bottom,#ffffff10_1.5px,transparent_1.5px)]">
-                        <div className="flex flex-col items-center justify-center gap-1.5 py-12 ">
-                            <div className='border-2 border-slate-500 rounded-full p-0.5'>
+                        <div className="flex flex-col items-center justify-center gap-1.5 py-12">
+                            <div className="rounded-full border-2 border-slate-500 p-0.5">
                                 <Avatar className="h-20 w-20 overflow-hidden rounded-full">
                                     <AvatarImage
                                         src={`/storage/${user.avatar}`}
@@ -135,11 +136,13 @@ export default function Dashboard({
                                 </Avatar>
                             </div>
 
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                                 <p className="text-xl font-semibold">
                                     {user.name}
                                 </p>
-                                <ShieldCheck className="h-6 w-6 fill-blue-500 text-secondary" />
+                                <ProfileBadge
+                                    total_exp={user.profile_stat.total_exp}
+                                />
                             </div>
 
                             <p className="text-sm text-muted-foreground italic">
@@ -171,7 +174,7 @@ export default function Dashboard({
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 rounded-lg border p-4">
+                    <div className="grid grid-cols-3 items-center gap-8 rounded-lg border p-4">
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
                                 <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
@@ -184,6 +187,12 @@ export default function Dashboard({
                                 <p className="text-xs">
                                     {user.profile_stat?.remaining_exp} MORE EXP
                                     TO GO
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Award className="h-3.5 w-3.5 text-primary" />
+                                <p className="text-xs">
+                                    TOTAL EXP: <span className='font-semibold'>{user.profile_stat.total_exp}</span>
                                 </p>
                             </div>
                         </div>
