@@ -2,10 +2,8 @@ import AllAchievementBadge from '@/components/all-achievement-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
-import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -72,40 +70,7 @@ export default function Index({
 }: IndexProps) {
     const dateString = gridData.map((d) => new Date(d.date));
 
-    const { currentStreak, longestStreak } = calculateStreaks(dateString);
-
-    const todayStreak = dateString.some(
-        (date) => date.toDateString() === new Date().toDateString(),
-    );
-
-    const iconCategoryName = habit.habit_category.icon;
-    const IconCategoryComponent = (lucideIcons as Record<string, any>)[
-        iconCategoryName
-    ];
-
-    const iconHabitName = habit.icon;
-    const IconHabitComponent = (lucideIcons as Record<string, any>)[
-        iconHabitName
-    ];
-
-    const total_exp = habit.habit_logs.reduce((accumulator, current_value) => {
-        return accumulator + current_value.exp_gain;
-    }, 0);
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const claimAchievement = (achievement_type_id: number) => {
-        router.post(
-            `/habit-tracker/${habit.id}/achievement`,
-            {
-                achievement_type_id: achievement_type_id,
-            },
-            {
-                onSuccess: () => setIsSubmitting(false),
-                onError: () => setIsSubmitting(false),
-            },
-        );
-    };
+    const { longestStreak } = calculateStreaks(dateString);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
