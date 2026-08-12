@@ -14,6 +14,7 @@ import { Head, Link } from '@inertiajs/react';
 import {
     ArrowBigRightDash,
     Award,
+    FileBadge,
     SquarePlus,
     TrendingUp,
     UserPen,
@@ -149,12 +150,20 @@ export default function Dashboard({
                                 {user.email}
                             </p>
 
-                            <Link href={`/settings/profile`}>
-                                <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
-                                    Edit profile
-                                    <UserPen className="h-3 w-3" />
-                                </div>
-                            </Link>
+                            <div className="flex items-center gap-2">
+                                <Link href={`/badge-habit`}>
+                                    <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
+                                        Badge
+                                        <FileBadge className="h-3 w-3" />
+                                    </div>
+                                </Link>
+                                <Link href={`/settings/profile`}>
+                                    <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
+                                        Edit profile
+                                        <UserPen className="h-3 w-3" />
+                                    </div>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -192,7 +201,10 @@ export default function Dashboard({
                             <div className="flex items-center gap-2">
                                 <Award className="h-3.5 w-3.5 text-primary" />
                                 <p className="text-xs">
-                                    TOTAL EXP: <span className='font-semibold'>{user.profile_stat.total_exp}</span>
+                                    TOTAL EXP:{' '}
+                                    <span className="font-semibold">
+                                        {user.profile_stat.total_exp}
+                                    </span>
                                 </p>
                             </div>
                         </div>

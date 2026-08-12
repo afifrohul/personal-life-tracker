@@ -34,6 +34,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('badge-habit', [AchievementController::class, 'badge'])->name('badge');
 
     Route::get('daily-summary', [SummaryController::class, 'daily'])->name('summary.daily');
     Route::get('weekly-summary', [SummaryController::class, 'weekly'])->name('summary.weekly');
@@ -57,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/habit-tracker', [HabitTrackerController::class, 'index'])->name('habit-tracker.index');
     Route::get('/habit-tracker/{id}', [HabitTrackerController::class, 'show'])->name('habit-tracker.show');
 
-    Route::get('/habit-tracker/{id}/achievement', [AchievementController::class, 'index'])->name('habit-achievement.indec');
+    Route::get('/habit-tracker/{id}/achievement', [AchievementController::class, 'index'])->name('habit-achievement.index');
     Route::post('/habit-tracker/{id}/achievement', [AchievementController::class, 'store'])->name('habit-achievement.create');
 
     Route::get('/habit-calendar', [HabitCalendarController::class, 'index'])->name('habit-calendar.index');

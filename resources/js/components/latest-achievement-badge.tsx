@@ -10,11 +10,20 @@ type AchievementType = {
     trigger: string;
 };
 
+type Habit = {
+    id: number;
+    name: string;
+    color: string;
+    exp: number;
+    icon: string;
+};
+
 type Achievement = {
     id: number;
     achievement_type: AchievementType;
     achievement_type_id: number;
     created_at: string;
+    habit?: Habit;
 };
 
 interface LatestAchievementBadgeProps {
@@ -31,6 +40,11 @@ export default function LatestAchievementBadge({
                 alt={data.achievement_type.image}
                 className="w-24"
             />
+            {data.habit ? (
+                <div className="text-center text-xs text-muted-foreground italic">
+                    [{data.habit?.name}]
+                </div>
+            ) : null}
             <div>
                 <p className="text-center text-base font-medium">
                     {data.achievement_type.name}

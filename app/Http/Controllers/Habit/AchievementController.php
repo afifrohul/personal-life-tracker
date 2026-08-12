@@ -63,4 +63,11 @@ class AchievementController extends Controller
             return redirect()->back()->with('error', 'Failed to claim achievement.');
         }
     }
+
+    public function badge()
+    {
+        $achievement = Achievement::with('habit', 'achievementType')->get();
+
+        return Inertia::render('badge', compact('achievement'));
+    }
 }
