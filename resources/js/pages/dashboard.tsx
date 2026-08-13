@@ -153,13 +153,13 @@ export default function Dashboard({
                             <div className="flex items-center gap-2">
                                 <Link href={`/badge-habit`}>
                                     <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
-                                        Badge
+                                        Badge Habit
                                         <FileBadge className="h-3 w-3" />
                                     </div>
                                 </Link>
                                 <Link href={`/settings/profile`}>
                                     <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
-                                        Edit profile
+                                        Edit Profile
                                         <UserPen className="h-3 w-3" />
                                     </div>
                                 </Link>
