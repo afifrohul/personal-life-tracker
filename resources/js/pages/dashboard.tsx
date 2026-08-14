@@ -178,7 +178,7 @@ export default function Dashboard({
                                 Welcome to dashboard, {user.name}!
                             </p>
                             <p className="text-sm text-muted-foreground">
-                                Hava a good day. Let’s keep your life on track
+                                Hava a good day. Let's keep your life on track
                                 today.
                             </p>
                         </div>
@@ -211,7 +211,7 @@ export default function Dashboard({
                         <div className="col-span-2 flex flex-col gap-2">
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-2">
-                                    <TrendingUp className="h-3.5 w-3.5 text-teal-500" />
+                                    <TrendingUp className="h-3.5 w-3.5" />
                                     <p className="text-xs">
                                         <span className="font-semibold">
                                             {user.profile_stat?.level_exp}
