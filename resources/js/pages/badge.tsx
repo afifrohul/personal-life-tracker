@@ -1,8 +1,16 @@
 import LatestAchievementBadge from '@/components/latest-achievement-badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -40,10 +48,26 @@ type Achievement = {
 
 interface BadgeProps {
     achievement: Achievement[];
+    habits: Habit[];
 }
 
-export default function Badge({ achievement }: BadgeProps) {
-    console.log(achievement);
+export default function Badge({ achievement, habits }: BadgeProps) {
+
+    const [habitFilter, setHabitFilter] = useState('all')
+
+    const applyFilter = (habit_id: string | number) => {
+        router.get(
+            '/badge-habit',
+            {
+                habit_id: habit_id,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -60,6 +84,42 @@ export default function Badge({ achievement }: BadgeProps) {
                             </div>
                         </CardHeader>
                         <CardContent>
+                            <div className="mb-4 space-y-1">
+                                <p className="text-xs font-semibold">
+                                    Filter by habit
+                                </p>
+                                <Select
+                                    value={habitFilter}
+                                    onValueChange={(value) => {
+                                        setHabitFilter(value)
+                                        applyFilter(value);
+                                    }}
+                                >
+                                    <SelectTrigger
+                                        className="hidden w-full rounded-lg sm:ml-auto sm:flex"
+                                        aria-label="Select a value"
+                                    >
+                                        <SelectValue placeholder="December" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-xl">
+                                        <SelectItem
+                                            value="all"
+                                            className="rounded-lg"
+                                        >
+                                            All Habit
+                                        </SelectItem>
+                                        {habits.map((item, index) => (
+                                            <SelectItem
+                                                key={index}
+                                                value={String(item.id)}
+                                                className="rounded-lg"
+                                            >
+                                                {item.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                             {achievement.length > 0 ? (
                                 <div className="grid grid-cols-4 gap-2">
                                     {achievement.map((item, index) => (

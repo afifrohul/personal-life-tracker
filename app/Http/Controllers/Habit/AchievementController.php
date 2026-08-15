@@ -64,10 +64,21 @@ class AchievementController extends Controller
         }
     }
 
-    public function badge()
+    public function badge(Request $request)
     {
-        $achievement = Achievement::with('habit', 'achievementType')->get();
+        $habits = Habit::get();
 
-        return Inertia::render('badge', compact('achievement'));
+        $habit_id = $request->input('habit_id', 'all');
+
+        $achievement = Achievement::with('habit', 'achievementType');
+
+        if ($habit_id != 'all') {
+            $achievement->where('habit_id', $habit_id);
+        }
+
+        $achievement = $achievement->get();
+
+
+        return Inertia::render('badge', compact('achievement', 'habits'));
     }
 }
