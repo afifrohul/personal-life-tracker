@@ -41,7 +41,10 @@ export default function LatestAchievementBadge({
                 className="w-24"
             />
             {data.habit ? (
-                <div className="text-center text-xs text-muted-foreground italic">
+                <div
+                    className="text-center text-xs font-medium text-muted-foreground italic"
+                    style={{ color: data.habit?.color }}
+                >
                     [{data.habit?.name}]
                 </div>
             ) : null}
