@@ -183,7 +183,7 @@ export default function Dashboard({
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 items-center gap-8 rounded-lg border p-4">
+                    <div className="grid grid-cols-3 items-center gap-4 rounded-lg border p-4">
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
                                 <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
