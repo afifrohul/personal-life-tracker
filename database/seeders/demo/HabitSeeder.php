@@ -33,7 +33,7 @@ class HabitSeeder extends Seeder
             ],
             [ 
                 'habit_category_id' => 2, 
-                'name' => 'Quran', 
+                'name' => 'Reading', 
                 'color' => '#16a34a',
                 'difficulty' => 'medium',
                 'icon' => 'BookOpen', 
@@ -42,10 +42,10 @@ class HabitSeeder extends Seeder
             ],
             [ 
                 'habit_category_id' => 2, 
-                'name' => 'Pray Dhuha', 
+                'name' => 'Journaling', 
                 'color' => '#0f766e',
                 'difficulty' => 'medium',
-                'icon' => 'Clock8', 
+                'icon' => 'NotebookPen', 
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
