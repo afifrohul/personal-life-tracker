@@ -41,7 +41,7 @@ export default function DashboardHabitData({
             />
             <DashboardInfo
                 icon={<LuMedal className="text-amber-500" />}
-                desc="Total Habit Achievements(s):"
+                desc="Total Habit Achievement(s):"
                 data={`${habitAchievementCount} Badge(s)`}
             />
         </div>
