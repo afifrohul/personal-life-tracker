@@ -18,12 +18,12 @@ export default function DashboardJournalData({
             <DashboardInfo
                 icon={<LuNotebook className="text-indigo-500" />}
                 desc="Total Journal Log(s)"
-                data={`${journalLogCount} Logs(s)`}
+                data={`${journalLogCount} Log(s)`}
             />
             <DashboardInfo
                 icon={<LuNotebookPen className="text-fuchsia-500" />}
                 desc="Total Journal Log(s) This Month:"
-                data={`${jounalLogThisMonthCount} Logs(s)`}
+                data={`${jounalLogThisMonthCount} Log(s)`}
             />
         </div>
     );
