@@ -1,27 +1,13 @@
 import { Button } from '@/components/ui/button';
 import {
     Field,
-    FieldError,
+    FieldDescription,
     FieldGroup,
     FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
-import * as Icons from 'lucide-react';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import * as z from 'zod';
-
-const formSchema = z.object({
-    name: z
-        .string()
-        .min(3, 'Name must be at least 5 characters.')
-        .max(12, 'Name must be at most 12 characters.'),
-    icon: z.string(),
-});
-
-export type CategoryFormValues = z.infer<typeof formSchema>;
+import { router, useForm } from '@inertiajs/react';
+import { icons } from 'lucide-react';
 
 interface CategoryFormProps {
     initialData?: {
@@ -38,115 +24,119 @@ export function CategoryForm({
     submitUrl,
     method = 'post',
 }: CategoryFormProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const form = useForm<CategoryFormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: initialData ?? {
-            name: '',
-        },
+    const { data, setData, post, put, processing, errors } = useForm({
+        name: initialData?.name || '',
+        icon: initialData?.icon || '',
     });
 
-    const onSubmit = (data: CategoryFormValues) => {
-        setIsSubmitting(true);
+    const IconComponent = data.icon
+        ? icons[data.icon as keyof typeof icons]
+        : null;
 
-        router[method](submitUrl, data, {
-            onSuccess: () => {
-                setIsSubmitting(false);
-                if (method === 'post') form.reset();
-            },
-            onError: () => {
-                setIsSubmitting(false);
-            },
-        });
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setData(e.target.name as keyof typeof data, e.target.value);
+    };
+
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (method === 'post') {
+            post(submitUrl);
+        } else {
+            put(submitUrl);
+        }
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
             <FieldGroup>
-                <Controller
-                    name="name"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="name">Name</FieldLabel>
-                            <Input
-                                {...field}
-                                id="name"
-                                placeholder="Enter category name"
-                                autoComplete="off"
-                                required
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
+                <Field>
+                    <FieldLabel
+                        htmlFor="name"
+                        className={`${errors.name ? 'text-destructive' : ''}`}
+                    >
+                        Name
+                    </FieldLabel>
+                    <Input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value={data.name}
+                        onChange={handleChange}
+                        placeholder="Enter category name"
+                        autoComplete="off"
+                        className={`${errors.name ? 'border-destructive' : ''}`}
+                        required
+                    />
+                    {errors.name && (
+                        <FieldDescription className="text-xs text-destructive">
+                            {errors.name}
+                        </FieldDescription>
                     )}
-                />
-                <Controller
-                    name="icon"
-                    control={form.control}
-                    render={({ field, fieldState }) => {
-                        const IconComponent =
-                            typeof field.value === 'string'
-                                ? (Icons as any)[field.value]
-                                : undefined;
-                        return (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="icon">Icon</FieldLabel>
-                                <div>
-                                    <a
-                                        href="https://lucide.dev/icons/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-xs text-indigo-500 underline"
-                                    >
-                                        Click this to get icons list name
-                                    </a>
-                                </div>
-                                <Input
-                                    {...field}
-                                    id="icon"
-                                    placeholder="Enter icon name using PascalCase. Example: BriefcaseMedical"
-                                    autoComplete="off"
-                                    required
-                                />
-                                <div className="mt-2 flex h-10 flex-col gap-2">
-                                    <p className="text-xs">Preview icon</p>
-                                    <div>
-                                        {IconComponent ? (
-                                            <div className="flex items-center gap-2">
-                                                <IconComponent className="h-6 w-6" />
-                                                <span className="text-xs text-green-600">
-                                                    Icon found!
-                                                </span>
-                                            </div>
-                                        ) : field.value ? (
-                                            <span className="text-xs text-destructive">
-                                                Icon not found
-                                            </span>
-                                        ) : null}
-                                    </div>
-                                </div>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        );
-                    }}
-                />
+                </Field>
+                <Field>
+                    <FieldLabel htmlFor="icon">Icon</FieldLabel>
+                    <div>
+                        <a
+                            href="https://lucide.dev/icons/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-indigo-500 underline"
+                        >
+                            Click this to get icons list name
+                        </a>
+                    </div>
+                    <Input
+                        id="icon"
+                        type="text"
+                        name="icon"
+                        value={data.icon}
+                        onChange={handleChange}
+                        placeholder="Enter icon name using PascalCase (case-sensitive). Example: BriefcaseMedical"
+                        autoComplete="off"
+                        className={`${errors.name ? 'border-destructive' : ''}`}
+                        required
+                    />
+                    <div className="mt-2 flex h-16 items-center gap-3 rounded-md border p-3">
+                        <p className="text-xs text-muted-foreground">
+                            Preview:
+                        </p>
+
+                        {IconComponent ? (
+                            <div className="flex items-center gap-2">
+                                <IconComponent className="size-8" />
+                                <span className="text-xs text-green-500">
+                                    {data.icon ? 'Icon found!' : ''}
+                                </span>
+                            </div>
+                        ) : (
+                            <span className="text-xs text-destructive">
+                                {data.icon
+                                    ? 'Icon not found!'
+                                    : 'Enter icon name first'}
+                            </span>
+                        )}
+                    </div>
+                    {errors.icon && (
+                        <FieldDescription className="text-xs text-destructive">
+                            {errors.icon}
+                        </FieldDescription>
+                    )}
+                </Field>
             </FieldGroup>
             <div className="mt-4 flex justify-end gap-2">
                 <Button
                     type="button"
                     variant="outline"
-                    disabled={isSubmitting}
+                    disabled={processing}
                     onClick={() => router.get('/habit-categories')}
                 >
                     Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting
+                <Button type="submit" disabled={processing}>
+                    {processing
                         ? 'Saving...'
                         : method === 'post'
                           ? 'Create'

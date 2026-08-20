@@ -436,7 +436,7 @@ export default function Index({
                     <TabsContent value="column">
                         <div className="rounded-xl border p-4">
                             <div className="mx-auto flex w-full flex-col gap-4">
-                                {mood_logs_column.data.length > 0 ? (
+                                {mood_logs_column.data?.length > 0 ? (
                                     <div className="grid grid-cols-3 gap-4">
                                         {mood_logs_column.data?.map(
                                             (item, index) => (
