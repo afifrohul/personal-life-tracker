@@ -14,7 +14,7 @@ class HabitCategorySeeder extends Seeder
     {
         $categories = [
             ['name' => 'Health', 'icon' => 'BriefcaseMedical', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Hobbies', 'icon' => 'UserStar', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Hobbies', 'icon' => 'Star', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Productivity', 'icon' => 'UserCog', 'created_at' => now(), 'updated_at' => now()]
         ];
 
