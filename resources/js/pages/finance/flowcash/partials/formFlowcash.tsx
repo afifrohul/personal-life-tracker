@@ -54,7 +54,10 @@ export function FlowcashForm({
         date: initialData?.date || '',
         type: initialData?.type || '',
         amount: initialData?.amount || '',
-        flowcash_category_id: String(initialData?.flowcash_category_id) || '',
+        flowcash_category_id:
+            initialData?.flowcash_category_id == undefined
+                ? ''
+                : String(initialData?.flowcash_category_id),
     });
 
     const handleChange = (

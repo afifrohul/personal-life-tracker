@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { FlowcashForm, FlowcashFormValues } from './partials/formFlowcash';
+import { FlowcashForm } from './partials/formFlowcash';
 
 type Category = {
     id: number;
@@ -12,13 +12,13 @@ type Category = {
 
 interface EditProps {
     categories: Category[];
-    flowcash: FlowcashFormValues & {
+    flowcash: {
         id: number;
-        category_id: number;
-        name: string;
-        color: string;
-        exp: number;
-        icon: string;
+        description: string;
+        date: string;
+        type: string;
+        amount: number;
+        flowcash_category_id: string;
     };
 }
 

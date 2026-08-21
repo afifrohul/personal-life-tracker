@@ -47,8 +47,13 @@ export function HabitForm({
         color: initialData?.color || '',
         difficulty: initialData?.difficulty || '',
         icon: initialData?.icon || '',
-        habit_category_id: String(initialData?.habit_category_id) || '',
+        habit_category_id:
+            initialData?.habit_category_id == undefined
+                ? ''
+                : String(initialData?.habit_category_id),
     });
+
+    console.log(data);
 
     const IconComponent = data.icon
         ? icons[data.icon as keyof typeof icons]
@@ -127,7 +132,7 @@ export function HabitForm({
                     <Field>
                         <FieldLabel
                             htmlFor="color"
-                            className={`${errors.name ? 'text-destructive' : ''}`}
+                            className={`${errors.color ? 'text-destructive' : ''}`}
                         >
                             Color
                         </FieldLabel>

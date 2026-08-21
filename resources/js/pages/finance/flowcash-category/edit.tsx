@@ -2,13 +2,10 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import {
-    FlowcashCategoryForm,
-    FlowcashCategoryFormValues,
-} from './partials/formFlowcashCategory';
+import { FlowcashCategoryForm } from './partials/formFlowcashCategory';
 
 interface EditProps {
-    category: FlowcashCategoryFormValues & {
+    category: {
         id: number;
         name: string;
         icon: string;

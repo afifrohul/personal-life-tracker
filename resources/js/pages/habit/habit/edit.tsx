@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { HabitForm, HabitFormValues } from './partials/formHabit';
+import { HabitForm } from './partials/formHabit';
 
 type Category = {
     id: number;
@@ -12,13 +12,13 @@ type Category = {
 
 interface EditProps {
     categories: Category[];
-    habit: HabitFormValues & {
-        id: number;
-        category_id: number;
+    habit: {
+        id?: number;
         name: string;
         color: string;
-        exp: number;
+        difficulty: string;
         icon: string;
+        habit_category_id: string;
     };
 }
 
