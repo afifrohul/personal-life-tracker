@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
     Field,
-    FieldError,
+    FieldDescription,
     FieldGroup,
     FieldLabel,
 } from '@/components/ui/field';
@@ -19,26 +19,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
-import * as z from 'zod';
-
-const formSchema = z.object({
-    flowcash_category_id: z.string(),
-    description: z
-        .string()
-        .min(3, 'Name must be at least 5 characters.')
-        .max(50, 'Name must be at most 50 characters.'),
-    date: z.string(),
-    type: z.string(),
-    amount: z.string(),
-});
-
-export type FlowcashFormValues = z.infer<typeof formSchema>;
 
 type Category = {
     id: number;
@@ -47,7 +30,14 @@ type Category = {
 };
 
 interface FlowcashFormProps {
-    initialData?: FlowcashFormValues & { id?: number };
+    initialData?: {
+        id?: number;
+        description: string;
+        date: string;
+        type: string;
+        amount: number;
+        flowcash_category_id: string;
+    };
     submitUrl: string;
     method?: 'post' | 'put';
     categories?: Category[];
@@ -59,228 +49,164 @@ export function FlowcashForm({
     submitUrl,
     method = 'post',
 }: FlowcashFormProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const form = useForm<FlowcashFormValues>({
-        resolver: zodResolver(formSchema) as Resolver<FlowcashFormValues>,
-        defaultValues: initialData
-            ? {
-                  ...initialData,
-                  flowcash_category_id: String(
-                      initialData.flowcash_category_id,
-                  ),
-              }
-            : {
-                  flowcash_category_id: '',
-                  description: '',
-                  date: '',
-                  type: '',
-                  amount: '',
-              },
+    const { data, setData, post, put, processing, errors } = useForm({
+        description: initialData?.description || '',
+        date: initialData?.date || '',
+        type: initialData?.type || '',
+        amount: initialData?.amount || '',
+        flowcash_category_id: String(initialData?.flowcash_category_id) || '',
     });
 
-    const onSubmit: SubmitHandler<FlowcashFormValues> = (data) => {
-        setIsSubmitting(true);
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setData(e.target.name as keyof typeof data, e.target.value);
+    };
 
-        router[method](
-            submitUrl,
-            {
-                ...data,
-                flowcash_category_id: Number(data.flowcash_category_id),
-                amount: Number(data.amount),
-            },
-            {
-                onSuccess: () => setIsSubmitting(false),
-                onError: () => setIsSubmitting(false),
-            },
-        );
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (method === 'post') {
+            post(submitUrl);
+        } else {
+            put(submitUrl);
+        }
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
             <FieldGroup>
                 <FieldGroup className="grid grid-cols-2 gap-4">
-                    <Controller
-                        name="flowcash_category_id"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="category">
-                                    Category
-                                </FieldLabel>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                                <Select
-                                    name={field.name}
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                >
-                                    <SelectTrigger
-                                        id="category"
-                                        aria-invalid={fieldState.invalid}
-                                        className="w-full"
+                    <Field>
+                        <FieldLabel htmlFor="category">Category</FieldLabel>
+                        <Select
+                            value={data.flowcash_category_id}
+                            onValueChange={(value) =>
+                                setData('flowcash_category_id', value)
+                            }
+                        >
+                            <SelectTrigger id="category" className="w-full">
+                                <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent position="item-aligned">
+                                {categories?.map((item) => (
+                                    <SelectItem
+                                        key={item.id}
+                                        value={String(item.id)}
                                     >
-                                        <SelectValue placeholder="Select a category" />
-                                    </SelectTrigger>
-                                    <SelectContent position="item-aligned">
-                                        {categories?.map((item) => (
-                                            <SelectItem
-                                                key={item.id}
-                                                value={String(item.id)}
-                                            >
-                                                {item.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </Field>
+                                        {item.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </Field>
+                    <Field>
+                        <FieldLabel htmlFor="description">
+                            Description
+                        </FieldLabel>
+                        <Input
+                            id="description"
+                            name="description"
+                            value={data.description}
+                            onChange={handleChange}
+                            placeholder="Enter description"
+                            autoComplete="off"
+                            required
+                        />
+                        {errors.description && (
+                            <FieldDescription className="text-xs text-destructive">
+                                {errors.description}
+                            </FieldDescription>
                         )}
-                    />
-                    <Controller
-                        name="description"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="description">
-                                    Description
-                                </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="description"
-                                    placeholder="Enter description"
-                                    autoComplete="off"
-                                    required
-                                />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        )}
-                    />
+                    </Field>
                 </FieldGroup>
                 <FieldGroup className="grid grid-cols-3 gap-4">
-                    <Controller
-                        name="date"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>Date</FieldLabel>
-
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            className="w-full justify-between text-left font-normal"
-                                        >
-                                            {field.value
-                                                ? format(
-                                                      new Date(field.value),
-                                                      'PPP',
-                                                  )
-                                                : 'Pick a date'}
-                                            <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-
-                                    <PopoverContent
-                                        className="w-auto p-0"
-                                        align="start"
-                                    >
-                                        <Calendar
-                                            mode="single"
-                                            selected={
-                                                field.value
-                                                    ? new Date(field.value)
-                                                    : undefined
-                                            }
-                                            onSelect={(date) => {
-                                                field.onChange(
-                                                    date
-                                                        ? format(
-                                                              date,
-                                                              'yyyy-MM-dd',
-                                                          )
-                                                        : null,
-                                                );
-                                            }}
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
-                        name="type"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="type">Type</FieldLabel>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                                <Select
-                                    name={field.name}
-                                    value={field.value}
-                                    onValueChange={field.onChange}
+                    <Field>
+                        <FieldLabel>Date</FieldLabel>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="w-full justify-between text-left font-normal"
                                 >
-                                    <SelectTrigger
-                                        id="type"
-                                        aria-invalid={fieldState.invalid}
-                                        className="w-full"
-                                    >
-                                        <SelectValue placeholder="Select type" />
-                                    </SelectTrigger>
-                                    <SelectContent position="item-aligned">
-                                        <SelectItem value="income">
-                                            Income
-                                        </SelectItem>
-                                        <SelectItem value="expense">
-                                            Expense
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </Field>
-                        )}
-                    />
-                    <Controller
-                        name="amount"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="amount">Amount</FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="amount"
-                                    placeholder="Enter amount"
-                                    autoComplete="off"
-                                    type="number"
-                                    required
+                                    {data.date
+                                        ? format(new Date(data.date), 'PPP')
+                                        : 'Pick a date'}
+                                    <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={
+                                        data.date
+                                            ? new Date(data.date)
+                                            : undefined
+                                    }
+                                    onSelect={(date) => {
+                                        setData(
+                                            'date',
+                                            date
+                                                ? format(date, 'yyyy-MM-dd')
+                                                : '',
+                                        );
+                                    }}
                                 />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
+                            </PopoverContent>
+                        </Popover>
+                    </Field>
+
+                    <Field>
+                        <FieldLabel htmlFor="type">Type</FieldLabel>
+                        <Select
+                            value={data.type}
+                            onValueChange={(value) => setData('type', value)}
+                        >
+                            <SelectTrigger id="type" className="w-full">
+                                <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                            <SelectContent position="item-aligned">
+                                <SelectItem value="income">Income</SelectItem>
+                                <SelectItem value="expense">Expense</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </Field>
+
+                    <Field>
+                        <FieldLabel htmlFor="amount">Amount</FieldLabel>
+                        <Input
+                            id="amount"
+                            name="amount"
+                            value={data.amount}
+                            onChange={handleChange}
+                            placeholder="Enter amount"
+                            autoComplete="off"
+                            type="number"
+                            required
+                        />
+                        {errors.amount && (
+                            <FieldDescription className="text-xs text-destructive">
+                                {errors.amount}
+                            </FieldDescription>
                         )}
-                    />
+                    </Field>
                 </FieldGroup>
             </FieldGroup>
             <div className="mt-4 flex justify-end gap-2">
                 <Button
                     type="button"
                     variant="outline"
-                    disabled={isSubmitting}
+                    disabled={processing}
                     onClick={() => router.get('/flowcashes')}
                 >
                     Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting
+                <Button type="submit" disabled={processing}>
+                    {processing
                         ? 'Saving...'
                         : method === 'post'
                           ? 'Create'

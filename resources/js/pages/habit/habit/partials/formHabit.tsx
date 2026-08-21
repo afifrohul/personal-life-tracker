@@ -50,8 +50,6 @@ export function HabitForm({
         habit_category_id: String(initialData?.habit_category_id) || '',
     });
 
-    console.log(data);
-
     const IconComponent = data.icon
         ? icons[data.icon as keyof typeof icons]
         : null;
