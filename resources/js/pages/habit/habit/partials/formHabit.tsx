@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import {
     Field,
-    FieldError,
+    FieldDescription,
     FieldGroup,
     FieldLabel,
 } from '@/components/ui/field';
@@ -13,25 +13,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
-import * as Icons from 'lucide-react';
-import { useState } from 'react';
-import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
-import * as z from 'zod';
-
-const formSchema = z.object({
-    habit_category_id: z.string(),
-    name: z
-        .string()
-        .min(3, 'Name must be at least 5 characters.')
-        .max(12, 'Name must be at most 12 characters.'),
-    color: z.string(),
-    difficulty: z.string(),
-    icon: z.string(),
-});
-
-export type HabitFormValues = z.infer<typeof formSchema>;
+import { router, useForm } from '@inertiajs/react';
+import { icons } from 'lucide-react';
 
 type Category = {
     id: number;
@@ -40,7 +23,14 @@ type Category = {
 };
 
 interface HabitFormProps {
-    initialData?: HabitFormValues & { id?: number };
+    initialData?: {
+        id?: number;
+        name: string;
+        color: string;
+        difficulty: string;
+        icon: string;
+        habit_category_id: string;
+    };
     submitUrl: string;
     method?: 'post' | 'put';
     categories?: Category[];
@@ -52,252 +42,224 @@ export function HabitForm({
     submitUrl,
     method = 'post',
 }: HabitFormProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const form = useForm<HabitFormValues>({
-        resolver: zodResolver(formSchema) as Resolver<HabitFormValues>,
-        defaultValues: initialData
-            ? {
-                  ...initialData,
-                  habit_category_id: String(initialData.habit_category_id),
-              }
-            : {
-                  habit_category_id: '',
-                  name: '',
-                  color: '',
-                  difficulty: '',
-                  icon: '',
-              },
+    const { data, setData, post, put, processing, errors } = useForm({
+        name: initialData?.name || '',
+        color: initialData?.color || '',
+        difficulty: initialData?.difficulty || '',
+        icon: initialData?.icon || '',
+        habit_category_id: String(initialData?.habit_category_id) || '',
     });
 
-    const onSubmit: SubmitHandler<HabitFormValues> = (data) => {
-        setIsSubmitting(true);
+    console.log(data);
 
-        router[method](
-            submitUrl,
-            {
-                ...data,
-                habit_category_id: Number(data.habit_category_id),
-            },
-            {
-                onSuccess: () => setIsSubmitting(false),
-                onError: () => setIsSubmitting(false),
-            },
-        );
+    const IconComponent = data.icon
+        ? icons[data.icon as keyof typeof icons]
+        : null;
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setData(e.target.name as keyof typeof data, e.target.value);
+    };
+
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (method === 'post') {
+            post(submitUrl);
+        } else {
+            put(submitUrl);
+        }
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
             <FieldGroup>
                 <FieldGroup className="grid grid-cols-2 gap-4">
-                    <Controller
-                        name="habit_category_id"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="category">
-                                    Category
-                                </FieldLabel>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                                <Select
-                                    name={field.name}
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                >
-                                    <SelectTrigger
-                                        id="category"
-                                        aria-invalid={fieldState.invalid}
-                                        className="w-full"
+                    <Field>
+                        <FieldLabel htmlFor="category">Category</FieldLabel>
+                        <Select
+                            value={data.habit_category_id}
+                            onValueChange={(value) =>
+                                setData('habit_category_id', value)
+                            }
+                        >
+                            <SelectTrigger id="category" className="w-full">
+                                <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent position="item-aligned">
+                                {categories?.map((item) => (
+                                    <SelectItem
+                                        key={item.id}
+                                        value={String(item.id)}
                                     >
-                                        <SelectValue placeholder="Select a category" />
-                                    </SelectTrigger>
-                                    <SelectContent position="item-aligned">
-                                        {categories?.map((item) => (
-                                            <SelectItem
-                                                key={item.id}
-                                                value={String(item.id)}
-                                            >
-                                                {item.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </Field>
+                                        {item.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </Field>
+                    <Field>
+                        <FieldLabel
+                            htmlFor="name"
+                            className={`${errors.name ? 'text-destructive' : ''}`}
+                        >
+                            Name
+                        </FieldLabel>
+                        <Input
+                            id="name"
+                            type="text"
+                            name="name"
+                            value={data.name}
+                            onChange={handleChange}
+                            placeholder="Enter habit name"
+                            autoComplete="off"
+                            className={`${errors.name ? 'border-destructive' : ''}`}
+                            required
+                        />
+                        {errors.name && (
+                            <FieldDescription className="text-xs text-destructive">
+                                {errors.name}
+                            </FieldDescription>
                         )}
-                    />
-                    <Controller
-                        name="name"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="name">Name</FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="name"
-                                    placeholder="Enter habit name"
-                                    autoComplete="off"
-                                    required
-                                />
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        )}
-                    />
+                    </Field>
                 </FieldGroup>
 
                 <FieldGroup className="grid grid-cols-2 gap-4">
-                    <Controller
-                        name="color"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="color">Color</FieldLabel>
+                    <Field>
+                        <FieldLabel
+                            htmlFor="color"
+                            className={`${errors.name ? 'text-destructive' : ''}`}
+                        >
+                            Color
+                        </FieldLabel>
 
-                                <div className="flex items-center gap-3">
-                                    {/* Color Picker */}
-                                    <input
-                                        type="color"
-                                        value={field.value || '#000000'}
-                                        onChange={(e) =>
-                                            field.onChange(e.target.value)
-                                        }
-                                        className="h-10 w-10 cursor-pointer"
-                                    />
+                        <div className="flex items-center gap-3">
+                            {/* Color Picker */}
+                            <Input
+                                name="color"
+                                type="color"
+                                value={data.color || '#000000'}
+                                onChange={handleChange}
+                                className="h-10 w-10 cursor-pointer"
+                            />
 
-                                    {/* HEX Input */}
-                                    <Input
-                                        {...field}
-                                        id="color"
-                                        placeholder="#059669"
-                                        className="flex-1"
-                                        autoComplete="off"
-                                    />
-                                </div>
-                                <div>
-                                    <a
-                                        href="https://tailscan.com/colors"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-xs text-indigo-500 underline"
-                                    >
-                                        Click this to get tailwind color reference
-                                    </a>
-                                </div>
+                            {/* HEX Input */}
+                            <Input
+                                id="color"
+                                type="text"
+                                name="color"
+                                value={data.color}
+                                onChange={handleChange}
+                                placeholder="#059669"
+                                autoComplete="off"
+                                className={`flex-1 ${errors.name ? 'border-destructive' : ''}`}
+                            />
+                        </div>
+                        <div>
+                            <a
+                                href="https://tailscan.com/colors"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-indigo-500 underline"
+                            >
+                                Click this to get tailwind color reference
+                            </a>
+                        </div>
 
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
+                        {errors.color && (
+                            <FieldDescription className="text-xs text-destructive">
+                                {errors.color}
+                            </FieldDescription>
                         )}
-                    />
+                    </Field>
 
-                    <Controller
-                        name="difficulty"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="difficulty">
-                                    Difficulty
-                                </FieldLabel>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                                <Select
-                                    name={field.name}
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                >
-                                    <SelectTrigger
-                                        id="difficulty"
-                                        aria-invalid={fieldState.invalid}
-                                        className="w-full"
-                                    >
-                                        <SelectValue placeholder="Select a difficulty" />
-                                    </SelectTrigger>
-                                    <SelectContent position="item-aligned">
-                                        <SelectItem value="easy">
-                                            Easy
-                                        </SelectItem>
-                                        <SelectItem value="medium">
-                                            Medium
-                                        </SelectItem>
-                                        <SelectItem value="hard">
-                                            Hard
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </Field>
-                        )}
-                    />
+                    <Field>
+                        <FieldLabel
+                            htmlFor="difficulty"
+                            className={`${errors.difficulty ? 'text-destructive' : ''}`}
+                        >
+                            Difficulty
+                        </FieldLabel>
+                        <Select
+                            value={data.difficulty}
+                            onValueChange={(value) =>
+                                setData('difficulty', value)
+                            }
+                        >
+                            <SelectTrigger id="difficulty" className="w-full">
+                                <SelectValue placeholder="Select a difficulty" />
+                            </SelectTrigger>
+                            <SelectContent position="item-aligned">
+                                <SelectItem value="easy">Easy</SelectItem>
+                                <SelectItem value="medium">Medium</SelectItem>
+                                <SelectItem value="hard">Hard</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </Field>
                 </FieldGroup>
 
-                <Controller
-                    name="icon"
-                    control={form.control}
-                    render={({ field, fieldState }) => {
-                        const IconComponent =
-                            typeof field.value === 'string'
-                                ? (Icons as any)[field.value]
-                                : undefined;
-                        return (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="icon">Icon</FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="icon"
-                                    placeholder="Enter icon name using PascalCase. Example: BriefcaseMedical"
-                                    autoComplete="off"
-                                    required
-                                />
-                                <div>
-                                    <a
-                                        href="https://lucide.dev/icons/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-xs text-indigo-500 underline"
-                                    >
-                                        Click this to get icons list name
-                                    </a>
-                                </div>
-                                <div className="mt-2 flex h-10 flex-col gap-2">
-                                    <p className="text-xs">Preview icon</p>
-                                    <div>
-                                        {IconComponent ? (
-                                            <div className="flex items-center gap-2">
-                                                <IconComponent className="h-6 w-6" />
-                                                <span className="text-xs text-green-600">
-                                                    Icon found!
-                                                </span>
-                                            </div>
-                                        ) : field.value ? (
-                                            <span className="text-xs text-destructive">
-                                                Icon not found
-                                            </span>
-                                        ) : null}
-                                    </div>
-                                </div>
-                                {fieldState.invalid && (
-                                    <FieldError errors={[fieldState.error]} />
-                                )}
-                            </Field>
-                        );
-                    }}
-                />
+                <Field>
+                    <FieldLabel htmlFor="icon">Icon</FieldLabel>
+                    <div>
+                        <a
+                            href="https://lucide.dev/icons/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-indigo-500 underline"
+                        >
+                            Click this to get icons list name
+                        </a>
+                    </div>
+                    <Input
+                        id="icon"
+                        type="text"
+                        name="icon"
+                        value={data.icon}
+                        onChange={handleChange}
+                        placeholder="Enter icon name using PascalCase (case-sensitive). Example: BriefcaseMedical"
+                        autoComplete="off"
+                        className={`${errors.name ? 'border-destructive' : ''}`}
+                        required
+                    />
+                    <div className="mt-2 flex h-16 items-center gap-3 rounded-md border p-3">
+                        <p className="text-xs text-muted-foreground">
+                            Preview:
+                        </p>
+
+                        {IconComponent ? (
+                            <div className="flex items-center gap-2">
+                                <IconComponent className="size-8" />
+                                <span className="text-xs text-green-500">
+                                    {data.icon ? 'Icon found!' : ''}
+                                </span>
+                            </div>
+                        ) : (
+                            <span className="text-xs text-destructive">
+                                {data.icon
+                                    ? 'Icon not found!'
+                                    : 'Enter icon name first'}
+                            </span>
+                        )}
+                    </div>
+                    {errors.icon && (
+                        <FieldDescription className="text-xs text-destructive">
+                            {errors.icon}
+                        </FieldDescription>
+                    )}
+                </Field>
             </FieldGroup>
             <div className="mt-4 flex justify-end gap-2">
                 <Button
                     type="button"
                     variant="outline"
-                    disabled={isSubmitting}
+                    disabled={processing}
                     onClick={() => router.get('/habits')}
                 >
                     Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting
+                <Button type="submit" disabled={processing}>
+                    {processing
                         ? 'Saving...'
                         : method === 'post'
                           ? 'Create'
