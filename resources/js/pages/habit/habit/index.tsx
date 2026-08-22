@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Habit } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { FaCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -16,22 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/habits',
     },
 ];
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type Habit = {
-    id: number;
-    name: string;
-    color: string;
-    exp: number;
-    icon: string;
-    difficulty: string;
-    habit_category: Category;
-};
 
 interface HabitIndexProps {
     habits: Habit[];

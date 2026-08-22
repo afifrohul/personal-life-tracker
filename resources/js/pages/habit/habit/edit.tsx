@@ -1,25 +1,13 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { Category, Habit } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { HabitForm } from './partials/formHabit';
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
 interface EditProps {
     categories: Category[];
-    habit: {
-        id?: number;
-        name: string;
-        color: string;
-        difficulty: string;
-        icon: string;
-        habit_category_id: string;
-    };
+    habit: Habit;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

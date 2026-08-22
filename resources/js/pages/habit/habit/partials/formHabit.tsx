@@ -13,24 +13,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import type { Category, Habit } from '@/types/data';
 import { router, useForm } from '@inertiajs/react';
 import { icons } from 'lucide-react';
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
 interface HabitFormProps {
-    initialData?: {
-        id?: number;
-        name: string;
-        color: string;
-        difficulty: string;
-        icon: string;
-        habit_category_id: string;
-    };
+    initialData?: Habit;
     submitUrl: string;
     method?: 'post' | 'put';
     categories?: Category[];
