@@ -3,7 +3,7 @@ import { ChartMood } from '@/components/chart-mood';
 import { ChartMoodAvg } from '@/components/chart-mood-avg';
 import { ChartMoodByScore } from '@/components/chart-mood-by-score';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [

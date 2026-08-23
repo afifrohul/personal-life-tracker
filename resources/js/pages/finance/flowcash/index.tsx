@@ -22,7 +22,7 @@ import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { ColumnDef } from '@tanstack/react-table';
+import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import {
     ArrowDownLeft,
@@ -31,7 +31,7 @@ import {
     CircleDollarSign,
 } from 'lucide-react';
 import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
+import { type DateRange } from 'react-day-picker';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

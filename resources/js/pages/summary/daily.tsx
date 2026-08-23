@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { addDays, format } from 'date-fns';
 import {

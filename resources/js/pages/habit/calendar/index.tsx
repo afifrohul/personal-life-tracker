@@ -2,7 +2,7 @@ import { HabitFilter } from '@/components/habit-filter';
 import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { Head, router } from '@inertiajs/react';

@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { ChevronsRight, Square, SquareCheck } from 'lucide-react';
 

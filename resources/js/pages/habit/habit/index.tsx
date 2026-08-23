@@ -8,7 +8,7 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import type { Habit } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { type ColumnDef } from '@tanstack/react-table';
 import { FaCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [

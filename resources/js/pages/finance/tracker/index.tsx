@@ -3,7 +3,7 @@ import ChartExpenseByCategory from '@/components/chart-expense-by-category';
 import { ChartFinance } from '@/components/chart-finance';
 import { ChartFinanceYear } from '@/components/chart-finance-year';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [

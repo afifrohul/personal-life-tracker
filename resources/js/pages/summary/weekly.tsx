@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
-import { BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { addWeeks, endOfWeek, format, startOfWeek } from 'date-fns';
 import {
