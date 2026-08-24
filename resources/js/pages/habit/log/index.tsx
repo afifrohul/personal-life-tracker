@@ -28,6 +28,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Habit, HabitLog } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
@@ -46,30 +47,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type Habit = {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-    habit_category: Category;
-};
-
-type Log = {
-    id: number;
-    exp_gain: number;
-    date: string;
-    habit_id: number;
-    habit: Habit;
-};
-
 interface LogIndexProps {
-    logs: Log[];
+    logs: HabitLog[];
     selectedDate: string;
     habits: Habit[];
 }
@@ -77,15 +56,15 @@ interface LogIndexProps {
 export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const columns: ColumnDef<Log>[] = [
+    const columns: ColumnDef<HabitLog>[] = [
         {
             accessorKey: 'category',
             header: 'Category',
             cell: ({ row }) => {
-                const iconName = row.original.habit.habit_category.icon;
-                const IconComponent = (lucideIcons as Record<string, any>)[
-                    iconName
-                ];
+                const iconName = row.original.habit?.habit_category?.icon;
+                const IconComponent = iconName
+                    ? (lucideIcons as Record<string, any>)[iconName]
+                    : undefined;
 
                 if (!IconComponent) {
                     return (
@@ -96,7 +75,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                 return (
                     <div className="flex gap-2">
                         <IconComponent className="h-4 w-4" />
-                        {row.original.habit.habit_category.name}
+                        {row.original.habit?.habit_category?.name}
                     </div>
                 );
             },
@@ -105,10 +84,10 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
             accessorKey: 'habit',
             header: 'Habit',
             cell: ({ row }) => {
-                const iconName = row.original.habit.icon;
-                const IconComponent = (lucideIcons as Record<string, any>)[
-                    iconName
-                ];
+                const iconName = row.original.habit?.icon;
+                const IconComponent = iconName
+                    ? (lucideIcons as Record<string, any>)[iconName]
+                    : undefined;
 
                 if (!IconComponent) {
                     return (
@@ -119,10 +98,10 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                 return (
                     <div
                         className="flex w-fit items-center gap-2 rounded border px-1.5 py-1 text-white"
-                        style={{ backgroundColor: row.original.habit.color }}
+                        style={{ backgroundColor: row.original.habit?.color }}
                     >
                         <IconComponent className="h-3 w-3" />
-                        <p>{row.original.habit.name}</p>
+                        <p>{row.original.habit?.name}</p>
                     </div>
                 );
             },
@@ -135,7 +114,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                     <div>
                         <p
                             className="font-semibold"
-                            style={{ color: row.original.habit.color }}
+                            style={{ color: row.original.habit?.color }}
                         >
                             + {row.original.exp_gain} Exp
                         </p>
@@ -341,7 +320,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                 </div>
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<Log>
+                        <DataTable<HabitLog>
                             showIndexColumn
                             columns={columns}
                             data={logs}
