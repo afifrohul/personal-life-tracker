@@ -8,7 +8,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -52,8 +52,7 @@ interface BadgeProps {
 }
 
 export default function Badge({ achievement, habits }: BadgeProps) {
-
-    const [habitFilter, setHabitFilter] = useState('all')
+    const [habitFilter, setHabitFilter] = useState('all');
 
     const applyFilter = (habit_id: string | number) => {
         router.get(
@@ -91,7 +90,7 @@ export default function Badge({ achievement, habits }: BadgeProps) {
                                 <Select
                                     value={habitFilter}
                                     onValueChange={(value) => {
-                                        setHabitFilter(value)
+                                        setHabitFilter(value);
                                         applyFilter(value);
                                     }}
                                 >

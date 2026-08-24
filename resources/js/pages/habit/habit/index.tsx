@@ -8,7 +8,7 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import type { Habit } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
-import type { type ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { FaCircle } from 'react-icons/fa';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -92,10 +92,10 @@ export default function Index({ habits }: HabitIndexProps) {
             accessorKey: 'category',
             header: 'Category',
             cell: ({ row }) => {
-                const iconName = row.original.habit_category.icon;
-                const IconComponent = (lucideIcons as Record<string, any>)[
-                    iconName
-                ];
+                const iconName = row.original.habit_category?.icon;
+                const IconComponent = iconName
+                    ? (lucideIcons as Record<string, any>)[iconName]
+                    : undefined;
 
                 if (!IconComponent) {
                     return (
@@ -106,7 +106,7 @@ export default function Index({ habits }: HabitIndexProps) {
                 return (
                     <div className="flex gap-2">
                         <IconComponent className="h-4 w-4" />
-                        {row.original.habit_category.name}
+                        {row.original.habit_category?.name}
                     </div>
                 );
             },
