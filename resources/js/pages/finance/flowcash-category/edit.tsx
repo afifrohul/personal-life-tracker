@@ -1,15 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { FlowcashCategory } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { FlowcashCategoryForm } from './partials/formFlowcashCategory';
 
 interface EditProps {
-    category: {
-        id: number;
-        name: string;
-        icon: string;
-    };
+    category: FlowcashCategory;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

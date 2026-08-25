@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { FlowcashCategory } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 
@@ -15,18 +16,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Flowcash = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
 interface FlowcashCategoryIndexProps {
-    categories: Flowcash[];
+    categories: FlowcashCategory[];
 }
 
 export default function Index({ categories }: FlowcashCategoryIndexProps) {
-    const columns: ColumnDef<Flowcash>[] = [
+    const columns: ColumnDef<FlowcashCategory>[] = [
         {
             accessorKey: 'name',
             header: 'Category Name',
@@ -78,7 +73,7 @@ export default function Index({ categories }: FlowcashCategoryIndexProps) {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="rounded-xl border p-4">
                     <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<Flowcash>
+                        <DataTable<FlowcashCategory>
                             showIndexColumn
                             columns={columns}
                             data={categories}

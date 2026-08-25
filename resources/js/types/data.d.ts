@@ -39,3 +39,23 @@ export type HabitLog = {
     habit_id: string;
     habit?: Habit;
 };
+
+export type FlowcashCategory = {
+    id: number;
+    name: string;
+    icon: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
+export type Flowcash = {
+    id: number;
+    icon: string;
+    date: string;
+    amount: number;
+    description: string;
+    type: string;
+
+    flowcash_category_id?: number;
+    flowcash_category?: FlowcashCategory;
+};

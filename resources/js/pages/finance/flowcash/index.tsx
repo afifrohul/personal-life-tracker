@@ -21,6 +21,7 @@ import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Flowcash, FlowcashCategory } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
@@ -40,24 +41,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type Flowcash = {
-    id: number;
-    date: string;
-    amount: number;
-    description: string;
-    type: string;
-    flowcash_category: Category;
-};
-
 interface FlowcashIndexProps {
     allFlowcashes: Flowcash[];
-    categories: Category[];
+    categories: FlowcashCategory[];
     totalIncome: number;
     totalExpense: number;
 }
@@ -111,7 +97,7 @@ export default function Index({
             accessorKey: 'category',
             header: 'Category',
             cell: ({ row }) => {
-                const iconName = row.original.flowcash_category.icon;
+                const iconName = row.original.icon;
                 const IconComponent = (lucideIcons as Record<string, any>)[
                     iconName
                 ];
@@ -125,7 +111,7 @@ export default function Index({
                 return (
                     <div className="flex gap-2">
                         <IconComponent className="h-4 w-4" />
-                        {row.original.flowcash_category.name}
+                        {row.original.flowcash_category?.name}
                     </div>
                 );
             },
