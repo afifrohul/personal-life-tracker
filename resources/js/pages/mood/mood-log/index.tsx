@@ -1,4 +1,3 @@
-import DataTable from '@/components/data-table';
 import DeleteButton from '@/components/delete-button';
 import { AlertDialogHeader } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -44,6 +43,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
+import DataTable from '@/components/data-table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     MdKeyboardArrowLeft,
@@ -90,6 +90,13 @@ export default function Index({
     view,
 }: MoodLogIndexProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [mode, setMode] = useState<'create' | 'edit'>('create');
+    const [idEdit, setIdEdit] = useState<number>();
+    const [openForm, setOpenForm] = useState(false);
+    const [form, setForm] = useState({
+        mood_score: '',
+        date: '',
+    });
 
     const columns: ColumnDef<MoodLog>[] = [
         {
@@ -189,17 +196,6 @@ export default function Index({
             date: mood[0].date,
         });
     };
-
-    const [mode, setMode] = useState<'create' | 'edit'>('create');
-
-    const [idEdit, setIdEdit] = useState<number>();
-
-    const [openForm, setOpenForm] = useState(false);
-
-    const [form, setForm] = useState({
-        mood_score: '',
-        date: '',
-    });
 
     const handleChange = (key: any, value: any) => {
         setForm((prev) => ({ ...prev, [key]: value }));

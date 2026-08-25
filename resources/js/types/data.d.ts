@@ -1,3 +1,11 @@
+export type MoodLog = {
+    id: number;
+    mood_score: number;
+    date: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
 export type Category = {
     // Habit Category
     id: number;
