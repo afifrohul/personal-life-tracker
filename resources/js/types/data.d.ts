@@ -59,3 +59,12 @@ export type Flowcash = {
     flowcash_category_id?: number;
     flowcash_category?: FlowcashCategory;
 };
+
+type Project = {
+    id: number;
+    name: string;
+    description: string;
+    status: string;
+    created_at?: string;
+    updated_at?: string;
+};

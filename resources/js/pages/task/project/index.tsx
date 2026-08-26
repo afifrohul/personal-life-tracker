@@ -5,6 +5,7 @@ import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { Project } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
@@ -18,13 +19,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/projects',
     },
 ];
-
-type Project = {
-    id: number;
-    name: string;
-    description: string;
-    status: string;
-};
 
 interface IndexProps {
     projects: Project[];
