@@ -97,10 +97,10 @@ export default function Index({
             accessorKey: 'category',
             header: 'Category',
             cell: ({ row }) => {
-                const iconName = row.original.icon;
-                const IconComponent = (lucideIcons as Record<string, any>)[
-                    iconName
-                ];
+                const iconName = row.original.flowcash_category?.icon;
+                const IconComponent = iconName
+                    ? (lucideIcons as Record<string, any>)[iconName]
+                    : undefined;
 
                 if (!IconComponent) {
                     return (
