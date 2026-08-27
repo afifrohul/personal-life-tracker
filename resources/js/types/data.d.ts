@@ -60,11 +60,25 @@ export type Flowcash = {
     flowcash_category?: FlowcashCategory;
 };
 
-type Project = {
+export type Project = {
     id: number;
     name: string;
     description: string;
     status: string;
     created_at?: string;
     updated_at?: string;
+};
+
+export type ProjectTask = {
+    id: number;
+    title: string;
+    description: string;
+    due_date: string;
+    priority: string;
+    status: string;
+    created_at?: string;
+    updated_at?: string;
+
+    project_id: number;
+    project: Project;
 };
