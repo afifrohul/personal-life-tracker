@@ -60,6 +60,17 @@ export type Flowcash = {
     flowcash_category?: FlowcashCategory;
 };
 
+export type PersonalTask = {
+    id: number;
+    title: string;
+    description: string;
+    due_date: string;
+    priority: string;
+    status: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
 export type Project = {
     id: number;
     name: string;
@@ -79,6 +90,6 @@ export type ProjectTask = {
     created_at?: string;
     updated_at?: string;
 
-    project_id: number;
-    project: Project;
+    project_id?: number;
+    project?: Project;
 };
