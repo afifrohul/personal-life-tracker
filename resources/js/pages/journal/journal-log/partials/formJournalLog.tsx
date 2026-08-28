@@ -85,7 +85,12 @@ export function JournalLogForm({
                     </Popover>
                 </Field>
                 <Field>
-                    <FieldLabel htmlFor="content">Journal Log</FieldLabel>
+                    <FieldLabel
+                        htmlFor="content"
+                        className={`${errors.content ? 'text-destructive' : ''}`}
+                    >
+                        Journal Log
+                    </FieldLabel>
                     <Textarea
                         id="content"
                         name="content"
@@ -98,6 +103,11 @@ export function JournalLogForm({
                     <FieldDescription>
                         Share your thoughts about today.
                     </FieldDescription>
+                    {errors.content && (
+                        <FieldDescription className="text-xs text-destructive">
+                            {errors.content}
+                        </FieldDescription>
+                    )}
                 </Field>
             </FieldGroup>
             <div className="mt-4 flex justify-end gap-2">
