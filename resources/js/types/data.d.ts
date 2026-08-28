@@ -93,3 +93,11 @@ export type ProjectTask = {
     project_id?: number;
     project?: Project;
 };
+
+export type JournalLog = {
+    id: number;
+    date: string;
+    content: string;
+    created_at?: string;
+    updated_at?: string;
+};

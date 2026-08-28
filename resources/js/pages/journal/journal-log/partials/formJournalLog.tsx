@@ -3,7 +3,6 @@ import { Calendar } from '@/components/ui/calendar';
 import {
     Field,
     FieldDescription,
-    FieldError,
     FieldGroup,
     FieldLabel,
 } from '@/components/ui/field';
@@ -13,23 +12,13 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from '@inertiajs/react';
+import type { JournalLog } from '@/types/data';
+import { router, useForm } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Controller, Resolver, SubmitHandler, useForm } from 'react-hook-form';
-import * as z from 'zod';
-
-const formSchema = z.object({
-    date: z.string(),
-    content: z.string(),
-});
-
-export type JournalLogsFormValues = z.infer<typeof formSchema>;
 
 interface JournalFormProps {
-    initialData?: JournalLogsFormValues & { id?: number };
+    initialData?: JournalLog;
     submitUrl: string;
     method?: 'post' | 'put';
 }
@@ -39,118 +28,89 @@ export function JournalLogForm({
     submitUrl,
     method = 'post',
 }: JournalFormProps) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const form = useForm<JournalLogsFormValues>({
-        resolver: zodResolver(formSchema) as Resolver<JournalLogsFormValues>,
-        defaultValues: initialData
-            ? initialData
-            : {
-                  date: '',
-                  content: '',
-              },
+    const { data, setData, post, put, processing, errors } = useForm({
+        date: initialData?.date || '',
+        content: initialData?.content || '',
     });
 
-    const onSubmit: SubmitHandler<JournalLogsFormValues> = (data) => {
-        setIsSubmitting(true);
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setData(e.target.name as keyof typeof data, e.target.value);
+    };
 
-        router[method](submitUrl, data, {
-            onSuccess: () => setIsSubmitting(false),
-            onError: () => setIsSubmitting(false),
-        });
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (method === 'post') {
+            post(submitUrl);
+        } else {
+            put(submitUrl);
+        }
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
             <FieldGroup>
-                <Controller
-                    name="date"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel>Date</FieldLabel>
+                <Field>
+                    <FieldLabel>Date</FieldLabel>
 
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full justify-between text-left font-normal"
-                                    >
-                                        {field.value
-                                            ? format(
-                                                  new Date(field.value),
-                                                  'PPP',
-                                              )
-                                            : 'Pick a date'}
-                                        <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                className="w-full justify-between text-left font-normal"
+                            >
+                                {data.date
+                                    ? format(new Date(data.date), 'PPP')
+                                    : 'Pick a date'}
+                                <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
 
-                                <PopoverContent
-                                    className="w-auto p-0"
-                                    align="start"
-                                >
-                                    <Calendar
-                                        mode="single"
-                                        selected={
-                                            field.value
-                                                ? new Date(field.value)
-                                                : undefined
-                                        }
-                                        onSelect={(date) => {
-                                            field.onChange(
-                                                date
-                                                    ? format(date, 'yyyy-MM-dd')
-                                                    : null,
-                                            );
-                                        }}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-                <Controller
-                    name="content"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="content">
-                                Journal Log
-                            </FieldLabel>
-                            <Textarea
-                                {...field}
-                                id="content"
-                                placeholder="Enter journal log"
-                                autoComplete="off"
-                                required
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={
+                                    data.date ? new Date(data.date) : undefined
+                                }
+                                onSelect={(date) => {
+                                    setData(
+                                        'date',
+                                        date ? format(date, 'yyyy-MM-dd') : '',
+                                    );
+                                }}
                             />
-                            <FieldDescription>
-                                Share your thoughts about today.
-                            </FieldDescription>
-
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
+                        </PopoverContent>
+                    </Popover>
+                </Field>
+                <Field>
+                    <FieldLabel htmlFor="content">Journal Log</FieldLabel>
+                    <Textarea
+                        id="content"
+                        name="content"
+                        value={data.content}
+                        onChange={handleChange}
+                        placeholder="Enter journal log"
+                        autoComplete="off"
+                        required
+                    />
+                    <FieldDescription>
+                        Share your thoughts about today.
+                    </FieldDescription>
+                </Field>
             </FieldGroup>
             <div className="mt-4 flex justify-end gap-2">
                 <Button
                     type="button"
                     variant="outline"
-                    disabled={isSubmitting}
+                    disabled={processing}
                     onClick={() => router.get(`/journal-logs`)}
                 >
                     Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting
+                <Button type="submit" disabled={processing}>
+                    {processing
                         ? 'Saving...'
                         : method === 'post'
                           ? 'Create'
