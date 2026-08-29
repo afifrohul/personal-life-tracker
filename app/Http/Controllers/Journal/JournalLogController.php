@@ -22,7 +22,7 @@ class JournalLogController extends Controller
             if ($view == 'list') {
 
                 if ($request->input('date')) {
-                $date = $request->input('date');
+                    $date = $request->input('date');
                 } else {
                     $date = now()->format('Y-m-d');
                 }
@@ -97,7 +97,7 @@ class JournalLogController extends Controller
             $journalLog->content = $request->content;
             $journalLog->save();
 
-            return redirect()->route('journal-logs.index')->with('success', 'Journal log created successfully.');
+            return redirect()->route('journal-logs.index', ['date' => $request->date])->with('success', 'Journal log created successfully.');
 
         } catch (\Exception $e) {
             Log::error('Error storing journal log: ' . $e->getMessage());
@@ -144,7 +144,7 @@ class JournalLogController extends Controller
             $journalLog->content = $request->content;
             $journalLog->save();
 
-            return redirect()->route('journal-logs.index')->with('success', 'Journal log updated successfully.');
+            return redirect()->route('journal-logs.index', ['date' => $request->date])->with('success', 'Journal log updated successfully.');
 
         } catch (\Exception $e) {
             Log::error('Error updating journal log: ' . $e->getMessage());
@@ -159,9 +159,10 @@ class JournalLogController extends Controller
     {
         try {
             $journalLog = JournalLog::findOrFail($id);
+            $date = $journalLog->date;
             $journalLog->delete();
 
-            return redirect()->route('journal-logs.index')->with('success', 'Journal log deleted successfully.');
+            return redirect()->route('journal-logs.index', ['date' => $date])->with('success', 'Journal log deleted successfully.');
         } catch (\Exception $e) {
             Log::error('Error deleting journal log: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to delete journal log.');

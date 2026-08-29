@@ -83,17 +83,21 @@ export default function Index({
     };
 
     const changeTab = (value: string) => {
-        router.get(
-            '/journal-logs',
-            {
-                view: value,
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-            },
-        );
+        if (value == 'list') {
+            router.get('/journal-logs');
+        } else {
+            router.get(
+                '/journal-logs',
+                {
+                    view: value,
+                },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                },
+            );
+        }
     };
 
     return (
