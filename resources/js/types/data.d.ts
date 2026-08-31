@@ -27,6 +27,9 @@ export type Habit = {
 
     habit_category_id: string;
     habit_category?: Category;
+
+    habit_logs: HabitLog[];
+    achievements: Achievement[];
 };
 
 export type HabitLog = {
@@ -100,4 +103,30 @@ export type JournalLog = {
     content: string;
     created_at?: string;
     updated_at?: string;
+};
+
+export type AchievementType = {
+    id: number;
+    name: string;
+    desc: string;
+    image: string;
+    type: string;
+    criteria: number;
+    trigger: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
+export type Achievement = {
+    id: number;
+
+    created_at?: string;
+    updated_at?: string;
+
+    achievement_type?: AchievementType;
+    achievement_type_id?: number;
+
+    habit_id?: number;
+    habit?: Habit;
+
 };
