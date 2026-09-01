@@ -1,3 +1,17 @@
+export type User = {
+    name: string;
+    email: string;
+    avatar: string;
+    created_at: string;
+    profile_stat: {
+        level: number;
+        level_exp: number;
+        remaining_exp: number;
+        total_exp: number;
+        exp_to_next_level: number;
+    };
+};
+
 export type MoodLog = {
     id: number;
     mood_score: number;
@@ -128,5 +142,4 @@ export type Achievement = {
 
     habit_id?: number;
     habit?: Habit;
-
 };

@@ -10,6 +10,7 @@ import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
+import type { User } from '@/types/data';
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowBigRightDash,
@@ -30,19 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface DashboardProps {
-    user: {
-        name: string;
-        email: string;
-        avatar: string;
-        created_at: string;
-        profile_stat: {
-            level: number;
-            level_exp: number;
-            remaining_exp: number;
-            total_exp: number;
-            exp_to_next_level: number;
-        };
-    };
+    user: User;
     habitCategoryCount: number;
     habitCount: number;
     habitLogCount: number;
@@ -183,7 +172,7 @@ export default function Dashboard({
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 items-center gap-4c rounded-lg border p-4">
+                    <div className="gap-4c grid grid-cols-3 items-center rounded-lg border p-4">
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
                                 <ArrowBigRightDash className="h-3.5 w-3.5 text-primary" />
