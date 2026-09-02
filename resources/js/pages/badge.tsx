@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
+import type { Achievement, Habit } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -18,33 +19,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/badge-habit',
     },
 ];
-
-type Habit = {
-    id: number;
-    name: string;
-    color: string;
-    exp: number;
-    icon: string;
-};
-
-type AchievementType = {
-    id: number;
-    name: string;
-    desc: string;
-    image: string;
-    type: string;
-    criteria: number;
-    trigger: string;
-};
-
-type Achievement = {
-    id: number;
-    habit_id: number;
-    achievement_type_id: number;
-    created_at: string;
-    habit: Habit;
-    achievement_type: AchievementType;
-};
 
 interface BadgeProps {
     achievement: Achievement[];
