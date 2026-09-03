@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import calculateStreaks from '@/lib/calculate-streak';
 import { type BreadcrumbItem } from '@/types';
+import type { AchievementType, Habit } from '@/types/data';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -11,47 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/achievement',
     },
 ];
-
-type Log = {
-    id: number;
-    habit_id: number;
-    exp_gain: number;
-    date: string;
-};
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type Achievement = {
-    id: number;
-    habit_id: number;
-    achievement_type_id: number;
-    created_at: string;
-};
-
-type Habit = {
-    id: number;
-    name: string;
-    color: string;
-    exp: number;
-    icon: string;
-    habit_category: Category;
-    habit_logs: Log[];
-    achievements: Achievement[];
-};
-
-type AchievementType = {
-    id: number;
-    name: string;
-    desc: string;
-    image: string;
-    type: string;
-    criteria: number;
-    trigger: string;
-};
 
 interface IndexProps {
     achievementType: AchievementType[];
@@ -82,7 +42,7 @@ export default function Index({
                             <CardTitle>List Habit Achievements</CardTitle>
                             <div>
                                 <p className="text-sm text-muted-foreground">
-                                    {habit.habit_category.name} — {habit.name}
+                                    {habit.habit_category?.name} — {habit.name}
                                 </p>
                             </div>
                         </CardHeader>
