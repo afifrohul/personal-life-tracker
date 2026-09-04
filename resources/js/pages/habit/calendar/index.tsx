@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Habit, HabitLog } from '@/types/data';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { Head, router } from '@inertiajs/react';
@@ -15,22 +16,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Habit = {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-};
-
-type Log = {
-    id: number;
-    exp_gain: number;
-    date: string;
-    habit: Habit;
-};
-
 interface LogIndexProps {
-    logs: Log[];
+    logs: HabitLog[];
     habits: Habit[];
     validHabitIds: [];
 }
