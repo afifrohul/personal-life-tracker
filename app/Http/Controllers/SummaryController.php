@@ -56,24 +56,24 @@ class SummaryController extends Controller
             }
 
             $mood = MoodLog::where('date', $date)->first()?->mood_score;
-            $habit = HabitLog::with('habit')->where('date', $date)->get();
+            $habitLog = HabitLog::with('habit')->where('date', $date)->get();
             $exp = HabitLog::with('habit')->where('date', $date)->sum('exp_gain');
             $income = Flowcash::with('flowcashCategory')->where('date', $date)->where('type', 'income')->get();
             $incomeAmount = Flowcash::where('date', $date)->where('type', 'income')->sum('amount');
             $expense = Flowcash::with('flowcashCategory')->where('date', $date)->where('type', 'expense')->get();
             $expenseAmount = Flowcash::where('date', $date)->where('type', 'expense')->sum('amount');
-            $journal = JournalLog::where('date', $date)->get();
+            $journalLog = JournalLog::where('date', $date)->get();
 
             return Inertia::render('summary/daily', [
                 'selectedDate' => $date,
                 'mood' => $mood,
-                'habit' => $habit,
+                'habitLog' => $habitLog,
                 'exp' => (int)$exp,
                 'income' => $income,
                 'incomeAmount' => (int)$incomeAmount,
                 'expense' => $expense,
                 'expenseAmount' => (int)$expenseAmount,
-                'journal' => $journal
+                'journalLog' => $journalLog
             ]);
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());

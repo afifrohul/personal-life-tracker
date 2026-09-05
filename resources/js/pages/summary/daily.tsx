@@ -11,6 +11,7 @@ import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Flowcash, HabitLog, JournalLog } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { addDays, format } from 'date-fns';
 import {
@@ -35,59 +36,28 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Habit = {
-    date: string;
-    habit: {
-        name: string;
-        icon: string;
-        color: string;
-    };
-};
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type Flowcash = {
-    id: number;
-    date: string;
-    amount: number;
-    description: string;
-    type: string;
-    flowcash_category: Category;
-};
-
-type Journal = {
-    date: string;
-    content: string;
-    created_at: string;
-    updated_at: string;
-};
-
 interface SummaryProps {
     selectedDate: string;
     mood: [];
-    habit: Habit[];
+    habitLog: HabitLog[];
     exp: number;
     income: Flowcash[];
     incomeAmount: number;
     expense: Flowcash[];
     expenseAmount: number;
-    journal: Journal[];
+    journalLog: JournalLog[];
 }
 
 export default function Daily({
     selectedDate,
     mood,
-    habit,
+    habitLog,
     exp,
     income,
     incomeAmount,
     expense,
     expenseAmount,
-    journal,
+    journalLog,
 }: SummaryProps) {
     const [open, setOpen] = useState(false);
     const [date, setDate] = useState<Date | undefined>(
@@ -224,27 +194,30 @@ export default function Daily({
                     <div className="flex-1 rounded-md border p-4">
                         <div>
                             <p className="text-sm font-semibold italic">
-                                Habit Log Today ({habit?.length})
+                                Habit Log Today ({habitLog?.length})
                             </p>
                         </div>
                         <Separator className="my-2"></Separator>
                         <div className="mx-auto flex w-full flex-col gap-2">
-                            {habit?.length === 0 ? (
+                            {habitLog?.length === 0 ? (
                                 <div className="text-sm italic">
                                     habit log not found.
                                 </div>
                             ) : (
                                 <div className="flex flex-wrap items-center gap-2">
                                     <div className="flex flex-wrap items-center gap-2">
-                                        {habit?.map((item, index) => {
+                                        {habitLog?.map((item, index) => {
                                             const iconHabitName =
-                                                item.habit.icon;
-                                            const IconHabitComponent = (
-                                                lucideIcons as Record<
-                                                    string,
-                                                    any
-                                                >
-                                            )[iconHabitName];
+                                                item.habit?.icon;
+                                            const IconHabitComponent =
+                                                iconHabitName
+                                                    ? (
+                                                          lucideIcons as Record<
+                                                              string,
+                                                              any
+                                                          >
+                                                      )[iconHabitName]
+                                                    : undefined;
                                             return (
                                                 <div
                                                     key={index}
@@ -254,11 +227,11 @@ export default function Daily({
                                                         className="h-3.5 w-3.5"
                                                         style={{
                                                             color: item.habit
-                                                                .color,
+                                                                ?.color,
                                                         }}
                                                     />
                                                     <p className="text-xs font-medium">
-                                                        {item.habit.name}
+                                                        {item.habit?.name}
                                                     </p>
                                                 </div>
                                             );
@@ -303,13 +276,16 @@ export default function Daily({
                                         <tbody>
                                             {expense?.map((item, index) => {
                                                 const iconName =
-                                                    item.flowcash_category.icon;
-                                                const IconComponent = (
-                                                    lucideIcons as Record<
-                                                        string,
-                                                        any
-                                                    >
-                                                )[iconName];
+                                                    item.flowcash_category
+                                                        ?.icon;
+                                                const IconComponent = iconName
+                                                    ? (
+                                                          lucideIcons as Record<
+                                                              string,
+                                                              any
+                                                          >
+                                                      )[iconName]
+                                                    : undefined;
 
                                                 return (
                                                     <tr key={index}>
@@ -328,7 +304,7 @@ export default function Daily({
                                                                 {
                                                                     item
                                                                         .flowcash_category
-                                                                        .name
+                                                                        ?.name
                                                                 }
                                                             </div>
                                                         </td>
@@ -391,13 +367,16 @@ export default function Daily({
                                         <tbody>
                                             {income?.map((item, index) => {
                                                 const iconName =
-                                                    item.flowcash_category.icon;
-                                                const IconComponent = (
-                                                    lucideIcons as Record<
-                                                        string,
-                                                        any
-                                                    >
-                                                )[iconName];
+                                                    item.flowcash_category
+                                                        ?.icon;
+                                                const IconComponent = iconName
+                                                    ? (
+                                                          lucideIcons as Record<
+                                                              string,
+                                                              any
+                                                          >
+                                                      )[iconName]
+                                                    : undefined;
 
                                                 return (
                                                     <tr key={index}>
@@ -416,7 +395,7 @@ export default function Daily({
                                                                 {
                                                                     item
                                                                         .flowcash_category
-                                                                        .name
+                                                                        ?.name
                                                                 }
                                                             </div>
                                                         </td>
@@ -461,17 +440,17 @@ export default function Daily({
                 <div className="rounded-xl border p-4">
                     <div>
                         <p className="text-sm font-semibold italic">
-                            Journal Log Today ({journal?.length})
+                            Journal Log Today ({journalLog?.length})
                         </p>
                     </div>
                     <Separator className="my-2"></Separator>
                     <div className="mx-auto flex w-full flex-col gap-6">
-                        {journal?.length === 0 ? (
+                        {journalLog?.length === 0 ? (
                             <div className="text-sm italic">
                                 Journal log not found.
                             </div>
                         ) : (
-                            journal?.map((item, index) => (
+                            journalLog?.map((item, index) => (
                                 <div
                                     className="grid grid-cols-6 items-baseline"
                                     key={index}
@@ -479,7 +458,7 @@ export default function Daily({
                                     <div className="">
                                         <p className="text-xs text-muted-foreground italic">
                                             {format(item.date, 'dd MMMM yyyy')}{' '}
-                                            {format(item.created_at, 'HH:mm')}
+                                            {format(item.created_at!, 'HH:mm')}
                                         </p>
                                     </div>
                                     <div className="col-span-5 whitespace-pre-wrap">
