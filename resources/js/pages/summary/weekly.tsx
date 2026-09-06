@@ -15,6 +15,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { formatRupiah } from '@/lib/format-rupiah';
 import { type BreadcrumbItem } from '@/types';
+import type { Insight } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { addWeeks, endOfWeek, format, startOfWeek } from 'date-fns';
 import {
@@ -34,13 +35,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/weekly-summary',
     },
 ];
-
-type Insight = {
-    value: number;
-    previous: number;
-    change_percent: number;
-    trend: 'up' | 'down' | 'neutral';
-};
 
 interface WeeklyProps {
     selectedStartDate: string;

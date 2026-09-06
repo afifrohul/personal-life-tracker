@@ -143,3 +143,10 @@ export type Achievement = {
     habit_id?: number;
     habit?: Habit;
 };
+
+export type Insight = {
+    value: number;
+    previous: number;
+    change_percent: number;
+    trend: 'up' | 'down' | 'neutral';
+};
