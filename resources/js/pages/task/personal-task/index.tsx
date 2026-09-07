@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { PersonalTask } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
@@ -26,15 +27,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/personal-tasks',
     },
 ];
-
-type PersonalTask = {
-    id: number;
-    title: string;
-    description: string;
-    due_date: string;
-    priority: string;
-    status: string;
-};
 
 interface IndexProps {
     personalTasks: PersonalTask[];

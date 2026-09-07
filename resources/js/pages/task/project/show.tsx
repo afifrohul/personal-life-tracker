@@ -13,6 +13,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { Project, ProjectTask } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
@@ -27,24 +28,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/projects/show',
     },
 ];
-
-type ProjectTask = {
-    id: number;
-    title: string;
-    description: string;
-    due_date: string;
-    priority: string;
-    status: string;
-};
-
-type Project = {
-    id: number;
-    name: string;
-    description: string;
-    status: string;
-    created_at: string;
-    project_task: ProjectTask[];
-};
 
 interface ShowProps {
     project: Project;
@@ -246,7 +229,7 @@ export default function Show({ project }: ShowProps) {
                             <DataTable<ProjectTask>
                                 showIndexColumn
                                 columns={columns}
-                                data={project.project_task}
+                                data={project.project_task!}
                                 createButton={
                                     <Button
                                         variant="outline"

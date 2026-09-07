@@ -95,6 +95,8 @@ export type Project = {
     status: string;
     created_at?: string;
     updated_at?: string;
+
+    project_task?: ProjectTask[];
 };
 
 export type ProjectTask = {

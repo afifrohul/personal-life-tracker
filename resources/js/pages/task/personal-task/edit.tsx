@@ -1,18 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { PersonalTask } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { PersonalTaskForm } from './partials/formPersonalTask';
 
 interface EditProps {
-    personalTask: {
-        id: number;
-        title: string;
-        description: string;
-        due_date: string;
-        priority: string;
-        status: string;
-    };
+    personalTask: PersonalTask;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
