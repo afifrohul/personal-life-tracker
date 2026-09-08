@@ -1,5 +1,3 @@
-'use client';
-
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {
@@ -79,12 +77,12 @@ function MoodTooltipContent({ active, payload }: any) {
                 <span className="text-xs">{data.month}</span>
             </div>
 
-            <div className="mt-1 text-muted-foreground text-xs">
+            <div className="mt-1 text-xs text-muted-foreground">
                 Avg Score:{' '}
                 <span className="font-medium text-foreground">{score}</span>
             </div>
 
-            <div className="flex items-center gap-1 mt-1">
+            <div className="mt-1 flex items-center gap-1">
                 <div
                     className="h-2.5 w-2.5 rounded-[2px]"
                     style={{ backgroundColor: color }}
@@ -155,9 +153,7 @@ export function ChartMoodAvg({ chartData, uniqueYears }: ChartProps) {
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <YAxis tickLine={false} axisLine={false} width={30} />
-                        <ChartTooltip
-                            content={<MoodTooltipContent />}
-                        />
+                        <ChartTooltip content={<MoodTooltipContent />} />
 
                         <Line
                             dataKey="mood_score"

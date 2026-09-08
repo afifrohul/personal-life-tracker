@@ -1,6 +1,4 @@
-'use client';
-
-import { Area, AreaChart, CartesianGrid, Line, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
     Card,

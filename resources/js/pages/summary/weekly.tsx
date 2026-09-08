@@ -1,5 +1,3 @@
-'use client';
-
 import { ChartExp } from '@/components/chart-exp';
 import { ChartExpense } from '@/components/chart-expense';
 import { ChartHabit } from '@/components/chart-habit';
