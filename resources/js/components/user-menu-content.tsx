@@ -1,3 +1,4 @@
+import AppearanceTabs from '@/components/appearance-tabs';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -31,6 +32,10 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     <UserInfo user={user} showEmail={true} />
                 </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+                <AppearanceTabs />
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
