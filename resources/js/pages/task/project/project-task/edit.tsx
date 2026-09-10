@@ -1,19 +1,13 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { ProjectTask } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { ProjectTaskForm } from './partials/formProjectTask';
 
 interface EditProps {
     projectId: number;
-    projectTask: {
-        id: number;
-        title: string;
-        description: string;
-        due_date: string;
-        priority: string;
-        status: string;
-    };
+    projectTask: ProjectTask;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

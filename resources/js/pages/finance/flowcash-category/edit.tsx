@@ -10,7 +10,7 @@ interface EditProps {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Flowcash Category - Edit', href: '/categories/edit' },
+    { title: 'Flowcash Category - Edit', href: '/flowcash-categories/edit' },
 ];
 
 export default function Edit({ category }: EditProps) {

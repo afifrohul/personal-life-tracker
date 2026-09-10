@@ -1,11 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { Category } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { CategoryForm } from './partials/formCategory';
 
 interface EditProps {
-    category: { id: number; name: string; icon: string };
+    category: Category;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

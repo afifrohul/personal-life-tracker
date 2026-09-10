@@ -19,28 +19,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import type { Flowcash, FlowcashCategory } from '@/types/data';
 import { router, useForm } from '@inertiajs/react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
 interface FlowcashFormProps {
-    initialData?: {
-        id?: number;
-        description: string;
-        date: string;
-        type: string;
-        amount: number;
-        flowcash_category_id: string;
-    };
+    initialData?: Flowcash;
     submitUrl: string;
     method?: 'post' | 'put';
-    categories?: Category[];
+    categories?: FlowcashCategory[];
 }
 
 export function FlowcashForm({

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Category } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
 import { type ColumnDef } from '@tanstack/react-table';
 
@@ -14,12 +15,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/habit-categories',
     },
 ];
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
 
 interface CategoryIndexProps {
     categories: Category[];

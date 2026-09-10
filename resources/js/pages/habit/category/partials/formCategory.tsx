@@ -6,15 +6,12 @@ import {
     FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import type { Category } from '@/types/data';
 import { router, useForm } from '@inertiajs/react';
 import { icons } from 'lucide-react';
 
 interface CategoryFormProps {
-    initialData?: {
-        id?: number;
-        name?: string;
-        icon?: string;
-    };
+    initialData?: Category;
     submitUrl: string;
     method?: 'post' | 'put';
 }

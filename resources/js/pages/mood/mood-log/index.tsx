@@ -45,6 +45,7 @@ import { useState } from 'react';
 
 import DataTable from '@/components/data-table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { MoodLog } from '@/types/data';
 import {
     MdKeyboardArrowLeft,
     MdKeyboardArrowRight,
@@ -58,13 +59,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/mood-logs',
     },
 ];
-
-type MoodLog = {
-    id: number;
-    date: string;
-    mood_score: string;
-    created_at: string;
-};
 
 interface MoodLogIndexProps {
     mood_logs: MoodLog[];
@@ -479,7 +473,7 @@ export default function Index({
                                                                         <Clock className="h-4 w-4" />
                                                                         <p className="italic">
                                                                             {format(
-                                                                                item.created_at,
+                                                                                item.created_at!,
                                                                                 'HH:ii:ss',
                                                                             )}
                                                                         </p>

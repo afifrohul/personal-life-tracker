@@ -67,7 +67,6 @@ export type FlowcashCategory = {
 
 export type Flowcash = {
     id: number;
-    icon: string;
     date: string;
     amount: number;
     description: string;

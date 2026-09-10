@@ -1,15 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { JournalLog } from '@/types/data';
 import { Head } from '@inertiajs/react';
 import { JournalLogForm } from './partials/formJournalLog';
 
 interface EditProps {
-    journalLog: {
-        id: number;
-        content: string;
-        date: string;
-    };
+    journalLog: JournalLog;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

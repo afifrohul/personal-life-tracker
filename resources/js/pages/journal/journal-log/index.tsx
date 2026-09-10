@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import type { JournalLog } from '@/types/data';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { Head, router } from '@inertiajs/react';
@@ -34,18 +35,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type Log = {
-    id: number;
-    date: string;
-    content: string;
-    created_at: string;
-    updated_at: string;
-};
-
 interface JournalLogIndexProps {
-    logs: Log[];
+    logs: JournalLog[];
     selectedDate: string;
-    all_logs: Log[];
+    all_logs: JournalLog[];
 }
 
 export default function Index({
@@ -254,7 +247,7 @@ export default function Index({
                                                             'dd MMMM yyyy',
                                                         )}{' '}
                                                         {format(
-                                                            item.created_at,
+                                                            item.created_at!,
                                                             'HH:mm',
                                                         )}{' '}
                                                         {item.created_at !=
