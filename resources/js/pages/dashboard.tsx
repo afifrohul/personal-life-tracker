@@ -20,7 +20,6 @@ import {
     TrendingUp,
     UserPen,
 } from 'lucide-react';
-import { useState } from 'react';
 import { MdOutlineWavingHand } from 'react-icons/md';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -102,10 +101,10 @@ export default function Dashboard({
     jounalLogThisMonthCount,
 }: DashboardProps) {
     const getInitials = useInitials();
-    const [progress, setProgress] = useState(
+
+    const progress =
         (user.profile_stat.level_exp / user.profile_stat.exp_to_next_level) *
-            100,
-    );
+        100;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -139,7 +138,7 @@ export default function Dashboard({
                                 {user.email}
                             </p>
 
-                            <div className="flex items-center gap-2">
+                            <div className="mt-2 flex items-center gap-2">
                                 <Link href={`/badge-habit`}>
                                     <div className="flex items-center gap-1 rounded bg-accent px-1 py-0.5 text-xs duration-200 hover:bg-muted hover:text-muted-foreground">
                                         Badge Habit
