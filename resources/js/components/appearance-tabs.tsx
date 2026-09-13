@@ -9,10 +9,10 @@ export default function AppearanceToggleTab({
 }: HTMLAttributes<HTMLDivElement>) {
     const { appearance, updateAppearance } = useAppearance();
 
-    const tabs: { value: Appearance; icon: LucideIcon; label: string }[] = [
-        { value: 'light', icon: Sun, label: 'Light' },
-        { value: 'dark', icon: Moon, label: 'Dark' },
-        { value: 'system', icon: Monitor, label: 'System' },
+    const tabs: { value: Appearance; icon: LucideIcon }[] = [
+        { value: 'light', icon: Sun },
+        { value: 'dark', icon: Moon },
+        { value: 'system', icon: Monitor },
     ];
 
     return (
@@ -23,7 +23,7 @@ export default function AppearanceToggleTab({
             )}
             {...props}
         >
-            {tabs.map(({ value, icon: Icon, label }) => (
+            {tabs.map(({ value, icon: Icon }) => (
                 <button
                     key={value}
                     onClick={() => updateAppearance(value)}
@@ -35,7 +35,6 @@ export default function AppearanceToggleTab({
                     )}
                 >
                     <Icon className="h-4 w-4" />
-                    {/* <span className="ml-1.5 text-xs">{label}</span> */}
                 </button>
             ))}
         </div>
