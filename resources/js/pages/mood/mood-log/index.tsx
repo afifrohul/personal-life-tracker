@@ -459,9 +459,9 @@ export default function Index({
                                                                               ? 'Good'
                                                                               : 'Great'}
                                                                 </p>
-                                                                <div className="flex items-center gap-4 text-xs">
+                                                                <div className="flex flex-col gap-2 text-xs text-muted-foreground">
                                                                     <div className="flex items-center gap-1.5">
-                                                                        <CalendarDays className="h-4 w-4" />
+                                                                        <CalendarDays className="h-3 w-3" />
                                                                         <p className="italic">
                                                                             {format(
                                                                                 item.date,
@@ -470,11 +470,11 @@ export default function Index({
                                                                         </p>
                                                                     </div>
                                                                     <div className="flex items-center gap-1.5">
-                                                                        <Clock className="h-4 w-4" />
+                                                                        <Clock className="h-3 w-3" />
                                                                         <p className="italic">
                                                                             {format(
                                                                                 item.created_at!,
-                                                                                'HH:ii:ss',
+                                                                                'HH.ii',
                                                                             )}
                                                                         </p>
                                                                     </div>
