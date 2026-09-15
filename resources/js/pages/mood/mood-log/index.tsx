@@ -138,8 +138,12 @@ export default function Index({
         {
             accessorKey: 'date',
             header: 'Date',
-            cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMMM yyyy'),
+            cell: ({ row }) => (
+                <div className="flex gap-1">
+                    <p>{format(row.original.date, 'dd MMMM yyyy')}</p>
+                    <p>{format(row.original.created_at!, 'HH.ii')}</p>
+                </div>
+            ),
         },
         {
             id: 'actions',
