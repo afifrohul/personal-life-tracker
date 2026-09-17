@@ -164,19 +164,18 @@ export function ChartFinance({ chartData, uniqueYears }: ChartProps) {
                                             <div className="flex basis-full items-center pt-1.5 text-xs font-medium text-foreground">
                                                 Saving Rate
                                                 <div className="ml-auto flex items-baseline gap-0.5 text-foreground tabular-nums">
-                                                    {item.payload.income ===
-                                                        0 &&
-                                                    item.payload.expense === 0
-                                                        ? 0
-                                                        : (
-                                                              ((item.payload
-                                                                  .income -
-                                                                  item.payload
-                                                                      .expense) /
-                                                                  item.payload
-                                                                      .income) *
-                                                              100
-                                                          ).toFixed(2)}
+                                                    {
+                                                        (item.payload.income === 0 && item.payload.expense === 0) || (item.payload.income === 0 && item.payload.expense > 0) ? 0 : 
+                                                        (
+                                                            ((item.payload
+                                                                .income -
+                                                                item.payload
+                                                                    .expense) /
+                                                                item.payload
+                                                                    .income) *
+                                                            100
+                                                        ).toFixed(2)
+                                                    }
                                                     %
                                                 </div>
                                             </div>
