@@ -48,12 +48,6 @@ export function FlowcashForm({
                 : String(initialData?.flowcash_category_id),
     });
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -99,7 +93,9 @@ export function FlowcashForm({
                             id="description"
                             name="description"
                             value={data.description}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                                setData('description', e.target.value)
+                            }
                             placeholder="Enter description"
                             autoComplete="off"
                             required
@@ -173,7 +169,7 @@ export function FlowcashForm({
                             id="amount"
                             name="amount"
                             value={data.amount}
-                            onChange={handleChange}
+                            onChange={(e) => setData('amount', e.target.value)}
                             placeholder="Enter amount"
                             autoComplete="off"
                             type="number"
