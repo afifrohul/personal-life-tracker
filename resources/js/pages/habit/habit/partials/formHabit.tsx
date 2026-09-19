@@ -45,12 +45,6 @@ export function HabitForm({
         ? icons[data.icon as keyof typeof icons]
         : null;
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -100,7 +94,7 @@ export function HabitForm({
                             type="text"
                             name="name"
                             value={data.name}
-                            onChange={handleChange}
+                            onChange={(e) => setData('name', e.target.value)}
                             placeholder="Enter habit name"
                             autoComplete="off"
                             className={`${errors.name ? 'border-destructive' : ''}`}
@@ -129,7 +123,9 @@ export function HabitForm({
                                 name="color"
                                 type="color"
                                 value={data.color || '#000000'}
-                                onChange={handleChange}
+                                onChange={(e) =>
+                                    setData('color', e.target.value)
+                                }
                                 className="h-10 w-10 cursor-pointer"
                             />
 
@@ -139,7 +135,9 @@ export function HabitForm({
                                 type="text"
                                 name="color"
                                 value={data.color}
-                                onChange={handleChange}
+                                onChange={(e) =>
+                                    setData('color', e.target.value)
+                                }
                                 placeholder="#059669"
                                 autoComplete="off"
                                 className={`flex-1 ${errors.name ? 'border-destructive' : ''}`}
@@ -205,7 +203,7 @@ export function HabitForm({
                         type="text"
                         name="icon"
                         value={data.icon}
-                        onChange={handleChange}
+                        onChange={(e) => setData('icon', e.target.value)}
                         placeholder="Enter icon name using PascalCase (case-sensitive). Example: BriefcaseMedical"
                         autoComplete="off"
                         className={`${errors.name ? 'border-destructive' : ''}`}
