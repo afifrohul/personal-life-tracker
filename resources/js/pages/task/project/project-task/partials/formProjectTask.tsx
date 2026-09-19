@@ -45,12 +45,6 @@ export function ProjectTaskForm({
         status: initialData?.status || '',
     });
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -71,7 +65,7 @@ export function ProjectTaskForm({
                         name="title"
                         type="text"
                         value={data.title}
-                        onChange={handleChange}
+                        onChange={(e) => setData('title', e.target.value)}
                         placeholder="Enter project task title"
                         autoComplete="off"
                         required
@@ -91,7 +85,7 @@ export function ProjectTaskForm({
                         type="text"
                         name="description"
                         value={data.description}
-                        onChange={handleChange}
+                        onChange={(e) => setData('description', e.target.value)}
                         placeholder="Enter description"
                         autoComplete="off"
                     />
