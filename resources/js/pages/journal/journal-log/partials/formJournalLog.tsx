@@ -33,12 +33,6 @@ export function JournalLogForm({
         content: initialData?.content || '',
     });
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -95,7 +89,7 @@ export function JournalLogForm({
                         id="content"
                         name="content"
                         value={data.content}
-                        onChange={handleChange}
+                        onChange={(e) => setData('content', e.target.value)}
                         placeholder="Enter journal log"
                         autoComplete="off"
                         required
