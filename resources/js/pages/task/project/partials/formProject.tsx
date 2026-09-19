@@ -33,12 +33,6 @@ export function ProjectForm({
         status: initialData?.status || '',
     });
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -59,7 +53,7 @@ export function ProjectForm({
                         type="text"
                         name="name"
                         value={data.name}
-                        onChange={handleChange}
+                        onChange={(e) => setData('name', e.target.value)}
                         placeholder="Enter project name"
                         autoComplete="off"
                         className={`${errors.name ? 'border-destructive' : ''}`}
@@ -79,7 +73,7 @@ export function ProjectForm({
                         id="description"
                         name="description"
                         value={data.description}
-                        onChange={handleChange}
+                        onChange={(e) => setData('description', e.target.value)}
                         placeholder="Enter description"
                         autoComplete="off"
                         className={`${errors.description ? 'border-destructive' : ''}`}
