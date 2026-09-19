@@ -30,12 +30,6 @@ export function CategoryForm({
         ? icons[data.icon as keyof typeof icons]
         : null;
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-        setData(e.target.name as keyof typeof data, e.target.value);
-    };
-
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -61,7 +55,7 @@ export function CategoryForm({
                         type="text"
                         name="name"
                         value={data.name}
-                        onChange={handleChange}
+                        onChange={(e) => setData('name', e.target.value)}
                         placeholder="Enter category name"
                         autoComplete="off"
                         className={`${errors.name ? 'border-destructive' : ''}`}
@@ -90,7 +84,7 @@ export function CategoryForm({
                         type="text"
                         name="icon"
                         value={data.icon}
-                        onChange={handleChange}
+                        onChange={(e) => setData('icon', e.target.value)}
                         placeholder="Enter icon name using PascalCase (case-sensitive). Example: BriefcaseMedical"
                         autoComplete="off"
                         className={`${errors.name ? 'border-destructive' : ''}`}
