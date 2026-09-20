@@ -1,3 +1,4 @@
+import FooterLink from '@/components/footer-link';
 import { Separator } from '@/components/ui/separator';
 import { FaEnvelope, FaGithub, FaGlobe, FaLinkedin } from 'react-icons/fa';
 import { RiInstagramFill } from 'react-icons/ri';
@@ -15,46 +16,26 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex gap-4">
-                        <a
-                            href="https://afifrohul.vercel.app/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 transition-all duration-150 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-                        >
-                            <FaGlobe />
-                        </a>
-                        <a
-                            href="https://www.instagram.com/afif.rohul/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 transition-all duration-150 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-                        >
-                            <RiInstagramFill />
-                        </a>
-                        <a
-                            href="https://www.linkedin.com/in/afifrohul/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 transition-all duration-150 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-                        >
-                            <FaLinkedin />
-                        </a>
-                        <a
-                            href="https://github.com/afifrohul"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 transition-all duration-150 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-                        >
-                            <FaGithub />
-                        </a>
-                        <a
-                            href="mailto:afifmemyself22@gmail.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-600 transition-all duration-150 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-                        >
-                            <FaEnvelope />
-                        </a>
+                        <FooterLink
+                            link="https://afifrohul.vercel.app/"
+                            icon={<FaGlobe />}
+                        />
+                        <FooterLink
+                            link="https://www.instagram.com/afif.rohul/"
+                            icon={<RiInstagramFill />}
+                        />
+                        <FooterLink
+                            link="https://www.linkedin.com/in/afifrohul/"
+                            icon={<FaLinkedin />}
+                        />
+                        <FooterLink
+                            link="https://github.com/afifrohul"
+                            icon={<FaGithub />}
+                        />
+                        <FooterLink
+                            link="mailto:afifmemyself22@gmail.com"
+                            icon={<FaEnvelope />}
+                        />
                     </div>
                 </div>
             </div>
