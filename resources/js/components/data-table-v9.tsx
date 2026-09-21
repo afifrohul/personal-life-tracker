@@ -122,10 +122,14 @@ export default function DataTable<
                     <Separator className="my-4" />
 
                     <div className="flex items-center justify-between">
-                        <p className="text-xs">
-                            Showing {pagination.from} to {pagination.to} from{' '}
-                            {pagination.total} data
-                        </p>
+                        <div className="rounded-md border p-2 text-xs">
+                            <span className="font-medium">
+                                {pagination.from} - {pagination.to}
+                            </span>{' '}
+                            <span className="text-muted-foreground">
+                                of {pagination.total} data
+                            </span>{' '}
+                        </div>
 
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
@@ -185,10 +189,14 @@ export default function DataTable<
                                     <MdKeyboardArrowLeft />
                                 </Button>
 
-                                <span className="text-xs">
-                                    {pagination.current_page} /{' '}
-                                    {pagination.last_page}
-                                </span>
+                                <div className="rounded-md border px-3 py-2 text-xs">
+                                    <span className="font-medium">
+                                        {pagination.current_page} /{' '}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                        {pagination.last_page}
+                                    </span>
+                                </div>
 
                                 <Button
                                     size="sm"

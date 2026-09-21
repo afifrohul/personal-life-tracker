@@ -148,10 +148,7 @@ export default function Index({ mood_logs, filters }: MoodLogIndexProps) {
         router.get(url);
     };
 
-    const applyFilter = (
-        type: string,
-        dateRange: DateRange | undefined,
-    ) => {
+    const applyFilter = (type: string, dateRange: DateRange | undefined) => {
         router.get(
             '/mood-logs',
             {
@@ -505,10 +502,14 @@ export default function Index({ mood_logs, filters }: MoodLogIndexProps) {
                     </div>
                     <Separator className="my-4" />
                     <div className="flex items-center justify-between">
-                        <p className="text-xs">
-                            Showing {mood_logs.from} to {mood_logs.to} of{' '}
-                            {mood_logs.total} data
-                        </p>
+                        <div className="rounded-md border p-2 text-xs">
+                            <span className="font-medium">
+                                {mood_logs.from} - {mood_logs.to}
+                            </span>{' '}
+                            <span className="text-muted-foreground">
+                                of {mood_logs.total} data
+                            </span>{' '}
+                        </div>
 
                         <div className="flex items-center gap-4">
                             <div className="flex items-center justify-center gap-2">
@@ -534,10 +535,14 @@ export default function Index({ mood_logs, filters }: MoodLogIndexProps) {
                                 >
                                     <MdKeyboardArrowLeft />
                                 </Button>
-                                <span className="text-xs">
-                                    {mood_logs.current_page} /{' '}
-                                    {mood_logs.last_page}
-                                </span>
+                                <div className="rounded-md border px-3 py-2 text-xs">
+                                    <span className="font-medium">
+                                        {mood_logs.current_page} /{' '}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                        {mood_logs.last_page}
+                                    </span>
+                                </div>
                                 <Button
                                     size="sm"
                                     variant="outline"
