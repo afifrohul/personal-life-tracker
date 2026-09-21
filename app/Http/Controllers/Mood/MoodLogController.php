@@ -18,20 +18,32 @@ class MoodLogController extends Controller
     {
         try {
 
-            $view = $request->input('view', 'column');
+            $type = $request->input('type', '0');
+            $from = $request->input('from');
+            $to = $request->input('to');
 
-            if ($view == 'column') {
-                $mood_logs = [];
-                $mood_logs_column = MoodLog::orderBy('date', 'DESC')->paginate(21)->withQueryString();
-            } else if ($view == 'list') {
-                $mood_logs = MoodLog::orderBy('date', 'DESC')->get();
-                $mood_logs_column = [];
-            } else {
-                $mood_logs = [];
-                $mood_logs_column = [];
+            // dd($type);
+
+            $all_mood_logs = MoodLog::query()->orderBy('date', 'DESC');
+
+            if ($type !== '0') {
+                $all_mood_logs->where('mood_score', (int) $type);
             }
 
-            return Inertia::render('mood/mood-log/index', compact('mood_logs', 'mood_logs_column', 'view'));
+            if ((!empty($from) && !empty($to))) {
+                $all_mood_logs->whereBetween('date', [$from, $to]);
+            }
+
+            $mood_logs = (clone $all_mood_logs)->paginate(18)->withQueryString();
+
+            $filters = [
+                'type' => $type,
+                'from' => $from,
+                'to' => $to,
+            ];
+
+
+            return Inertia::render('mood/mood-log/index', compact('mood_logs', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading mood logs: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load mood logs.');

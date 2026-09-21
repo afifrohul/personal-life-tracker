@@ -203,7 +203,7 @@ export default function TableFlowcash({
                         }}
                         value={search}
                     />
-                    <Button onClick={() => router.get('/flowcashes/create')}>
+                    <Button size='sm' onClick={() => router.get('/flowcashes/create')}>
                         Create New Flowcash
                     </Button>
                 </div>
