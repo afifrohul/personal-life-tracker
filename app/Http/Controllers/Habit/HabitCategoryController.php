@@ -13,11 +13,32 @@ class HabitCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $categories = HabitCategory::get();
-            return Inertia::render('habit/category/index', compact('categories'));
+
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+
+            $categories = HabitCategory::query();
+            
+            if ($search != '') {
+                $categories->whereRaw(
+                    'LOWER(name) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            $habitCategories = (clone $categories)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+            ];
+
+
+            return Inertia::render('habit/category/index', compact('habitCategories', 'filters'));
+
         } catch (\Exception $e) {
             Log::error('Error loading categories: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load categories.');
