@@ -14,11 +14,30 @@ class HabitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $habits = Habit::with(['habitCategory'])->get();
-            return Inertia::render('habit/habit/index', compact('habits'));
+
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+
+            $rawHabits = Habit::with(['habitCategory']);
+
+            if ($search != '') {
+                $rawHabits->whereRaw(
+                    'LOWER(name) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            $habits = (clone $rawHabits)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+            ];
+
+            return Inertia::render('habit/habit/index', compact('habits', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading habits: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load habits.');
