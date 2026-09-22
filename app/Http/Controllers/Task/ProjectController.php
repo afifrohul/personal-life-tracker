@@ -14,11 +14,35 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $projects = Project::orderBy('created_at', 'DESC')->get();
-            return Inertia::render('task/project/index', compact('projects'));
+
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+            $status = $request->input('status', 'all');
+
+            $rawProjects = Project::query()->orderBy('created_at', 'DESC');
+
+            if ($search != '') {
+                $rawProjects->whereRaw(
+                    'LOWER(name) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            if ($status != 'all') {
+                $rawProjects->where('status', $status);
+            }
+
+            $projects = (clone $rawProjects)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+                'status' => $status,
+            ];
+            return Inertia::render('task/project/index', compact('projects', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading projects: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load projects.');

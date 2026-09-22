@@ -1,17 +1,8 @@
-import DataTable from '@/components/data-table';
-import DeleteButton from '@/components/delete-button';
-import EditButton from '@/components/edit-button';
-import SubtleBadge from '@/components/subtle-badge';
-import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import type { Project } from '@/types/data';
-import { Head, router } from '@inertiajs/react';
-import { type ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import { Eye } from 'lucide-react';
-import { FaCheckCircle, FaStopCircle } from 'react-icons/fa';
-import { FiLoader } from 'react-icons/fi';
+import type { Pagination, Project } from '@/types/data';
+import { Head } from '@inertiajs/react';
+import TableProject from './partials/tableProject';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,104 +12,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface IndexProps {
-    projects: Project[];
+    projects: Pagination<Project>;
+    filters: {
+        search: string;
+        status: string;
+        perPage: number;
+    };
 }
 
-export default function Index({ projects }: IndexProps) {
-    const columns: ColumnDef<Project>[] = [
-        {
-            accessorKey: 'name',
-            header: 'Name',
-            cell: ({ row }) =>
-                row.original.name?.length > 30
-                    ? row.original.name.substring(0, 30) + '...'
-                    : row.original.name || '-',
-        },
-        {
-            accessorKey: 'description',
-            header: 'Description',
-            cell: ({ row }) =>
-                row.original.description?.length > 30
-                    ? row.original.description.substring(0, 30) + '...'
-                    : row.original.description || '-',
-        },
-        {
-            accessorKey: 'status',
-            header: 'Status',
-            cell: ({ row }) =>
-                row.original.status === 'completed' ? (
-                    <SubtleBadge
-                        color="teal"
-                        label={'Completed'}
-                        icon={<FaCheckCircle className="h-2.5 w-2.5" />}
-                    />
-                ) : row.original.status === 'in_progress' ? (
-                    <SubtleBadge
-                        color="yellow"
-                        label={'In Progress'}
-                        icon={<FiLoader className="h-2.5 w-2.5" />}
-                    />
-                ) : (
-                    <SubtleBadge
-                        color="rose"
-                        label={'Pending'}
-                        icon={<FaStopCircle className="h-2.5 w-2.5" />}
-                    />
-                ),
-        },
-        {
-            accessorKey: 'created_at',
-            header: 'Created At',
-            cell: (info) =>
-                format(new Date(info.getValue() as string), 'dd MMMM yyyy'),
-        },
-        {
-            id: 'actions',
-            header: 'Actions',
-            cell: ({ row }) => (
-                <div className="flex justify-start gap-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                            router.get(`/projects/${row.original.id}/show`)
-                        }
-                    >
-                        <Eye />
-                    </Button>
-                    <EditButton url={`/projects/${row.original.id}/edit`} />
-                    <DeleteButton
-                        url={`/projects/${row.original.id}`}
-                        confirmMessage="Are you sure to delete this habit?"
-                    />
-                </div>
-            ),
-        },
-    ];
-
+export default function Index({ projects, filters }: IndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Project" />
+            <Head title="Flowcash" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="rounded-xl border p-4">
-                    <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<Project>
-                            showIndexColumn
-                            columns={columns}
-                            data={projects}
-                            createButton={
-                                <Button
-                                    variant="outline"
-                                    onClick={() =>
-                                        router.get('/projects/create')
-                                    }
-                                >
-                                    Create New Project
-                                </Button>
-                            }
-                        />
-                    </div>
-                </div>
+                <TableProject paginationData={projects} filters={filters} />
             </div>
         </AppLayout>
     );
