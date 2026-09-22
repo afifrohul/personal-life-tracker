@@ -13,12 +13,42 @@ class PersonalTaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $personalTasks = PersonalTask::orderBy('created_at', 'DESC')->get();
 
-            return Inertia::render('task/personal-task/index', compact('personalTasks'));
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+            $status = $request->input('status', 'all');
+            $priority = $request->input('priority', 'all');
+
+            $rawPersonalTasks = PersonalTask::query()->orderBy('created_at', 'DESC');
+
+            if ($search != '') {
+                $rawPersonalTasks->whereRaw(
+                    'LOWER(title) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            if ($status != 'all') {
+                $rawPersonalTasks->where('status', $status);
+            }
+
+            if ($priority != 'all') {
+                $rawPersonalTasks->where('priority', $priority);
+            }
+
+            $personalTasks = (clone $rawPersonalTasks)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+                'status' => $status,
+                'priority' => $priority,
+            ];
+
+            return Inertia::render('task/personal-task/index', compact('personalTasks', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading personal tasks: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load personal tasks.');
