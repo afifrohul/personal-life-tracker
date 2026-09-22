@@ -1,4 +1,4 @@
-import DataTable from '@/components/data-table';
+import DataTable from '@/components/data-table-v9';
 import DeleteButton from '@/components/delete-button';
 import GenerateHabitLogButton from '@/components/generate-habit-log-button';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
 import type { Habit, HabitLog } from '@/types/data';
 import { Head, router } from '@inertiajs/react';
-import { type ColumnDef } from '@tanstack/react-table';
+import { tableFeatures, type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import {
     ChevronDownIcon,
@@ -53,10 +53,17 @@ interface LogIndexProps {
     habits: Habit[];
 }
 
+const features = tableFeatures({});
+
 export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const columns: ColumnDef<HabitLog>[] = [
+    const columns: ColumnDef<typeof features, HabitLog>[] = [
+        {
+            id: 'number',
+            header: '#',
+            cell: ({ row }) => row.index + 1,
+        },
         {
             accessorKey: 'category',
             header: 'Category',
@@ -238,198 +245,183 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Habit Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex items-center gap-2">
-                    <Button
-                        variant="outline"
-                        size="default"
-                        onClick={() => {
-                            setDate(prevDate);
-                            router.get(
-                                '/habit-logs',
-                                { date: format(prevDate, 'yyyy-MM-dd') },
-                                {
-                                    preserveState: true,
-                                    preserveScroll: true,
-                                },
-                            );
-                        }}
-                    >
-                        <ChevronLeft />
-                    </Button>
-                    <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                id="date"
-                                className="w-full justify-between font-normal"
-                            >
-                                {date
-                                    ? format(new Date(date), 'dd MMMM yyyy')
-                                    : 'Select date'}
-                                <ChevronDownIcon />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                            className="w-auto overflow-hidden p-0"
-                            align="start"
-                        >
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                captionLayout="dropdown"
-                                onSelect={(newDate) => {
-                                    setDate(newDate);
-                                    setOpen(false);
-
-                                    if (newDate) {
-                                        router.get(
-                                            '/habit-logs',
-                                            {
-                                                date: format(
-                                                    newDate,
-                                                    'yyyy-MM-dd',
-                                                ),
-                                            },
-                                            {
-                                                preserveState: true,
-                                                preserveScroll: true,
-                                            },
-                                        );
-                                    }
+                <div className="flex flex-col gap-4 rounded-md border p-4">
+                    <div className="flex items-center justify-between">
+                        <p className="font-medium">Habit Log Data</p>
+                        <div className="flex items-center gap-2">
+                            <Dialog
+                                open={openForm}
+                                onOpenChange={(isOpen) => {
+                                    setMode('create');
+                                    setOpenForm(isOpen);
+                                    if (isOpen) resetForm();
                                 }}
-                            />
-                        </PopoverContent>
-                    </Popover>
-                    <Button
-                        variant="outline"
-                        size="default"
-                        onClick={() => {
-                            setDate(nextDate);
-                            router.get(
-                                '/habit-logs',
-                                { date: format(nextDate, 'yyyy-MM-dd') },
-                                {
-                                    preserveState: true,
-                                    preserveScroll: true,
-                                },
-                            );
-                        }}
-                    >
-                        <ChevronRight />
-                    </Button>
-                </div>
-                <div className="rounded-xl border p-4">
-                    <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<HabitLog>
-                            showIndexColumn
-                            columns={columns}
-                            data={logs}
-                            createButton={
-                                <div className="flex items-center gap-2">
-                                    <Dialog
-                                        open={openForm}
-                                        onOpenChange={(isOpen) => {
-                                            setMode('create');
-                                            setOpenForm(isOpen);
-                                            if (isOpen) resetForm();
-                                        }}
+                            >
+                                <DialogTrigger asChild>
+                                    <Button variant="outline" className="">
+                                        Create New Habit Log
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <form
+                                        onSubmit={
+                                            mode == 'create'
+                                                ? handleSubmit
+                                                : (e) => handleSubmit(e, idEdit)
+                                        }
                                     >
-                                        <DialogTrigger asChild>
+                                        <DialogHeader className="mb-4">
+                                            <DialogTitle>
+                                                {mode === 'create'
+                                                    ? `Create Habit Log on ${format(new Date(selectedDate), 'dd MMMM yyyy')}`
+                                                    : 'Edit Habit Log'}
+                                            </DialogTitle>
+                                        </DialogHeader>
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-3">
+                                                <Label htmlFor="name-1">
+                                                    Habit
+                                                </Label>
+                                                <Select
+                                                    value={form.habit_id}
+                                                    onValueChange={(value) =>
+                                                        handleChange(
+                                                            'habit_id',
+                                                            value,
+                                                        )
+                                                    }
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select habit" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {habits?.map(
+                                                            (item, index) => (
+                                                                <SelectItem
+                                                                    key={index}
+                                                                    value={String(
+                                                                        item.id,
+                                                                    )}
+                                                                >
+                                                                    {item.name}
+                                                                </SelectItem>
+                                                            ),
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+                                        <DialogFooter className="mt-4">
+                                            <DialogClose asChild>
+                                                <Button variant="outline">
+                                                    Cancel
+                                                </Button>
+                                            </DialogClose>
                                             <Button
-                                                variant="outline"
-                                                className=""
+                                                type="submit"
+                                                disabled={isSubmitting}
                                             >
-                                                Create New Habit Log
+                                                {isSubmitting
+                                                    ? 'Saving...'
+                                                    : 'Save'}
                                             </Button>
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[425px]">
-                                            <form
-                                                onSubmit={
-                                                    mode == 'create'
-                                                        ? handleSubmit
-                                                        : (e) =>
-                                                              handleSubmit(
-                                                                  e,
-                                                                  idEdit,
-                                                              )
-                                                }
-                                            >
-                                                <DialogHeader className="mb-4">
-                                                    <DialogTitle>
-                                                        {mode === 'create'
-                                                            ? `Create Habit Log on ${format(new Date(selectedDate), 'dd MMMM yyyy')}`
-                                                            : 'Edit Habit Log'}
-                                                    </DialogTitle>
-                                                </DialogHeader>
-                                                <div className="grid gap-4">
-                                                    <div className="grid gap-3">
-                                                        <Label htmlFor="name-1">
-                                                            Habit
-                                                        </Label>
-                                                        <Select
-                                                            value={
-                                                                form.habit_id
-                                                            }
-                                                            onValueChange={(
-                                                                value,
-                                                            ) =>
-                                                                handleChange(
-                                                                    'habit_id',
-                                                                    value,
-                                                                )
-                                                            }
-                                                        >
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select habit" />
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {habits?.map(
-                                                                    (
-                                                                        item,
-                                                                        index,
-                                                                    ) => (
-                                                                        <SelectItem
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            value={String(
-                                                                                item.id,
-                                                                            )}
-                                                                        >
-                                                                            {
-                                                                                item.name
-                                                                            }
-                                                                        </SelectItem>
-                                                                    ),
-                                                                )}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-                                                </div>
-                                                <DialogFooter className="mt-4">
-                                                    <DialogClose asChild>
-                                                        <Button variant="outline">
-                                                            Cancel
-                                                        </Button>
-                                                    </DialogClose>
-                                                    <Button
-                                                        type="submit"
-                                                        disabled={isSubmitting}
-                                                    >
-                                                        {isSubmitting
-                                                            ? 'Saving...'
-                                                            : 'Save'}
-                                                    </Button>
-                                                </DialogFooter>
-                                            </form>
-                                        </DialogContent>
-                                    </Dialog>
-                                    <GenerateHabitLogButton
-                                        label="Generate All Habit Logs"
-                                        data={{ date: form.date }}
-                                    />
-                                </div>
-                            }
+                                        </DialogFooter>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+                            <GenerateHabitLogButton
+                                label="Generate All Habit Logs"
+                                data={{ date: form.date }}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="default"
+                            onClick={() => {
+                                setDate(prevDate);
+                                router.get(
+                                    '/habit-logs',
+                                    { date: format(prevDate, 'yyyy-MM-dd') },
+                                    {
+                                        preserveState: true,
+                                        preserveScroll: true,
+                                    },
+                                );
+                            }}
+                        >
+                            <ChevronLeft />
+                        </Button>
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    id="date"
+                                    className="w-full justify-between font-normal"
+                                >
+                                    {date
+                                        ? format(new Date(date), 'dd MMMM yyyy')
+                                        : 'Select date'}
+                                    <ChevronDownIcon />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                className="w-auto overflow-hidden p-0"
+                                align="start"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    captionLayout="dropdown"
+                                    onSelect={(newDate) => {
+                                        setDate(newDate);
+                                        setOpen(false);
+
+                                        if (newDate) {
+                                            router.get(
+                                                '/habit-logs',
+                                                {
+                                                    date: format(
+                                                        newDate,
+                                                        'yyyy-MM-dd',
+                                                    ),
+                                                },
+                                                {
+                                                    preserveState: true,
+                                                    preserveScroll: true,
+                                                },
+                                            );
+                                        }
+                                    }}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                        <Button
+                            variant="outline"
+                            size="default"
+                            onClick={() => {
+                                setDate(nextDate);
+                                router.get(
+                                    '/habit-logs',
+                                    { date: format(nextDate, 'yyyy-MM-dd') },
+                                    {
+                                        preserveState: true,
+                                        preserveScroll: true,
+                                    },
+                                );
+                            }}
+                        >
+                            <ChevronRight />
+                        </Button>
+                    </div>
+                    <div className="mx-auto flex w-full flex-col gap-4">
+                        <DataTable
+                            options={{
+                                features,
+                                columns,
+                                data: logs,
+                            }}
                         />
                     </div>
                 </div>

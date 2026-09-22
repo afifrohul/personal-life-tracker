@@ -19,12 +19,21 @@ class FlowcashController extends Controller
     {
         try {
 
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
             $category = $request->input('category', 0);
             $type = $request->input('type', 'all');
             $from = $request->input('from');
             $to = $request->input('to');
 
             $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC');
+
+            if ($search != '') {
+                $flowcashes->whereRaw(
+                    'LOWER(description) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
 
             if ((!empty($from) && !empty($to))) {
                 $flowcashes->whereBetween('date', [$from, $to]);
@@ -38,7 +47,7 @@ class FlowcashController extends Controller
                 $flowcashes->where('type', $type);
             }
 
-            $allFlowcashes = (clone $flowcashes)->get();
+            $allFlowcashes = (clone $flowcashes)->paginate($perPage)->withQueryString();
 
             $totalIncome = (int) (clone $flowcashes)
                 ->where('type', 'income')
@@ -50,7 +59,16 @@ class FlowcashController extends Controller
 
             $categories = FlowcashCategory::get();
 
-            return Inertia::render('finance/flowcash/index', compact('allFlowcashes', 'categories', 'totalIncome', 'totalExpense'));
+            $filters = [
+                'search' => $search,
+                'category' => $category,
+                'type' => $type,
+                'perPage' => $perPage,
+                'from' => $from,
+                'to' => $to,
+            ];
+
+            return Inertia::render('finance/flowcash/index', compact('allFlowcashes', 'categories', 'totalIncome', 'totalExpense', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading flowcashes: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load flowcashes.');

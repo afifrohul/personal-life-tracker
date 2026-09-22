@@ -13,11 +13,31 @@ class FlowcashCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $categories = FlowcashCategory::get();
-            return Inertia::render('finance/flowcash-category/index', compact('categories'));
+
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+
+            $categories = FlowcashCategory::query();
+
+            if ($search != '') {
+                $categories->whereRaw(
+                    'LOWER(name) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            $flowcashCategories = (clone $categories)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+            ];
+
+
+            return Inertia::render('finance/flowcash-category/index', compact('flowcashCategories', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading flowcash categories: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to load flowcash categories.');
