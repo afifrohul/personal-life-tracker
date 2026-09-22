@@ -134,6 +134,11 @@ export default function TableCategory({
                         data,
                     }}
                     pagination={paginationData}
+                    onPaginationChange={{
+                        page: (url: string) => router.get(url),
+                        perPage: (value: number) =>
+                            applyFilter(String(value), search),
+                    }}
                 />
             </div>
         </div>

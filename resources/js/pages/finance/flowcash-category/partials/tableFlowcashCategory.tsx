@@ -136,6 +136,11 @@ export default function TableFlowcashCategory({
                         data,
                     }}
                     pagination={paginationData}
+                    onPaginationChange={{
+                        page: (url: string) => router.get(url),
+                        perPage: (value: number) =>
+                            applyFilter(String(value), search),
+                    }}
                 />
             </div>
         </div>

@@ -209,6 +209,11 @@ export default function TableProject({
                         data,
                     }}
                     pagination={paginationData}
+                    onPaginationChange={{
+                        page: (url: string) => router.get(url),
+                        perPage: (value: number) =>
+                            applyFilter(String(value), status, search),
+                    }}
                 />
             </div>
         </div>
