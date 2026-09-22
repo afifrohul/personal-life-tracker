@@ -1,13 +1,8 @@
-import DataTable from '@/components/data-table';
-import DeleteButton from '@/components/delete-button';
-import EditButton from '@/components/edit-button';
-import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
-import type { FlowcashCategory } from '@/types/data';
-import { Head, router } from '@inertiajs/react';
-import { type ColumnDef } from '@tanstack/react-table';
+import type { FlowcashCategory, Pagination } from '@/types/data';
+import { Head } from '@inertiajs/react';
+import TableFlowcashCategory from './partials/tableFlowcashCategory';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,81 +12,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface FlowcashCategoryIndexProps {
-    categories: FlowcashCategory[];
+    flowcashCategories: Pagination<FlowcashCategory>;
+    filters: {
+        search: string;
+        perPage: number;
+    };
 }
 
-export default function Index({ categories }: FlowcashCategoryIndexProps) {
-    const columns: ColumnDef<FlowcashCategory>[] = [
-        {
-            accessorKey: 'name',
-            header: 'Category Name',
-            cell: (info) => info.getValue(),
-        },
-        {
-            accessorKey: 'icon',
-            header: 'Icon',
-            cell: ({ row }) => {
-                const iconName = row.original.icon;
-                const IconComponent = (lucideIcons as Record<string, any>)[
-                    iconName
-                ];
-
-                if (!IconComponent) {
-                    return (
-                        <div className="text-sm text-red-500">Invalid icon</div>
-                    );
-                }
-
-                return (
-                    <div className="flex items-center gap-1">
-                        <IconComponent className="h-4 w-4" />
-                        <p>{row.original.icon}</p>
-                    </div>
-                );
-            },
-        },
-        {
-            id: 'actions',
-            header: 'Actions',
-            cell: ({ row }) => (
-                <div className="flex justify-start gap-2">
-                    <EditButton
-                        url={`/flowcash-categories/${row.original.id}/edit`}
-                    />
-                    <DeleteButton
-                        url={`/flowcash-categories/${row.original.id}`}
-                        confirmMessage="Are you sure to delete this category?"
-                    />
-                </div>
-            ),
-        },
-    ];
-
+export default function Index({
+    flowcashCategories,
+    filters,
+}: FlowcashCategoryIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Flowcash Category" />
+            <Head title="Flowcash" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="rounded-xl border p-4">
-                    <div className="mx-auto flex w-full flex-col gap-4">
-                        <DataTable<FlowcashCategory>
-                            showIndexColumn
-                            columns={columns}
-                            data={categories}
-                            createButton={
-                                <Button
-                                    variant="outline"
-                                    onClick={() =>
-                                        router.get(
-                                            '/flowcash-categories/create',
-                                        )
-                                    }
-                                >
-                                    Create New Flowcash Category
-                                </Button>
-                            }
-                        />
-                    </div>
-                </div>
+                <TableFlowcashCategory
+                    paginationData={flowcashCategories}
+                    filters={filters}
+                />
             </div>
         </AppLayout>
     );

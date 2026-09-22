@@ -122,7 +122,7 @@ export function FlowcashCategoryForm({
                     type="button"
                     variant="outline"
                     disabled={processing}
-                    onClick={() => router.get('/habit-categories')}
+                    onClick={() => router.get('/flowcash-categories')}
                 >
                     Cancel
                 </Button>
