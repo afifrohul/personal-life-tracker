@@ -87,13 +87,43 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
-            $project = Project::with(['projectTask' => function ($query) {
-                $query->orderBy('created_at', 'DESC');
-            }])->findOrFail($id);
-            return Inertia::render('task/project/show', compact('project'));
+
+            $perPage = $request->input('perPage', 10);
+            $search = $request->input('search', '');
+            $status = $request->input('status', 'all');
+            $priority = $request->input('priority', 'all');
+
+            $project = Project::findOrFail($id);
+            $rawProjectTasks = ProjectTask::query()->where('project_id', $id)->orderBy('created_at', 'DESC');
+
+            if ($search != '') {
+                $rawProjectTasks->whereRaw(
+                    'LOWER(title) LIKE ?',
+                    ['%' . strtolower($search) . '%']
+                );
+            }
+
+            if ($status != 'all') {
+                $rawProjectTasks->where('status', $status);
+            }
+
+            if ($priority != 'all') {
+                $rawProjectTasks->where('priority', $priority);
+            }
+
+            $projectTasks = (clone $rawProjectTasks)->paginate($perPage)->withQueryString();
+
+            $filters = [
+                'search' => $search,
+                'perPage' => $perPage,
+                'status' => $status,
+                'priority' => $priority,
+            ];
+
+            return Inertia::render('task/project/show', compact('project', 'projectTasks', 'filters'));
         } catch (\Exception $e) {
             Log::error('Error loading project for detail: ' . $e->getMessage());
             return redirect()->route('projects.index')->with('error', 'Project not found.');
