@@ -167,7 +167,7 @@ export default function TableHabit({
                 <p className="font-medium">Habit Data</p>
                 <div className="flex items-center gap-4">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Search by habit name..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;

@@ -108,7 +108,7 @@ export default function TableFlowcashCategory({
                 <p className="font-medium">Flowcash Category Data</p>
                 <div className="flex items-center gap-4">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Search by category name..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;

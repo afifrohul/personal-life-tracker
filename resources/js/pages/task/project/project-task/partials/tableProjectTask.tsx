@@ -202,7 +202,7 @@ export default function TableProjectTask({
                 <p className="font-medium">Project Task Data</p>
                 <div className="flex items-center gap-4">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Search by title..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;

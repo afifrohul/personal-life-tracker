@@ -147,7 +147,7 @@ export default function TableProject({
                 <p className="font-medium">Project Data</p>
                 <div className="flex items-center gap-4">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Search by name..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;

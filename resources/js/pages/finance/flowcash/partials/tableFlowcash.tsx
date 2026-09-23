@@ -193,7 +193,7 @@ export default function TableFlowcash({
                 <p className="font-medium">Flowcash Data</p>
                 <div className="flex items-center gap-4">
                     <Input
-                        placeholder="Search..."
+                        placeholder="Search by description..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;
