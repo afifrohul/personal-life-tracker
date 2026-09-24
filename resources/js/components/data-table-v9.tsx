@@ -20,7 +20,6 @@ import {
     MdKeyboardDoubleArrowRight,
 } from 'react-icons/md';
 import { Button } from './ui/button';
-import { Separator } from './ui/separator';
 
 interface DataTableProps<
     TFeature extends TableFeatures,
@@ -96,7 +95,7 @@ export default function DataTable<
                     <tbody>
                         {table.getRowModel().rows.length > 0 ? (
                             table.getRowModel().rows.map((row) => (
-                                <tr key={row.id} className="">
+                                <tr key={row.id} className="border-b">
                                     {row.getAllCells().map((cell) => (
                                         <td key={cell.id} className="px-4 py-2">
                                             <table.FlexRender cell={cell} />
@@ -118,123 +117,117 @@ export default function DataTable<
                 </table>
             </div>
             {pagination && (
-                <>
-                    <Separator className="my-4" />
+                <div className="flex items-center justify-between">
+                    <div className="rounded-md border p-2 text-xs">
+                        <span className="font-medium">
+                            {pagination.from} - {pagination.to}
+                        </span>{' '}
+                        <span className="text-muted-foreground">
+                            of {pagination.total} data
+                        </span>{' '}
+                    </div>
 
-                    <div className="flex items-center justify-between">
-                        <div className="rounded-md border p-2 text-xs">
-                            <span className="font-medium">
-                                {pagination.from} - {pagination.to}
-                            </span>{' '}
-                            <span className="text-muted-foreground">
-                                of {pagination.total} data
-                            </span>{' '}
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs">Rows per page</p>
+
+                            <Select
+                                value={String(pagination.per_page)}
+                                onValueChange={(value) => {
+                                    onPaginationChange?.perPage(Number(value));
+                                }}
+                            >
+                                <SelectTrigger className="w-18">
+                                    <SelectValue />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    {[10, 25, 50, 100].map((num) => (
+                                        <SelectItem
+                                            key={num}
+                                            value={String(num)}
+                                        >
+                                            {num}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2">
-                                <p className="text-xs">Rows per page</p>
+                        <div className="flex items-center justify-center gap-2">
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={pagination.current_page === 1}
+                                onClick={() =>
+                                    onPaginationChange?.page(
+                                        pagination.first_page_url,
+                                    )
+                                }
+                            >
+                                <MdKeyboardDoubleArrowLeft />
+                            </Button>
 
-                                <Select
-                                    value={String(pagination.per_page)}
-                                    onValueChange={(value) => {
-                                        onPaginationChange?.perPage(
-                                            Number(value),
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={pagination.current_page === 1}
+                                onClick={() => {
+                                    if (pagination.prev_page_url) {
+                                        onPaginationChange?.page(
+                                            pagination.prev_page_url,
                                         );
-                                    }}
-                                >
-                                    <SelectTrigger className="w-18">
-                                        <SelectValue />
-                                    </SelectTrigger>
+                                    }
+                                }}
+                            >
+                                <MdKeyboardArrowLeft />
+                            </Button>
 
-                                    <SelectContent>
-                                        {[10, 25, 50, 100].map((num) => (
-                                            <SelectItem
-                                                key={num}
-                                                value={String(num)}
-                                            >
-                                                {num}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                            <div className="rounded-md border px-3 py-2 text-xs">
+                                <span className="font-medium">
+                                    {pagination.current_page} /{' '}
+                                </span>
+                                <span className="text-muted-foreground">
+                                    {pagination.last_page}
+                                </span>
                             </div>
 
-                            <div className="flex items-center justify-center gap-2">
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    disabled={pagination.current_page === 1}
-                                    onClick={() =>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={
+                                    pagination.current_page ===
+                                    pagination.last_page
+                                }
+                                onClick={() => {
+                                    if (pagination.next_page_url) {
                                         onPaginationChange?.page(
-                                            pagination.first_page_url,
-                                        )
+                                            pagination.next_page_url,
+                                        );
                                     }
-                                >
-                                    <MdKeyboardDoubleArrowLeft />
-                                </Button>
+                                }}
+                            >
+                                <MdKeyboardArrowRight />
+                            </Button>
 
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    disabled={pagination.current_page === 1}
-                                    onClick={() => {
-                                        if (pagination.prev_page_url) {
-                                            onPaginationChange?.page(
-                                                pagination.prev_page_url,
-                                            );
-                                        }
-                                    }}
-                                >
-                                    <MdKeyboardArrowLeft />
-                                </Button>
-
-                                <div className="rounded-md border px-3 py-2 text-xs">
-                                    <span className="font-medium">
-                                        {pagination.current_page} /{' '}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                        {pagination.last_page}
-                                    </span>
-                                </div>
-
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    disabled={
-                                        pagination.current_page ===
-                                        pagination.last_page
-                                    }
-                                    onClick={() => {
-                                        if (pagination.next_page_url) {
-                                            onPaginationChange?.page(
-                                                pagination.next_page_url,
-                                            );
-                                        }
-                                    }}
-                                >
-                                    <MdKeyboardArrowRight />
-                                </Button>
-
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    disabled={
-                                        pagination.current_page ===
-                                        pagination.last_page
-                                    }
-                                    onClick={() =>
-                                        onPaginationChange?.page(
-                                            pagination.last_page_url,
-                                        )
-                                    }
-                                >
-                                    <MdKeyboardDoubleArrowRight />
-                                </Button>
-                            </div>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={
+                                    pagination.current_page ===
+                                    pagination.last_page
+                                }
+                                onClick={() =>
+                                    onPaginationChange?.page(
+                                        pagination.last_page_url,
+                                    )
+                                }
+                            >
+                                <MdKeyboardDoubleArrowRight />
+                            </Button>
                         </div>
                     </div>
-                </>
+                </div>
             )}
         </div>
     );
