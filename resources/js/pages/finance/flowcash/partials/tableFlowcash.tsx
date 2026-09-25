@@ -21,8 +21,8 @@ import { formatRupiah } from '@/lib/format-rupiah';
 import { lucideIcons } from '@/lib/lucide-icons';
 import type { Flowcash, FlowcashCategory, Pagination } from '@/types/data';
 import { router } from '@inertiajs/react';
-import type { ColumnDef } from '@tanstack/react-table';
-import { tableFeatures } from '@tanstack/react-table';
+import type { ColumnDef, SortingState } from '@tanstack/react-table';
+import { rowSortingFeature, tableFeatures } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import {
     ArrowDownLeft,
@@ -47,7 +47,9 @@ interface TableFlowcashProps {
     };
 }
 
-const features = tableFeatures({});
+const features = tableFeatures({
+    rowSortingFeature,
+});
 
 export default function TableFlowcash({
     paginationData,
@@ -68,6 +70,44 @@ export default function TableFlowcash({
         from: filters.from,
         to: filters.to,
     });
+
+    const [sorting, setSorting] = useState<SortingState>([
+        {
+            id: 'date',
+            desc: true,
+        },
+    ]);
+
+    const handleSortingChange = (newSorting: SortingState) => {
+        setSorting(newSorting);
+
+        const sort = newSorting[0];
+
+        router.get(
+            '/flowcashes',
+            {
+                page: 1,
+                perPage: Number(perPage),
+                search: search || undefined,
+                category: Number(category),
+                type,
+                from: dateRange?.from
+                    ? format(dateRange.from, 'yyyy-MM-dd')
+                    : undefined,
+                to: dateRange?.to
+                    ? format(dateRange.to, 'yyyy-MM-dd')
+                    : undefined,
+
+                sort: sort?.id,
+                direction: sort ? (sort.desc ? 'desc' : 'asc') : undefined,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
 
     const applyFilter = (
         perPage: string,
@@ -203,7 +243,10 @@ export default function TableFlowcash({
                         }}
                         value={search}
                     />
-                    <Button size='sm' onClick={() => router.get('/flowcashes/create')}>
+                    <Button
+                        size="sm"
+                        onClick={() => router.get('/flowcashes/create')}
+                    >
                         Create New Flowcash
                     </Button>
                 </div>
@@ -316,6 +359,10 @@ export default function TableFlowcash({
                         features,
                         columns,
                         data,
+
+                        state: {
+                            sorting,
+                        },
                     }}
                     pagination={paginationData}
                     onPaginationChange={{
@@ -329,6 +376,7 @@ export default function TableFlowcash({
                                 dateRange,
                             ),
                     }}
+                    onSortingChange={handleSortingChange}
                 />
             </div>
         </div>

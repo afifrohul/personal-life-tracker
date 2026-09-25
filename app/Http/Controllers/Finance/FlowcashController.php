@@ -18,7 +18,6 @@ class FlowcashController extends Controller
     public function index(Request $request)
     {
         try {
-
             $perPage = $request->input('perPage', 10);
             $search = $request->input('search', '');
             $category = $request->input('category', 0);
@@ -26,7 +25,24 @@ class FlowcashController extends Controller
             $from = $request->input('from');
             $to = $request->input('to');
 
-            $flowcashes = Flowcash::with(['flowcashCategory'])->orderBy('date', 'DESC');
+            $allowedSorts = [
+                'description',
+                'amount',
+            ];
+
+            $sort = $request->input('sort', 'date');
+            $direction = $request->input('direction', 'desc');
+
+            if (!in_array($sort, $allowedSorts)) {
+                $sort = 'date';
+            }
+
+            if (!in_array($direction, ['asc', 'desc'])) {
+                $direction = 'desc';
+            }
+
+            $flowcashes = Flowcash::with(['flowcashCategory'])
+                ->orderBy($sort, $direction);
 
             if ($search != '') {
                 $flowcashes->whereRaw(

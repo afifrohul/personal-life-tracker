@@ -8,11 +8,12 @@ import {
 import type { Pagination } from '@/types/data';
 import type {
     RowData,
+    SortingState,
     TableFeatures,
     TableOptions,
 } from '@tanstack/react-table';
 
-import { useTable } from '@tanstack/react-table';
+import { functionalUpdate, useTable } from '@tanstack/react-table';
 import {
     MdKeyboardArrowLeft,
     MdKeyboardArrowRight,
@@ -31,6 +32,7 @@ interface DataTableProps<
         page: (url: string) => void;
         perPage: (value: number) => void;
     };
+    onSortingChange?: (sorting: SortingState) => void;
 }
 
 export default function DataTable<
@@ -40,8 +42,23 @@ export default function DataTable<
     options,
     pagination,
     onPaginationChange,
+    onSortingChange,
 }: DataTableProps<TFeature, TData>) {
-    const table = useTable(options);
+    const table = useTable({
+        ...options,
+
+        onSortingChange: (updater) => {
+            const currentSorting: SortingState =
+                options.state && 'sorting' in options.state
+                    ? ((options.state.sorting as SortingState | undefined) ??
+                      [])
+                    : [];
+
+            const newSorting = functionalUpdate(updater, currentSorting);
+
+            onSortingChange?.(newSorting);
+        },
+    });
 
     return (
         <div className="w-full space-y-4">
