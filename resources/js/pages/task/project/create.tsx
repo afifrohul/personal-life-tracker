@@ -14,7 +14,7 @@ export default function Create() {
             <Head title="Create Project" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
                 <div className="rounded-xl border p-4">
-                    <h1 className="mb-4 text-xl font-bold">Create Project</h1>
+                    <h1 className="mb-4 font-medium">Create Project</h1>
                     <Separator className="my-4" />
                     <ProjectForm submitUrl="/projects" method="post" />
                 </div>

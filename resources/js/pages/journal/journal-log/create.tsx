@@ -18,9 +18,7 @@ export default function Create({ selectedDate }: CreateProps) {
             <Head title="Create Journal Log" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
                 <div className="rounded-xl border p-4">
-                    <h1 className="mb-4 text-xl font-bold">
-                        Create Journal Log
-                    </h1>
+                    <h1 className="mb-4 font-medium">Create Journal Log</h1>
                     <Separator className="my-4" />
                     <JournalLogForm
                         initialData={{ date: selectedDate, content: '' }}

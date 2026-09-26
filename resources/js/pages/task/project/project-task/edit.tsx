@@ -20,9 +20,7 @@ export default function Edit({ projectId, projectTask }: EditProps) {
             <Head title="Edit Project Task" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto p-4">
                 <div className="rounded-xl border p-4">
-                    <h1 className="mb-4 text-xl font-bold">
-                        Edit Project Task
-                    </h1>
+                    <h1 className="mb-4 font-medium">Edit Project Task</h1>
                     <Separator className="my-4" />
                     <ProjectTaskForm
                         projectId={projectId}
