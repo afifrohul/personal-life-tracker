@@ -6,6 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group';
+import {
     Popover,
     PopoverContent,
     PopoverTrigger,
@@ -29,6 +34,7 @@ import {
     ArrowUpRight,
     CalendarDays,
     RotateCcw,
+    Search,
 } from 'lucide-react';
 import { useState } from 'react';
 import { type DateRange } from 'react-day-picker';
@@ -232,8 +238,8 @@ export default function TableFlowcash({
             <div className="flex items-center justify-between">
                 <p className="font-medium">Flowcash Data</p>
                 <div className="flex items-center gap-4">
-                    <Input
-                        placeholder="Search by description..."
+                    {/* <Inputl
+                        placehoder="Search by description..."
                         className="w-64"
                         onChange={(e) => {
                             const value = e.target.value;
@@ -242,7 +248,23 @@ export default function TableFlowcash({
                             debouncedSearch(value);
                         }}
                         value={search}
-                    />
+                    /> */}
+                    <InputGroup className="max-w-xs">
+                        <InputGroupInput
+                            placeholder="Search by description..."
+                            className="w-64"
+                            onChange={(e) => {
+                                const value = e.target.value;
+
+                                setSearch(value);
+                                debouncedSearch(value);
+                            }}
+                            value={search}
+                        />
+                        <InputGroupAddon>
+                            <Search />
+                        </InputGroupAddon>
+                    </InputGroup>
                     <Button
                         size="sm"
                         onClick={() => router.get('/flowcashes/create')}
