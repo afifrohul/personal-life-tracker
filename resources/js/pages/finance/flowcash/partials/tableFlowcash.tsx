@@ -4,7 +4,6 @@ import EditButton from '@/components/edit-button';
 import SubtleBadge from '@/components/subtle-badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
 import {
     InputGroup,
     InputGroupAddon,
@@ -238,17 +237,6 @@ export default function TableFlowcash({
             <div className="flex items-center justify-between">
                 <p className="font-medium">Flowcash Data</p>
                 <div className="flex items-center gap-4">
-                    {/* <Inputl
-                        placehoder="Search by description..."
-                        className="w-64"
-                        onChange={(e) => {
-                            const value = e.target.value;
-
-                            setSearch(value);
-                            debouncedSearch(value);
-                        }}
-                        value={search}
-                    /> */}
                     <InputGroup className="max-w-xs">
                         <InputGroupInput
                             placeholder="Search by description..."

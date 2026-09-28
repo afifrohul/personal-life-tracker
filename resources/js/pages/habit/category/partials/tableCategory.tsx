@@ -2,11 +2,16 @@ import DataTable from '@/components/data-table-v9';
 import DeleteButton from '@/components/delete-button';
 import EditButton from '@/components/edit-button';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group';
 import { lucideIcons } from '@/lib/lucide-icons';
 import type { Category, Pagination } from '@/types/data';
 import { router } from '@inertiajs/react';
 import { tableFeatures, type ColumnDef } from '@tanstack/react-table';
+import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -107,17 +112,22 @@ export default function TableCategory({
             <div className="flex items-center justify-between">
                 <p className="font-medium">Habit Category Data</p>
                 <div className="flex items-center gap-4">
-                    <Input
-                        placeholder="Search by category name..."
-                        className="w-64"
-                        onChange={(e) => {
-                            const value = e.target.value;
+                    <InputGroup className="max-w-xs">
+                        <InputGroupInput
+                            placeholder="Search by category name..."
+                            className="w-64"
+                            onChange={(e) => {
+                                const value = e.target.value;
 
-                            setSearch(value);
-                            debouncedSearch(value);
-                        }}
-                        value={search}
-                    />
+                                setSearch(value);
+                                debouncedSearch(value);
+                            }}
+                            value={search}
+                        />
+                        <InputGroupAddon>
+                            <Search />
+                        </InputGroupAddon>
+                    </InputGroup>
                     <Button
                         size="sm"
                         onClick={() => router.get('/habit-categories/create')}
