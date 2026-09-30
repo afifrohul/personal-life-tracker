@@ -16,6 +16,7 @@ import {
 import type { Project } from '@/types/data';
 import { router, useForm } from '@inertiajs/react';
 
+
 interface ProjectFormProps {
     initialData?: Project;
     submitUrl: string;
