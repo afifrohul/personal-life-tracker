@@ -10,7 +10,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group';
 import {
     Select,
     SelectContent,
@@ -22,7 +26,7 @@ import type { Pagination, Project, ProjectTask } from '@/types/data';
 import { router } from '@inertiajs/react';
 import { tableFeatures, type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { CalendarDays, Eye, RotateCcw } from 'lucide-react';
+import { CalendarDays, Eye, RotateCcw, Search } from 'lucide-react';
 import { useState } from 'react';
 import { FaCheckCircle, FaCircle, FaStopCircle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
@@ -201,17 +205,22 @@ export default function TableProjectTask({
             <div className="flex items-center justify-between">
                 <p className="font-medium">Project Task Data</p>
                 <div className="flex items-center gap-4">
-                    <Input
-                        placeholder="Search by title..."
-                        className="w-64"
-                        onChange={(e) => {
-                            const value = e.target.value;
+                    <InputGroup className="max-w-xs">
+                        <InputGroupInput
+                            placeholder="Search by title..."
+                            className="w-64"
+                            onChange={(e) => {
+                                const value = e.target.value;
 
-                            setSearch(value);
-                            debouncedSearch(value);
-                        }}
-                        value={search}
-                    />
+                                setSearch(value);
+                                debouncedSearch(value);
+                            }}
+                            value={search}
+                        />
+                        <InputGroupAddon>
+                            <Search />
+                        </InputGroupAddon>
+                    </InputGroup>
                     <Button
                         size="sm"
                         onClick={() =>
