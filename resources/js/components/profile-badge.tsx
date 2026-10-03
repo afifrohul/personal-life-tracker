@@ -7,6 +7,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { Info } from 'lucide-react';
 
 type BadgeTier = {
     name: string;
@@ -81,52 +82,55 @@ export default function ProfileBadge({ total_exp }: { total_exp: number }) {
     const currentTier = getBadgeTier(total_exp);
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <button
-                    type="button"
-                    className="cursor-pointer"
-                    aria-label={`Current badge: ${currentTier.name}`}
-                >
-                    <TierBadge tier={currentTier} />
-                </button>
-            </DialogTrigger>
+        <div className="flex items-center justify-center gap-1">
+            <button
+                type="button"
+                className="cursor-pointer"
+                aria-label={`Current badge: ${currentTier.name}`}
+            >
+                <TierBadge tier={currentTier} />
+            </button>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                </DialogTrigger>
 
-            <DialogContent className="sm:max-w-sm">
-                <DialogHeader>
-                    <DialogTitle>Badge Tiers</DialogTitle>
-                    <DialogDescription>
-                        Your badge tier is determined by your total EXP.
-                    </DialogDescription>
-                </DialogHeader>
+                <DialogContent className="sm:max-w-sm">
+                    <DialogHeader>
+                        <DialogTitle>Badge Tiers</DialogTitle>
+                        <DialogDescription>
+                            Your badge tier is determined by your total EXP.
+                        </DialogDescription>
+                    </DialogHeader>
 
-                <div className="space-y-3">
-                    {BADGE_TIERS.map((tier) => {
-                        const isCurrent = tier.name === currentTier.name;
+                    <div className="space-y-3">
+                        {BADGE_TIERS.map((tier) => {
+                            const isCurrent = tier.name === currentTier.name;
 
-                        return (
-                            <div
-                                key={tier.name}
-                                className="grid grid-cols-2 items-center gap-2"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <TierBadge tier={tier} />
+                            return (
+                                <div
+                                    key={tier.name}
+                                    className="grid grid-cols-2 items-center gap-2"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <TierBadge tier={tier} />
 
-                                    {isCurrent && (
-                                        <span className="text-xs text-muted-foreground italic">
-                                            [Current]
-                                        </span>
-                                    )}
+                                        {isCurrent && (
+                                            <span className="text-xs text-muted-foreground italic">
+                                                [Current]
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <p className="text-xs text-muted-foreground">
+                                        {formatExpRange(tier)}
+                                    </p>
                                 </div>
-
-                                <p className="text-xs text-muted-foreground">
-                                    {formatExpRange(tier)}
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
-            </DialogContent>
-        </Dialog>
+                            );
+                        })}
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
     );
 }
