@@ -1,43 +1,4 @@
-type Log = {
-    id: number;
-    habit_id: number;
-    exp_gain: number;
-    date: string;
-};
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type AchievementType = {
-    id: number;
-    name: string;
-    desc: string;
-    image: string;
-    type: string;
-    criteria: number;
-    trigger: string;
-};
-
-type Achievement = {
-    id: number;
-    achievement_type: AchievementType;
-    achievement_type_id: number;
-    created_at: string;
-};
-
-type Habit = {
-    id: number;
-    name: string;
-    color: string;
-    exp: number;
-    icon: string;
-    habit_category: Category;
-    habit_logs: Log[];
-    achievements: Achievement[];
-};
+import type { AchievementType, Habit } from "@/types/data";
 
 interface Props {
     habit: Habit;

@@ -27,12 +27,15 @@ export type Category = {
     icon: string;
     created_at?: string;
     updated_at?: string;
+
+    habits: Habit[];
 };
 
 export type Habit = {
     id: number;
     name: string;
     color: string;
+    exp: number;
     desc?: string;
     difficulty: string;
     icon: string;

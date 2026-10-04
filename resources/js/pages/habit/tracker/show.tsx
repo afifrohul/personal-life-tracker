@@ -9,6 +9,7 @@ import calculateStreaks from '@/lib/calculate-streak';
 import calculateUnclaimedFullfilledAchievement from '@/lib/calculate-unclaimed-fulfilled-achievement';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { AchievementType, Habit } from '@/types/data';
 import { Head, Link } from '@inertiajs/react';
 import { FlameIcon, ListCheck, ZapIcon } from 'lucide-react';
 
@@ -18,47 +19,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/tracker',
     },
 ];
-
-type Log = {
-    id: number;
-    habit_id: number;
-    exp_gain: number;
-    date: string;
-};
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-};
-
-type AchievementType = {
-    id: number;
-    name: string;
-    desc: string;
-    image: string;
-    type: string;
-    criteria: number;
-    trigger: string;
-};
-
-type Achievement = {
-    id: number;
-    achievement_type: AchievementType;
-    achievement_type_id: number;
-    created_at: string;
-};
-
-type Habit = {
-    id: number;
-    name: string;
-    color: string;
-    exp: number;
-    icon: string;
-    habit_category: Category;
-    habit_logs: Log[];
-    achievements: Achievement[];
-};
 
 interface ShowProps {
     achievementType: AchievementType[];
@@ -94,7 +54,7 @@ export default function Show({
             longestStreak,
         });
 
-    const iconCategoryName = habit.habit_category.icon;
+    const iconCategoryName = habit.habit_category!.icon;
     const IconCategoryComponent = (lucideIcons as Record<string, any>)[
         iconCategoryName
     ];
@@ -164,7 +124,7 @@ export default function Show({
                                                     <p>
                                                         {
                                                             habit.habit_category
-                                                                .name
+                                                                ?.name
                                                         }
                                                     </p>
                                                 </div>
@@ -265,7 +225,7 @@ export default function Show({
                             gridData={gridData}
                             uniqueYears={uniqueYears}
                             color={habit.color}
-                        ></HabitGrid>
+                        />
                     </div>
                 </div>
             </div>

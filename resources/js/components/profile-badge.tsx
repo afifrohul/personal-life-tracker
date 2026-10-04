@@ -7,7 +7,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Info } from 'lucide-react';
 
 type BadgeTier = {
     name: string;
@@ -68,7 +67,7 @@ function formatExpRange(tier: BadgeTier) {
 
 function TierBadge({ tier }: { tier: BadgeTier }) {
     return (
-        <Badge>
+        <Badge className='italic'>
             <span
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: tier.color }}
@@ -83,16 +82,15 @@ export default function ProfileBadge({ total_exp }: { total_exp: number }) {
 
     return (
         <div className="flex items-center justify-center gap-1">
-            <button
-                type="button"
-                className="cursor-pointer"
-                aria-label={`Current badge: ${currentTier.name}`}
-            >
-                <TierBadge tier={currentTier} />
-            </button>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Info className="h-4 w-4 text-muted-foreground" />
+                    <button
+                        type="button"
+                        className="cursor-pointer"
+                        aria-label={`Current badge: ${currentTier.name}`}
+                    >
+                        <TierBadge tier={currentTier} />
+                    </button>
                 </DialogTrigger>
 
                 <DialogContent className="sm:max-w-sm">

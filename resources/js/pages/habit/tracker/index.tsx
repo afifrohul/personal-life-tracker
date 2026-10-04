@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { lucideIcons } from '@/lib/lucide-icons';
 import { type BreadcrumbItem } from '@/types';
+import type { Category, Habit } from '@/types/data';
 import { Head, Link } from '@inertiajs/react';
 import { ChevronsRight, Square, SquareCheck } from 'lucide-react';
 
@@ -21,20 +22,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/habit-tracker',
     },
 ];
-
-type Habit = {
-    id: number;
-    name: string;
-    icon: string;
-    color: string;
-};
-
-type Category = {
-    id: number;
-    name: string;
-    icon: string;
-    habits: Habit[];
-};
 
 interface LogIndexProps {
     habits: Habit[];
