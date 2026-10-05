@@ -17,7 +17,7 @@ class UserCoreSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'user@example.com'],
             [
-                'avatar' => 'uploads/avatar.png',
+                'avatar' => '',
                 'name' => 'User',
                 'password' => 'password',
                 'email_verified_at' => now(),

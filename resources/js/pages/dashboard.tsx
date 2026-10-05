@@ -116,7 +116,11 @@ export default function Dashboard({
                             <div className="rounded-full border-2 border-slate-500 p-0.5">
                                 <Avatar className="h-20 w-20 overflow-hidden rounded-full">
                                     <AvatarImage
-                                        src={`/storage/${user.avatar}`}
+                                        src={
+                                            user.avatar == ''
+                                                ? `/avatar.png`
+                                                : `/storage/${user.avatar}`
+                                        }
                                         alt={user.name}
                                     />
                                     <AvatarFallback>
