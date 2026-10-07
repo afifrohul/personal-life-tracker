@@ -44,22 +44,22 @@ export default function DashboardTaskData({
             </div>
             <DashboardInfo
                 icon={<LuUserCheck className="text-teal-500" />}
-                desc="Total Personal Task(s)"
+                desc="Total Personal Task(s):"
                 data={`${personalTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuCircleStop className="text-rose-500" />}
-                desc="Total Pending Personal Task(s)"
+                desc="Total Pending Personal Task(s):"
                 data={`${pendingPersonalTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuLoader className="text-yellow-500" />}
-                desc="Total In Progress Personal Task(s)"
+                desc="Total In Progress Personal Task(s):"
                 data={`${inProgressPersonalTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuCheck className="text-green-500" />}
-                desc="Total Completed Personal Task(s)"
+                desc="Total Completed Personal Task(s):"
                 data={`${completedPersonalTaskCount} Task(s)`}
             />
             <DashboardInfo
@@ -84,22 +84,22 @@ export default function DashboardTaskData({
             />
             <DashboardInfo
                 icon={<LuGitMerge className="text-purple-500" />}
-                desc="Total Project Task(s)"
+                desc="Total Project Task(s):"
                 data={`${projectTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuCircleStop className="text-rose-500" />}
-                desc="Total Pending Project Task(s)"
+                desc="Total Pending Project Task(s):"
                 data={`${pendingProjectTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuLoader className="text-yellow-500" />}
-                desc="Total In Progress Project Task(s)"
+                desc="Total In Progress Project Task(s):"
                 data={`${inProgressProjectTaskCount} Task(s)`}
             />
             <DashboardInfo
                 icon={<LuCheck className="text-green-500" />}
-                desc="Total Completed Project Task(s)"
+                desc="Total Completed Project Task(s):"
                 data={`${completedProjectTaskCount} Task(s)`}
             />
         </div>

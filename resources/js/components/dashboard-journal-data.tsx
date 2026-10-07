@@ -17,7 +17,7 @@ export default function DashboardJournalData({
             </div>
             <DashboardInfo
                 icon={<LuNotebook className="text-indigo-500" />}
-                desc="Total Journal Log(s)"
+                desc="Total Journal Log(s):"
                 data={`${journalLogCount} Log(s)`}
             />
             <DashboardInfo
