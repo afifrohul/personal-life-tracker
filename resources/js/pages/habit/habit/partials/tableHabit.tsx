@@ -75,9 +75,11 @@ export default function TableHabit({
             cell: ({ row }) => {
                 return (
                     <div
-                        className={`h-4 w-10 rounded`}
+                        className={`py-0.5 px-1 w-fit rounded`}
                         style={{ backgroundColor: row.original.color }}
-                    ></div>
+                    >
+                        <p className='uppercase text-white' >{row.original.color}</p>
+                    </div>
                 );
             },
         },
