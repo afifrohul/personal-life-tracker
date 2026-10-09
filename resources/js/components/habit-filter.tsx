@@ -5,13 +5,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Command, CommandGroup, CommandItem, CommandInput, CommandEmpty } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-
-type Habit = {
-  id: number;
-  name: string;
-  icon: string;
-  color: string;
-};
+import type { Habit } from "@/types/data";
 
 interface HabitFilterProps {
   habits: Habit[];
