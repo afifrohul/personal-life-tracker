@@ -124,7 +124,7 @@ export default function DataTable<
                             <tr>
                                 <td
                                     colSpan={options.columns.length}
-                                    className="py-4 text-center"
+                                    className="py-4 text-center italic text-muted-foreground"
                                 >
                                     No data found.
                                 </td>
