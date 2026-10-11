@@ -19,9 +19,9 @@ import type { Pagination, Project } from '@/types/data';
 import { router } from '@inertiajs/react';
 import { tableFeatures, type ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { Eye, RotateCcw, Search } from 'lucide-react';
+import { CirclePause, Eye, RotateCcw, Search } from 'lucide-react';
 import { useState } from 'react';
-import { FaCheckCircle, FaStopCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { FiLoader } from 'react-icons/fi';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -111,7 +111,7 @@ export default function TableProject({
                     <SubtleBadge
                         color="rose"
                         label={'Pending'}
-                        icon={<FaStopCircle className="h-2.5 w-2.5" />}
+                        icon={<CirclePause className="h-2.5 w-2.5" />}
                     />
                 ),
         },

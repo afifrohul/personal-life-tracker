@@ -1,7 +1,7 @@
 import DashboardInfo from '@/components/dashboard-info';
 import {
     LuCheck,
-    LuCircleStop,
+    LuCirclePause,
     LuFolderGit2,
     LuGitMerge,
     LuLoader,
@@ -48,7 +48,7 @@ export default function DashboardTaskData({
                 data={`${personalTaskCount} Task(s)`}
             />
             <DashboardInfo
-                icon={<LuCircleStop className="text-rose-500" />}
+                icon={<LuCirclePause className="text-rose-500" />}
                 desc="Total Pending Personal Task(s):"
                 data={`${pendingPersonalTaskCount} Task(s)`}
             />
@@ -68,7 +68,7 @@ export default function DashboardTaskData({
                 data={`${projectCount} Project(s)`}
             />
             <DashboardInfo
-                icon={<LuCircleStop className="text-rose-500" />}
+                icon={<LuCirclePause className="text-rose-500" />}
                 desc="Total Pending Project(s):"
                 data={`${pendingProjectCount} Project(s)`}
             />
@@ -88,7 +88,7 @@ export default function DashboardTaskData({
                 data={`${projectTaskCount} Task(s)`}
             />
             <DashboardInfo
-                icon={<LuCircleStop className="text-rose-500" />}
+                icon={<LuCirclePause className="text-rose-500" />}
                 desc="Total Pending Project Task(s):"
                 data={`${pendingProjectTaskCount} Task(s)`}
             />

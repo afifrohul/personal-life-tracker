@@ -12,7 +12,7 @@ import {
     LuArrowDownLeft,
     LuArrowUpRight,
     LuCheck,
-    LuCircleStop,
+    LuCirclePause,
     LuFolderGit2,
     LuFrown,
     LuGitMerge,
@@ -385,7 +385,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
+                                <LuCirclePause className="text-xl text-rose-500" />
                             }
                             data={pendingPersonalTaskCount}
                             desc="Total Pending Personal Task(s)"
@@ -421,7 +421,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
+                                <LuCirclePause className="text-xl text-rose-500" />
                             }
                             data={pendingProjectCount}
                             desc="Total Pending Project(s)"
@@ -457,7 +457,7 @@ export default function Dashboard({
                         <DashboardCardInfo
                             color="rose"
                             icon={
-                                <LuCircleStop className="text-xl text-rose-500" />
+                                <LuCirclePause className="text-xl text-rose-500" />
                             }
                             data={pendingProjectTaskCount}
                             desc="Total Pending Project Task(s)"
