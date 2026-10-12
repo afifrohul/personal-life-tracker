@@ -124,7 +124,7 @@ export default function DataTable<
                             <tr>
                                 <td
                                     colSpan={options.columns.length}
-                                    className="py-4 text-center italic text-muted-foreground"
+                                    className="py-4 text-center text-muted-foreground italic"
                                 >
                                     No data found.
                                 </td>
@@ -136,9 +136,13 @@ export default function DataTable<
             {pagination && (
                 <div className="flex items-center justify-between">
                     <div className="rounded-md border p-2 text-xs">
-                        <span className="font-medium">
-                            {pagination.from} - {pagination.to}
-                        </span>{' '}
+                        {pagination.from! && pagination.to! > 0 ? (
+                            <span className="font-medium">
+                                {pagination.from} - {pagination.to} {''}
+                            </span>
+                        ) : (
+                            <span className="font-medium">0 </span>
+                        )}
                         <span className="text-muted-foreground">
                             of {pagination.total} data
                         </span>{' '}
