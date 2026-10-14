@@ -331,7 +331,7 @@ export default function Index({ logs, selectedDate, habits }: LogIndexProps) {
                             </Dialog>
                             <GenerateHabitLogButton
                                 label="Generate All Habit Logs"
-                                data={{ date: form.date }}
+                                data={{ date: selectedDate }}
                             />
                         </div>
                     </div>
