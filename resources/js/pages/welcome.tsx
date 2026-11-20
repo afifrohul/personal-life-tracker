@@ -1,6 +1,7 @@
 import { login } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { ExternalLink } from 'lucide-react';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
@@ -42,13 +43,16 @@ export default function Welcome() {
                             <div className="grid grid-cols-1 lg:grid-cols-2">
                                 <div className="order-2 p-4 lg:order-1 lg:p-12">
                                     <h1 className="mb-1 font-medium">
-                                        Let's get started
+                                        Let's get started!
                                     </h1>
                                     <p className="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
                                         <span className="font-medium italic">
                                             Personal Life Tracker
                                         </span>{' '}
-                                        is an all-in-one self-management application designed to help track mood, habits, finances, journaling, and tasks in a single unified system. 
+                                        is an all-in-one self-management
+                                        application designed to help track mood,
+                                        habits, finances, journaling, and tasks
+                                        in a single unified system.
                                     </p>
                                     <ul className="mb-4 flex flex-col">
                                         <li className="relative flex items-center gap-4 py-2 before:absolute before:top-1/2 before:bottom-0 before:left-[0.4rem] before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A]">
@@ -62,23 +66,10 @@ export default function Welcome() {
                                                 <a
                                                     href="https://github.com/afifrohul/personal-life-tracker/blob/main/README.md"
                                                     target="_blank"
-                                                    className="ml-1 inline-flex items-center space-x-1 font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
+                                                    className="ml-1 inline-flex items-center font-medium text-[#f53003] underline underline-offset-4 dark:text-[#FF4433]"
                                                 >
                                                     <span>Documentation</span>
-                                                    <svg
-                                                        width={10}
-                                                        height={11}
-                                                        viewBox="0 0 10 11"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-2.5 w-2.5"
-                                                    >
-                                                        <path
-                                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                                            stroke="currentColor"
-                                                            strokeLinecap="square"
-                                                        />
-                                                    </svg>
+                                                    <ExternalLink className="h-3" />
                                                 </a>
                                             </span>
                                         </li>
